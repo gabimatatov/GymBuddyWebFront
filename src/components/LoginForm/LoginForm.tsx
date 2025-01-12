@@ -33,6 +33,11 @@ const LoginForm: FC = () => {
 
   return (
     <div className="form-container">
+      {/* Add logo here */}
+      <div className="logo-container">
+        <img src="GymBuddyLogo.png" alt="Logo" className="logo" />
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-input">
           <label htmlFor="email" className="form-label">Email</label>
@@ -60,7 +65,6 @@ const LoginForm: FC = () => {
         
         <button type="submit" className="btn btn-primary m-3">Login</button>
 
-        {/* Added text and link */}
         <div className="register-link">
           <p>
             Don't have an account?{' '}
