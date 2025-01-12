@@ -1,0 +1,74 @@
+/* src/App.css */
+body {
+  background-color: #f8f9fa; /* Light background */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex; /* Use Flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+}
+
+.auth-container {
+  background-color: #f8f9fa;
+  width: 100%; /* Optional: to control the width */
+  max-width: 500px; /* Optional: to control the maximum width */
+}
+
+.card {
+  border-radius: 15px;
+}
+
+.card-header {
+  border-bottom: 2px solid #dee2e6;
+}
+
+.btn-success {
+  color: white;
+}
+
+.btn-outline-success {
+  color: #28a745;
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+}
+
+.vh-100 {
+  height: 100vh;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.justify-content-center {
+  justify-content: center !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}

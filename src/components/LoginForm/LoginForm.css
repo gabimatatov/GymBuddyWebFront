@@ -1,0 +1,85 @@
+/* LoginForm.css */
+
+/* Center the form container in the middle of the screen */
+.form-container {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  width: 400px; /* Fixed width for the box */
+  height: 500px; /* Fixed height for the box */
+  padding: 2rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Form styling */
+form {
+  width: 100%; /* Ensure the form takes the full width of the container */
+  display: flex;
+  flex-direction: column; /* Stack form elements vertically */
+  gap: 1.5rem; /* Equal spacing between form elements */
+  align-items: center; /* Center form elements horizontally */
+}
+
+/* Label styling */
+.form-label {
+  color: #000; /* Black text color */
+  font-weight: bold;
+  margin-bottom: 0.5rem; /* Add space between label and input */
+  width: 100%; /* Stretch label to full width of container */
+  text-align: left; /* Align label text to the left */
+}
+
+/* Input styling */
+.form-control {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  width: 300px; /* Fixed width for inputs */
+  outline: none;
+}
+
+/* Input focus state */
+.form-control:focus {
+  background-color: #e9ecef;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  width: 300px; /* Fixed width matching inputs and labels */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Error message styling */
+.text-danger {
+  font-size: 0.875em;
+  color: #dc3545;
+  text-align: left;
+  width: 300px; /* Match the width of inputs and labels */
+}
+
+/* Prevent sliding and maintain fixed alignment */
+.is-invalid {
+  border-color: #dc3545;
+}
