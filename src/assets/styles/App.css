@@ -1,20 +1,20 @@
 /* src/App.css */
 body {
-  background-color: #f8f9fa; /* Light background */
+  background-color: #f8f9fa;
   margin: 0;
-  font-family: Arial, sans-serif;
-  display: flex; /* Use Flexbox */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Full viewport height */
+  color: black;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: 100vh;
 }
-
+/* 
 .auth-container {
   background-color: #f8f9fa;
-  width: 100%; /* Optional: to control the width */
-  max-width: 500px; /* Optional: to control the maximum width */
-}
-
+  width: 100%;
+  max-width: 500px; 
+} */
+/* 
 .card {
   border-radius: 15px;
 }
@@ -71,4 +71,4 @@ body {
 
 .align-items-center {
   align-items: center !important;
-}
+} */

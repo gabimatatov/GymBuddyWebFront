@@ -34,32 +34,39 @@ const LoginForm: FC = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit(onSubmit)}>
-
-        <div className='m-3'>
-          <label htmlFor='email' className='form-label'>Email</label>
+        <div className="form-input">
+          <label htmlFor="email" className="form-label">Email</label>
           <input
             {...register('email')}
-            type='email'
+            type="email"
             className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-            id='email'
-            placeholder='Enter your email'
+            id="email"
+            placeholder="Enter your email"
           />
-          {errors.email && <p className='text-danger'>{errors.email.message}</p>}          
+          {errors.email && <p className="text-danger">{errors.email.message}</p>}
         </div>
         
-        <div className='m-3'>
-          <label htmlFor='password' className='form-label'>Password</label>
+        <div className="form-input">
+          <label htmlFor="password" className="form-label">Password</label>
           <input
             {...register('password')}
-            type='password'
+            type="password"
             className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-            id='password'
-            placeholder='Enter your password'
+            id="password"
+            placeholder="Enter your password"
           />
-          {errors.password && <p className='text-danger'>{errors.password.message}</p>}
+          {errors.password && <p className="text-danger">{errors.password.message}</p>}
         </div>
         
-        <button type='submit' className='btn btn-primary m-3'>Login</button>
+        <button type="submit" className="btn btn-primary m-3">Login</button>
+
+        {/* Added text and link */}
+        <div className="register-link">
+          <p>
+            Don't have an account?{' '}
+            <a href="/register" className="link">Register here</a>
+          </p>
+        </div>
       </form>
     </div>
   );
