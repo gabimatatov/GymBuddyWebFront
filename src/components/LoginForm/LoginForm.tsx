@@ -33,7 +33,6 @@ const LoginForm: FC = () => {
 
   return (
     <div className="form-container">
-      {/* Add logo here */}
       <div className="logo-container">
         <img src="GymBuddyLogo.png" alt="Logo" className="logo" />
       </div>
