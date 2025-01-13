@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import './LoginForm.css'; // Import the CSS file
+import './LoginForm.moudle.css';
 
 // Define the schema for login
 const LoginSchema = z.object({
