@@ -15,6 +15,7 @@ const RegisterSchema = z.object({
     .string()
     .min(6, 'Password must be at least 6 characters long')
     .nonempty('Password is required'),
+  gender: z.string().nonempty('Please select your gender'),
   confirmPassword: z.string().nonempty('Please confirm your password'),
 }).superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
@@ -93,6 +94,21 @@ const RegisterForm: FC = () => {
             placeholder="Confirm your password"
           />
           {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword.message}</p>}
+        </div>
+
+        <div className="form-input">
+          <label htmlFor="gender" className="form-label">Gender</label>
+          <select
+            {...register('gender')}
+            id="gender"
+            className={`form-control ${errors.gender ? 'is-invalid' : ''}`}
+          >
+            <option value="">Select your gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          {errors.gender && <p className="text-danger">{errors.gender.message}</p>}
         </div>
         
         <button type="submit" className="btn btn-primary m-3">Register</button>

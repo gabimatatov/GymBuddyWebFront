@@ -127,7 +127,8 @@ select.form-control {
   border-radius: 17px;
   padding: 10px 15px;
   font-size: 1rem;
-  width: 300px; /* Match the width of other inputs */
+  width: 335px;
+  color:black;
   outline: none;
 }
 
