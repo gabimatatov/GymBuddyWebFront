@@ -1,4 +1,4 @@
-/* LoginForm.css */
+/* RegisterForm.css */
 
 /* Center the form container in the middle of the screen */
 .form-container {
@@ -6,7 +6,7 @@
   border-radius: 15px;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
   width: 400px;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -57,7 +57,7 @@ form {
 
 .form-input, input {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column;
     color: black;
 }
 
@@ -136,4 +136,40 @@ select.form-control:focus {
   background-color: #e9ecef;
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Button for adding an image */
+.btn-add-image {
+  flex: 1;
+  background-color: white;
+  border-color: #347baf;
+  color: #347baf;
+  border-radius: 17px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-add-image:hover {
+  background-color: #f1f1f1;
+  border-color: #347baf;
+  color: #347baf;
+}
+
+/* Button for removing an image */
+.btn-remove-image {
+  flex: 1;
+  background-color: white;
+  border-color: #dc3545;
+  color: #dc3545;
+  border-radius: 17px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-remove-image:hover {
+  background-color: #f1f1f1;
+  border-color: #dc3545;
+  color: #dc3545;
 }
