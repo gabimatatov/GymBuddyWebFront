@@ -23,10 +23,6 @@ const RegisterSchema = z.object({
   img: z
     .any()
     .optional(),
-  // .refine(
-  //   (files) => !files || (Array.isArray(files) && files.length > 0 && files[0]?.type.startsWith('image/')),
-  //   'Only image files are allowed'
-  // ),
   confirmPassword: z.string().nonempty('Please confirm your password'),
 }).superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
@@ -68,24 +64,58 @@ const RegisterForm: FC = () => {
   const onSubmit = (data: RegisterFormData) => {
     console.log('Register Data:', data);
 
-    const { request } = userService.uploadImage(data.img[0])
-    request.then((response) => {
-      console.log(response.data);
-      const user: User = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        avatar: response.data.url
-      }
-      const { request } = userService.register(user)
-      request.then((response) => {
-        console.log(response.data);
-      }).catch((error) => {
-        console.error(error);
+    // Step 1: Create the user object with no avatar
+    const user: User = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      avatar: undefined
+    };
+
+    // Step 2: Register the user
+    const { request: registerRequest } = userService.register(user);
+
+    registerRequest
+      .then((registerResponse) => {
+        console.log('User registered:', registerResponse.data);
+
+        if (data.img && data.img[0]) {
+          // Step 3: Upload the image
+          const { request: uploadRequest } = userService.uploadImage(data.img[0]);
+
+          uploadRequest
+            .then((uploadResponse) => {
+              console.log('Image uploaded:', uploadResponse.data);
+
+              // Step 4: Clean the URL to remove the base part
+              const relativeUrl = new URL(uploadResponse.data.url).pathname;
+              console.log(relativeUrl)
+
+              // Step 5: Update the user object with the cleaned avatar URL
+              const updatedUser: User = {
+                ...registerResponse.data,
+                avatar: relativeUrl
+              };
+
+              // Step 6: Update the user record with the avatar URL
+              const { request: updateRequest } = userService.updateUser(registerResponse.data._id!, updatedUser);
+
+              updateRequest
+                .then((updateResponse) => {
+                  console.log('User avatar updated:', updateResponse.data);
+                })
+                .catch((updateError) => {
+                  console.error('Error updating user avatar:', updateError);
+                });
+            })
+            .catch((uploadError) => {
+              console.error('Error uploading image:', uploadError);
+            });
+        }
+      })
+      .catch((registerError) => {
+        console.error('Error registering user:', registerError);
       });
-    }).catch((error) => {
-      console.error(error)
-    })
   };
 
   return (
@@ -174,7 +204,12 @@ const RegisterForm: FC = () => {
               <button
                 type="button"
                 className="btn-remove-image"
-                onClick={() => setSelectedImage(null)}
+                onClick={() => {
+                  setSelectedImage(null);
+                  if (inputFileRef.current) {
+                    inputFileRef.current.value = '';
+                  }
+                }}
               ><FontAwesomeIcon icon={faTrashAlt} className='fa-l' /> Remove</button>
             </div>
 
