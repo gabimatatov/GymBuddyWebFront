@@ -5,8 +5,7 @@ import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import userService, { User } from '../../services/auth_service';
-
-import hacker from '../../assets/icons/hacker.png'
+import trainerIcon from '../../assets/icons/trainerIcon.png';
 import './RegisterForm.moudle.css';
 
 // Define the schema for registration
@@ -190,7 +189,7 @@ const RegisterForm: FC = () => {
                   objectFit: 'cover',
                   border: '2px solid #ccc',
                 }}
-                src={selectedImage ? URL.createObjectURL(selectedImage) : hacker}
+                src={selectedImage ? URL.createObjectURL(selectedImage) : trainerIcon}
                 alt="Avatar Holder"
               />
             </div>
