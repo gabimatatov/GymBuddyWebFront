@@ -60,61 +60,43 @@ const RegisterForm: FC = () => {
 
   const { ref, ...restRegisterParams } = register("img")
 
-  const onSubmit = (data: RegisterFormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
     console.log('Register Data:', data);
-
-    // Step 1: Create the user object with no avatar
+  
+    let relativeUrl = undefined;
+  
+    if (data.img && data.img[0]) {
+      try {
+        // Step 1: Upload the image
+        const { request: uploadRequest } = userService.uploadImage(data.img[0]);
+        const uploadResponse = await uploadRequest;
+        console.log('Image uploaded:', uploadResponse.data);
+  
+        // Step 2: Clean the URL to remove the base part
+        relativeUrl = new URL(uploadResponse.data.url).pathname;
+        console.log('Relative URL:', relativeUrl);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        return;
+      }
+    }
+  
+    // Step 3: Create the user object with the avatar if uploaded
     const user: User = {
       name: data.name,
       email: data.email,
       password: data.password,
-      avatar: undefined
+      avatar: relativeUrl ?? undefined,
     };
-
-    // Step 2: Register the user
-    const { request: registerRequest } = userService.register(user);
-
-    registerRequest
-      .then((registerResponse) => {
-        console.log('User registered:', registerResponse.data);
-
-        if (data.img && data.img[0]) {
-          // Step 3: Upload the image
-          const { request: uploadRequest } = userService.uploadImage(data.img[0]);
-
-          uploadRequest
-            .then((uploadResponse) => {
-              console.log('Image uploaded:', uploadResponse.data);
-
-              // Step 4: Clean the URL to remove the base part
-              const relativeUrl = new URL(uploadResponse.data.url).pathname;
-              console.log(relativeUrl)
-
-              // Step 5: Update the user object with the cleaned avatar URL
-              const updatedUser: User = {
-                ...registerResponse.data,
-                avatar: relativeUrl
-              };
-
-              // Step 6: Update the user record with the avatar URL
-              const { request: updateRequest } = userService.updateUser(registerResponse.data._id!, updatedUser);
-
-              updateRequest
-                .then((updateResponse) => {
-                  console.log('User avatar updated:', updateResponse.data);
-                })
-                .catch((updateError) => {
-                  console.error('Error updating user avatar:', updateError);
-                });
-            })
-            .catch((uploadError) => {
-              console.error('Error uploading image:', uploadError);
-            });
-        }
-      })
-      .catch((registerError) => {
-        console.error('Error registering user:', registerError);
-      });
+  
+    try {
+      // Step 4: Register the user
+      const { request: registerRequest } = userService.register(user);
+      const registerResponse = await registerRequest;
+      console.log('User registered:', registerResponse.data);
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
   return (
