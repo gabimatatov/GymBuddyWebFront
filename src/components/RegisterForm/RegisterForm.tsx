@@ -41,6 +41,7 @@ const RegisterForm: FC = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterSchema),
@@ -48,6 +49,7 @@ const RegisterForm: FC = () => {
 
   const inputFileRef: { current: HTMLInputElement | null } = { current: null }
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [serverError, setServerError] = useState<string | null>(null);
   const [img] = watch(["img"])
 
   useEffect(() => {
@@ -61,6 +63,9 @@ const RegisterForm: FC = () => {
   const { ref, ...restRegisterParams } = register("img")
 
   const onSubmit = async (data: RegisterFormData) => {
+    // Reset server error before submitting
+    setServerError(null);
+
     console.log('Register Data:', data);
   
     let relativeUrl = undefined;
@@ -75,8 +80,8 @@ const RegisterForm: FC = () => {
         // Step 2: Clean the URL to remove the base part
         relativeUrl = new URL(uploadResponse.data.url).pathname;
         console.log('Relative URL:', relativeUrl);
-      } catch (error) {
-        console.error('Error uploading image:', error);
+      } catch (error: any) {
+        setServerError(error.response?.data?.message || 'An error occurred while uploading image');
         return;
       }
     }
@@ -94,8 +99,13 @@ const RegisterForm: FC = () => {
       const { request: registerRequest } = userService.register(user);
       const registerResponse = await registerRequest;
       console.log('User registered:', registerResponse.data);
-    } catch (error) {
-      console.error('Error registering user:', error);
+    } catch (error: any) {
+      // Display error message (alert logic)
+      setServerError(error.response?.data?.message || 'An error occurred');
+      
+      // Clear all form inputs
+      reset();
+      setSelectedImage(null);
     }
   };
 
@@ -207,6 +217,7 @@ const RegisterForm: FC = () => {
           </div>
         </div>
         <button type="submit" className="btn btn-primary">Register</button>
+        {serverError && <div className="alert alert-danger">{serverError}</div>}
       </form>
 
       <div className="login-link">
