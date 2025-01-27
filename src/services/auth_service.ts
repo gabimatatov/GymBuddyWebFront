@@ -3,13 +3,12 @@ import apiClient, { CanceledError } from "./api-client";
 export { CanceledError }
 
 export interface User {
-    _id?: String;
-    name: String;
-    email: String;
-    password: String;
-    avatar?: String;
+    _id?: string;
+    name: string;
+    email: string;
+    password: string;
+    avatar?: string;
 }
-
 
 // Chcek 
 // const checkUser = (user: User) => {
@@ -39,4 +38,13 @@ const uploadImage = (img: File) => {
     return { request }
 }
 
-export default { register, uploadImage }
+// Update User Service
+const updateUser = (userId: string, updatedUser: User) => {
+    const abortController = new AbortController();
+    const request = apiClient.put<User>(`/auth/user/${userId}`, updatedUser, {
+        signal: abortController.signal,
+    });
+    return { request, abort: () => abortController.abort() };
+};
+
+export default { register, uploadImage, updateUser }
