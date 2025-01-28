@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -48,6 +49,7 @@ const RegisterForm: FC = () => {
   });
 
   const inputFileRef: { current: HTMLInputElement | null } = { current: null }
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [serverError, setServerError] = useState<string | null>(null);
   const [img] = watch(["img"])
@@ -99,6 +101,10 @@ const RegisterForm: FC = () => {
       const { request: registerRequest } = userService.register(user);
       const registerResponse = await registerRequest;
       console.log('User registered:', registerResponse.data);
+
+      // Redirect to login page with success message
+      navigate('/login', { state: { successMessage: 'Registered Successfully!' } });
+
     } catch (error: any) {
       // Display error message (alert logic)
       setServerError(error.response?.data?.message || 'An error occurred');

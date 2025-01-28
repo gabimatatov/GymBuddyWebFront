@@ -94,18 +94,18 @@ form {
 
 /* Styling for the register link */
 .register-link {
-    text-align: center;
-    font-size: 1rem;
-  }
-  
-  .register-link .link {
-    color: #347baf;
-    text-decoration: none;
-  }
-  
-  .register-link .link:hover {
-    text-decoration: underline;
-  }
+  text-align: center;
+  font-size: 1rem;
+}
+
+.register-link .link {
+  color: #347baf;
+  text-decoration: none;
+}
+
+.register-link .link:hover {
+  text-decoration: underline;
+}
 
   /* Logo styling */
 .logo-container {
@@ -134,4 +134,11 @@ form {
   color: #a94442;
   background-color: #f2dede; 
   border-color: #ebccd1;
+}
+
+.alert-success {
+  color: #347baf;
+  background-color: #d1ecf1; 
+  border-color: #bee5eb;
+  margin-bottom: 15px;
 }

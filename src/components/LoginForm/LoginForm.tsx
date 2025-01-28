@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import userService from '../../services/auth_service'; // Assuming a service for API requests
+import userService from '../../services/auth_service';
 import './LoginForm.moudle.css';
 
 // Define the schema for login
@@ -30,6 +31,15 @@ const LoginForm: FC = () => {
   });
 
   const [serverError, setServerError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.successMessage) {
+      setSuccessMessage(location.state.successMessage);
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -47,7 +57,6 @@ const LoginForm: FC = () => {
 
       // Perform any post-login actions (e.g., redirect to dashboard)
     } catch (error: any) {
-      console.error('Login error:', error);
       reset();
       setServerError(error.response?.data?.message || 'An error occurred. Please try again.');
     }
@@ -59,6 +68,7 @@ const LoginForm: FC = () => {
         <img src="GymBuddyLogo.png" alt="Logo" className="logo" />
       </div>
 
+      {successMessage && <div className="alert alert-success">{successMessage}</div>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-input">
           <label htmlFor="email" className="form-label">Email</label>

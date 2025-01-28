@@ -28,12 +28,12 @@ const login = (credentials: { email: string; password: string }) => {
 
     request
         .then(response => {
-            console.log('Access Token:', response.data.accessToken); // Log access token
-            console.log('Refresh Token:', response.data.refreshToken); // Log refresh token
-            console.log('User ID:', response.data._id); // Log user ID
+            console.log('Access Token:', response.data.accessToken);
+            console.log('Refresh Token:', response.data.refreshToken);
+            console.log('User ID:', response.data._id);
         })
         .catch(error => {
-            console.error('Error during login:', error.response?.data || error.message);
+            console.log('Error during login:', error.response?.data || error.message);
         });
 
     return { request, abort: () => abortController.abort() };
