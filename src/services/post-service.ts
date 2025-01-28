@@ -7,7 +7,8 @@ export interface Post {
     _id: string,
     title: string,
     content: string,
-    owner: string
+    owner: string,
+    image: string
 }
 
 const getAllPosts = () => {

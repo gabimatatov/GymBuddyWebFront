@@ -1,10 +1,10 @@
 import React from "react";
-import Post from "../components/Posts/Posts";
+import Posts from "../components/Posts/Posts";
 
 const PostsPage: React.FC = () => {
   return (
     <div>
-      <Post />
+      <Posts/>
     </div>
   );
 };
