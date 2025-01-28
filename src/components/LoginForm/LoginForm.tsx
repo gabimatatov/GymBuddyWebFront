@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import userService from '../../services/auth_service'; // Assuming a service for API requests
 import './LoginForm.moudle.css';
 
 // Define the schema for login
@@ -22,13 +23,34 @@ const LoginForm: FC = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log('Login Data:', data);
+  const [serverError, setServerError] = useState<string | null>(null);
+
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      console.log('Login Data:', data);
+
+      // Send the login request
+      const { request } = userService.login(data);
+      const response = await request;
+
+      console.log('Login successful:', response.data);
+
+      // Reset the form after successful login
+      reset();
+      setServerError(null);
+
+      // Perform any post-login actions (e.g., redirect to dashboard)
+    } catch (error: any) {
+      console.error('Login error:', error);
+      reset();
+      setServerError(error.response?.data?.message || 'An error occurred. Please try again.');
+    }
   };
 
   return (
@@ -61,7 +83,7 @@ const LoginForm: FC = () => {
           />
           {errors.password && <p className="text-danger">{errors.password.message}</p>}
         </div>
-        
+        {serverError && <div className="alert alert-danger">{serverError}</div>}
         <button type="submit" className="btn btn-primary m-3">Login</button>
 
         <div className="register-link">
