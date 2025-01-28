@@ -1,0 +1,131 @@
+/* General Page Styling */
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #fafafa; /* Set consistent background color */
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scrolling issues */
+}
+
+/* Prevent Scroll Flickering */
+.posts-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fafafa; /* Ensure container matches background */
+  color: #333;
+}
+
+/* Page Title Styling */
+.page-title {
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: #262626;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e6e6e6;
+  padding-bottom: 10px;
+}
+
+/* Posts Layout */
+.posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Increased space between posts */
+}
+
+/* Individual Post Container */
+.post-container {
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0; /* Ensure consistent spacing */
+  transition: transform 0.2s ease;
+}
+
+.post-container:hover {
+  transform: translateY(-5px); /* Add slight lift on hover */
+}
+
+/* Post Header */
+.post-header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.post-owner {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1a73e8; /* Highlight owner */
+}
+
+/* Post Image Styling */
+.post-image {
+  width: 100%;
+  height: 250px; /* Adjusted to avoid cutting */
+  object-fit: cover; /* Maintain aspect ratio while covering */
+}
+
+/* Post Content */
+.post-details {
+  padding: 15px;
+}
+
+.post-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #262626;
+  margin-bottom: 10px;
+}
+
+.post-content {
+  font-size: 1rem;
+  color: #525252;
+  margin-bottom: 10px;
+}
+
+/* Action Buttons */
+.post-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 15px;
+  border-top: 1px solid #dbdbdb;
+}
+
+.action-button {
+  background-color: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #135ab7;
+}
+
+/* Add top margin to the first post */
+.posts-grid .post-container:first-child {
+  margin-top: 80px; /* Adjust the value as needed */
+}
+
+/* Remove the default button styles for the icon */
+.fire-icon {
+  font-size: 2rem; /* Size the icon as needed */
+  cursor: pointer;
+  color: #ff5733; /* Set the color of the icon */
+  transition: color 0.3s ease;
+}
+
+.fire-icon:hover {
+  color: #d43f00; /* Color change on hover */
+}
