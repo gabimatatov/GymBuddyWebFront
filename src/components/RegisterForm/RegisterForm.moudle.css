@@ -1,7 +1,7 @@
 /* RegisterForm.css */
 
 /* Center the form container in the middle of the screen */
-.form-container {
+.form-container-register {
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
@@ -19,7 +19,7 @@
 }
 
 /* Form styling */
-form {
+.form-register {
   width: 100%;
   display: flex;
   flex-direction: column; 
@@ -28,7 +28,7 @@ form {
 }
 
 
-.form-label {
+.form-label-register {
   color: #000;
   font-weight: bold;
   margin-bottom: 0.5rem;
@@ -38,7 +38,7 @@ form {
 }
 
 /* Input styling */
-.form-control {
+.form-control-register {
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 17px;
@@ -46,23 +46,25 @@ form {
   font-size: 1rem;
   width: 300px;
   outline: none;
+  color: #000;
 }
 
 /* Input focus state */
-.form-control:focus {
+.form-control-register:focus {
   background-color: #e9ecef;
   border-color: #347baf;
+  color: #000;
   box-shadow: 0 0 5px rgba(52, 123, 175, 0.5);
 }
 
-.form-input, input {
+.form-input-register {
     display: flex;
     flex-direction: column;
     color: black;
 }
 
 /* Button styling */
-.btn-primary {
+.btn-primary-register {
   background-color: #347baf;
   border-color: #347baf;
   color: white;
@@ -72,13 +74,13 @@ form {
   width: 335px;
 }
 
-.btn-primary:hover {
+.btn-primary-register:hover {
   background-color: #0056b3;
   border-color: #0056b3;
 }
 
 /* Error message styling */
-.text-danger {
+.text-danger-register {
   font-size: 0.875em;
   color: #dc3545;
   text-align: left;
@@ -87,41 +89,41 @@ form {
 }
 
 /* Prevent sliding and maintain fixed alignment */
-.is-invalid {
+.is-invalid-register {
   border-color: #dc3545;
 }
 
 
 /* Styling for the register link */
-.login-link {
+.login-link-register {
   text-align: center;
   font-size: 1rem;
 }
 
-.login-link .link {
+.login-link-register .link-register {
   color: #347baf;
   text-decoration: none;
 }
 
-.login-link .link:hover {
+.login-link-register .link-register:hover {
   text-decoration: underline;
 }
 
   /* Logo styling */
-.logo-container {
+.logo-container-register {
   width: 100%;
   display: flex;
   justify-content: center; 
   margin-bottom: 1rem;
 }
 
-.logo {
+.logo-register {
   max-width: 200px;
   height: auto; 
 }
 
 /* Button for adding an image */
-.btn-add-image {
+.btn-add-image-register {
   flex: 1;
   background-color: white;
   border-color: #347baf;
@@ -132,14 +134,14 @@ form {
   transition: all 0.3s ease;
 }
 
-.btn-add-image:hover {
+.btn-add-image-register:hover {
   background-color: #f1f1f1;
   border-color: #347baf;
   color: #347baf;
 }
 
 /* Button for removing an image */
-.btn-remove-image {
+.btn-remove-image-register {
   flex: 1;
   background-color: white;
   border-color: #dc3545;
@@ -150,13 +152,13 @@ form {
   transition: all 0.3s ease;
 }
 
-.btn-remove-image:hover {
+.btn-remove-image-register:hover {
   background-color: #f1f1f1;
   border-color: #dc3545;
   color: #dc3545;
 }
 
-.alert {
+.alert-register {
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 17px;
@@ -166,7 +168,7 @@ form {
   width: 300px;
 }
 
-.alert-danger {
+.alert-danger-register {
   color: #a94442;
   background-color: #f2dede; 
   border-color: #ebccd1;

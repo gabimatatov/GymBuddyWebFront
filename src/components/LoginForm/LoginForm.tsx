@@ -63,43 +63,43 @@ const LoginForm: FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <div className="logo-container">
-        <img src="GymBuddyLogo.png" alt="Logo" className="logo" />
+    <div className="form-container-login">
+      <div className="logo-container-login">
+        <img src="GymBuddyLogo.png" alt="Logo" className="logo-login" />
       </div>
 
-      {successMessage && <div className="alert alert-success">{successMessage}</div>}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-input">
-          <label htmlFor="email" className="form-label">Email</label>
+      {successMessage && <div className="alert-login alert-success-login">{successMessage}</div>}
+      <form onSubmit={handleSubmit(onSubmit)} className='form-login'>
+        <div className="form-input-login">
+          <label htmlFor="email" className="form-label-login">Email</label>
           <input
             {...register('email')}
             type="email"
-            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+            className={`form-control-login ${errors.email ? 'is-invalid-login' : ''}`}
             id="email"
             placeholder="Enter your email"
           />
-          {errors.email && <p className="text-danger">{errors.email.message}</p>}
+          {errors.email && <p className="text-danger-login">{errors.email.message}</p>}
         </div>
         
-        <div className="form-input">
-          <label htmlFor="password" className="form-label">Password</label>
+        <div className="form-input-login">
+          <label htmlFor="password" className="form-label-login">Password</label>
           <input
             {...register('password')}
             type="password"
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+            className={`form-control-login ${errors.password ? 'is-invalid-login' : ''}`}
             id="password"
             placeholder="Enter your password"
           />
-          {errors.password && <p className="text-danger">{errors.password.message}</p>}
+          {errors.password && <p className="text-danger-login">{errors.password.message}</p>}
         </div>
-        {serverError && <div className="alert alert-danger">{serverError}</div>}
-        <button type="submit" className="btn btn-primary m-3">Login</button>
+        {serverError && <div className="alert-login alert-danger-login">{serverError}</div>}
+        <button type="submit" className="btn-primary-login">Login</button>
 
-        <div className="register-link">
+        <div className="register-link-login">
           <p>
             Don't have an account?{' '}
-            <a href="/register" className="link">Register here</a>
+            <a href="/register" className="link-login">Register here</a>
           </p>
         </div>
       </form>

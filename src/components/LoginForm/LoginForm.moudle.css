@@ -1,7 +1,7 @@
 /* LoginForm.css */
 
 /* Center the form container in the middle of the screen */
-.form-container {
+.form-container-login {
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
@@ -19,7 +19,7 @@
 }
 
 /* Form styling */
-form {
+.form-login {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ form {
 }
 
 /* Label styling */
-.form-label {
+.form-label-login {
   color: #000;
   font-weight: bold;
   margin-bottom: 0.5rem;
@@ -38,7 +38,7 @@ form {
 }
 
 /* Input styling */
-.form-control {
+.form-control-login {
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 17px;
@@ -49,20 +49,20 @@ form {
 }
 
 /* Input focus state */
-.form-control:focus {
+.form-control-login:focus {
   background-color: #e9ecef;
   border-color: #347baf;
   box-shadow: 0 0 5px rgba(52, 123, 175, 0.5);
 }
 
-.form-input, input {
+.form-input-login {
     display: flex;
     flex-direction: column; 
     color: black;
 }
 
 /* Button styling */
-.btn-primary {
+.btn-primary-login {
   background-color: #347baf;
   border-color: #347baf;
   color: white;
@@ -72,55 +72,54 @@ form {
   width: 335px;
 }
 
-.btn-primary:hover {
+.btn-primary-login:hover {
   background-color: #0056b3;
   border-color: #0056b3;
 }
 
 /* Error message styling */
-.text-danger {
+.text-danger-login {
   font-size: 0.875em;
   color: #dc3545;
   text-align: left;
   width: 300px;
-  margin: 2px 5px 0px 5px 
+  margin: 2px 5px 0px 5px;
 }
 
 /* Prevent sliding and maintain fixed alignment */
-.is-invalid {
+.is-invalid-login {
   border-color: #dc3545;
 }
 
-
 /* Styling for the register link */
-.register-link {
+.register-link-login {
   text-align: center;
   font-size: 1rem;
 }
 
-.register-link .link {
+.register-link-login .link-login {
   color: #347baf;
   text-decoration: none;
 }
 
-.register-link .link:hover {
+.register-link-login .link-login:hover {
   text-decoration: underline;
 }
 
-  /* Logo styling */
-.logo-container {
+/* Logo styling */
+.logo-container-login {
   width: 100%;
   display: flex;
   justify-content: center; 
   margin-bottom: 1rem;
 }
 
-.logo {
+.logo-login {
   max-width: 200px;
   height: auto; 
 }
 
-.alert {
+.alert-login {
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 17px;
@@ -130,13 +129,13 @@ form {
   width: 300px;
 }
 
-.alert-danger {
+.alert-danger-login {
   color: #a94442;
   background-color: #f2dede; 
   border-color: #ebccd1;
 }
 
-.alert-success {
+.alert-success-login {
   color: #347baf;
   background-color: #d1ecf1; 
   border-color: #bee5eb;
