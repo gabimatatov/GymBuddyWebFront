@@ -46,6 +46,7 @@
   font-size: 1rem;
   width: 300px;
   outline: none;
+  color: #000;
 }
 
 /* Input focus state */
@@ -53,6 +54,7 @@
   background-color: #e9ecef;
   border-color: #347baf;
   box-shadow: 0 0 5px rgba(52, 123, 175, 0.5);
+  color: #000;
 }
 
 .form-input-login {
