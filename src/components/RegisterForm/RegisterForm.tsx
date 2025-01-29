@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import userService, { User } from '../services/auth_service';
-import trainerIcon from '../assets/icons/trainerIcon.png';
-import '../styles/RegisterForm.css'
+import userService, { User } from '../../services/auth_service';
+import trainerIcon from '../../assets/icons/trainerIcon.png';
+import styles from './RegisterForm.module.css'
 
 // Define the schema for registration
 const RegisterSchema = z.object({
@@ -69,16 +69,16 @@ const RegisterForm: FC = () => {
     setServerError(null);
 
     console.log('Register Data:', data);
-  
+
     let relativeUrl = undefined;
-  
+
     if (data.img && data.img[0]) {
       try {
         // Step 1: Upload the image
         const { request: uploadRequest } = userService.uploadImage(data.img[0]);
         const uploadResponse = await uploadRequest;
         console.log('Image uploaded:', uploadResponse.data);
-  
+
         // Step 2: Clean the URL to remove the base part
         relativeUrl = new URL(uploadResponse.data.url).pathname;
         console.log('Relative URL:', relativeUrl);
@@ -87,7 +87,7 @@ const RegisterForm: FC = () => {
         return;
       }
     }
-  
+
     // Step 3: Create the user object with the avatar if uploaded
     const user: User = {
       name: data.name,
@@ -95,7 +95,7 @@ const RegisterForm: FC = () => {
       password: data.password,
       avatar: relativeUrl ?? undefined,
     };
-  
+
     try {
       // Step 4: Register the user
       const { request: registerRequest } = userService.register(user);
@@ -108,7 +108,7 @@ const RegisterForm: FC = () => {
     } catch (error: any) {
       // Display error message (alert logic)
       setServerError(error.response?.data?.message || 'An error occurred');
-      
+
       // Clear all form inputs
       reset();
       setSelectedImage(null);
@@ -116,67 +116,67 @@ const RegisterForm: FC = () => {
   };
 
   return (
-    <div className="form-container-register">
-      <div className="logo-container-register">
-        <img src="GymBuddyLogo.png" alt="Logo" className="logo-register" />
+    <div className={styles["form-container-register"]}>
+      <div className={styles["logo-container-register"]}>
+        <img src="GymBuddyLogo.png" alt="Logo" className={styles["logo-register"]} />
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className='form-register'>
+      <form onSubmit={handleSubmit(onSubmit)} className={styles["form-register"]}>
 
-        {/* full name input */}
-        <div className="form-input-register">
-          <label htmlFor="name" className="form-label-register">Full Name</label>
+        {/* Full name input */}
+        <div className={styles["form-input-register"]}>
+          <label htmlFor="name" className={styles["form-label-register"]}>Full Name</label>
           <input
             {...register('name')}
             type="text"
-            className={`form-control-register ${errors.name ? 'is-invalid-register' : ''}`}
+            className={`${styles["form-control-register"]} ${errors.name ? styles["is-invalid-register"] : ''}`}
             id="name"
             placeholder="Enter your name"
           />
-          {errors.name && <p className="text-danger-register">{errors.name.message}</p>}
+          {errors.name && <p className={styles["text-danger-register"]}>{errors.name.message}</p>}
         </div>
 
-        {/* email input */}
-        <div className="form-input-register">
-          <label htmlFor="email" className="form-label-register">Email</label>
+        {/* Email input */}
+        <div className={styles["form-input-register"]}>
+          <label htmlFor="email" className={styles["form-label-register"]}>Email</label>
           <input
             {...register('email')}
             type="email"
-            className={`form-control-register ${errors.email ? 'is-invalid-register' : ''}`}
+            className={`${styles["form-control-register"]} ${errors.email ? styles["is-invalid-register"] : ''}`}
             id="email"
             placeholder="Enter your email"
           />
-          {errors.email && <p className="text-danger-register">{errors.email.message}</p>}
+          {errors.email && <p className={styles["text-danger-register"]}>{errors.email.message}</p>}
         </div>
 
-        {/* password input */}
-        <div className="form-input-register">
-          <label htmlFor="password" className="form-label-register">Password</label>
+        {/* Password input */}
+        <div className={styles["form-input-register"]}>
+          <label htmlFor="password" className={styles["form-label-register"]}>Password</label>
           <input
             {...register('password')}
             type="password"
-            className={`form-control-register ${errors.password ? 'is-invalid-register' : ''}`}
+            className={`${styles["form-control-register"]} ${errors.password ? styles["is-invalid-register"] : ''}`}
             id="password"
             placeholder="Enter your password"
           />
-          {errors.password && <p className="text-danger-register">{errors.password.message}</p>}
+          {errors.password && <p className={styles["text-danger-register"]}>{errors.password.message}</p>}
         </div>
 
-        {/* confirm password input */}
-        <div className="form-input-register">
-          <label htmlFor="confirmPassword" className="form-label-register">Confirm Password</label>
+        {/* Confirm password input */}
+        <div className={styles["form-input-register"]}>
+          <label htmlFor="confirmPassword" className={styles["form-label-register"]}>Confirm Password</label>
           <input
             {...register('confirmPassword')}
             type="password"
-            className={`form-control-register ${errors.confirmPassword ? 'is-invalid-register' : ''}`}
+            className={`${styles["form-control-register"]} ${errors.confirmPassword ? styles["is-invalid-register"] : ''}`}
             id="confirmPassword"
             placeholder="Confirm your password"
           />
-          {errors.confirmPassword && <p className="text-danger-register">{errors.confirmPassword.message}</p>}
+          {errors.confirmPassword && <p className={styles["text-danger-register"]}>{errors.confirmPassword.message}</p>}
         </div>
 
-        {/* avatar selection input */}
-        <div className="form-input-register">
-          <label htmlFor="avatar" className="form-label-register">Avatar Selection</label>
+        {/* Avatar selection input */}
+        <div className={styles["form-input-register"]}>
+          <label htmlFor="avatar" className={styles["form-label-register"]}>Avatar Selection</label>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1rem', width: '335px' }}>
             <div>
               <img
@@ -195,19 +195,23 @@ const RegisterForm: FC = () => {
             <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', width: '100%' }}>
               <button
                 type="button"
-                className="btn-add-image-register"
+                className={styles["btn-add-image-register"]}
                 onClick={() => inputFileRef.current?.click()}
-              ><FontAwesomeIcon icon={faImage} className='fa-l' /> Upload</button>
+              >
+                <FontAwesomeIcon icon={faImage} className={styles["fa-l"]} /> Upload
+              </button>
               <button
                 type="button"
-                className="btn-remove-image-register"
+                className={styles["btn-remove-image-register"]}
                 onClick={() => {
                   setSelectedImage(null);
                   if (inputFileRef.current) {
                     inputFileRef.current.value = '';
                   }
                 }}
-              ><FontAwesomeIcon icon={faTrashAlt} className='fa-l' /> Remove</button>
+              >
+                <FontAwesomeIcon icon={faTrashAlt} className={styles["fa-l"]} /> Remove
+              </button>
             </div>
 
             <input
@@ -222,14 +226,15 @@ const RegisterForm: FC = () => {
             />
           </div>
         </div>
-        <button type="submit" className="btn-primary-register">Register</button>
-        {serverError && <div className="alert-register alert-danger-register">{serverError}</div>}
+
+        <button type="submit" className={styles["btn-primary-register"]}>Register</button>
+        {serverError && <div className={`${styles["alert-register"]} ${styles["alert-danger-register"]}`}>{serverError}</div>}
       </form>
 
-      <div className="login-link-register">
+      <div className={styles["login-link-register"]}>
         <p>
           Already have an account?{' '}
-          <a href="/login" className="link-register">Login here</a>
+          <a href="/login" className={styles["link-register"]}>Login here</a>
         </p>
       </div>
     </div>

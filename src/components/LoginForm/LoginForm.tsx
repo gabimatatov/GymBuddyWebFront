@@ -3,8 +3,8 @@ import { FC, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import userService from '../services/auth_service';
-import '../styles/LoginForm.css'
+import userService from '../../services/auth_service';
+import styles from './LoginForm.module.css'
 
 // Define the schema for login
 const LoginSchema = z.object({
@@ -44,6 +44,7 @@ const LoginForm: FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       console.log('Login Data:', data);
+      setSuccessMessage(null);
 
       // Send the login request
       const { request } = userService.login(data);
@@ -63,43 +64,44 @@ const LoginForm: FC = () => {
   };
 
   return (
-    <div className="form-container-login">
-      <div className="logo-container-login">
-        <img src="GymBuddyLogo.png" alt="Logo" className="logo-login" />
+    <div className={styles["form-container-login"]}>
+      <div className={styles["logo-container-login"]}>
+        <img src="GymBuddyLogo.png" alt="Logo" className={styles["logo-login"]} />
       </div>
-
-      {successMessage && <div className="alert-login alert-success-login">{successMessage}</div>}
-      <form onSubmit={handleSubmit(onSubmit)} className='form-login'>
-        <div className="form-input-login">
-          <label htmlFor="email" className="form-label-login">Email</label>
+      {successMessage && <div className={`${styles["alert-login"]} ${styles["alert-success-login"]}`}>{successMessage}</div>}
+      <form onSubmit={handleSubmit(onSubmit)} className={styles["form-login"]}>
+        <div className={styles["form-input-login"]}>
+          <label htmlFor="email" className={styles["form-label-login"]}>Email</label>
           <input
             {...register('email')}
             type="email"
-            className={`form-control-login ${errors.email ? 'is-invalid-login' : ''}`}
+            className={`${styles["form-control-login"]} ${errors.email ? styles["is-invalid-login"] : ''}`}
             id="email"
             placeholder="Enter your email"
           />
-          {errors.email && <p className="text-danger-login">{errors.email.message}</p>}
+          {errors.email && <p className={styles["text-danger-login"]}>{errors.email.message}</p>}
         </div>
-        
-        <div className="form-input-login">
-          <label htmlFor="password" className="form-label-login">Password</label>
+
+        <div className={styles["form-input-login"]}>
+          <label htmlFor="password" className={styles["form-label-login"]}>Password</label>
           <input
             {...register('password')}
             type="password"
-            className={`form-control-login ${errors.password ? 'is-invalid-login' : ''}`}
+            className={`${styles["form-control-login"]} ${errors.password ? styles["is-invalid-login"] : ''}`}
             id="password"
             placeholder="Enter your password"
           />
-          {errors.password && <p className="text-danger-login">{errors.password.message}</p>}
+          {errors.password && <p className={styles["text-danger-login"]}>{errors.password.message}</p>}
         </div>
-        {serverError && <div className="alert-login alert-danger-login">{serverError}</div>}
-        <button type="submit" className="btn-primary-login">Login</button>
 
-        <div className="register-link-login">
+        {serverError && <div className={`${styles["alert-login"]} ${styles["alert-danger-login"]}`}>{serverError}</div>}
+
+        <button type="submit" className={styles["btn-primary-login"]}>Login</button>
+
+        <div className={styles["register-link-login"]}>
           <p>
             Don't have an account?{' '}
-            <a href="/register" className="link-login">Register here</a>
+            <a href="/register" className={styles["link-login"]}>Register here</a>
           </p>
         </div>
       </form>
