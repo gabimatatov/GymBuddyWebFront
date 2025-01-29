@@ -2,10 +2,10 @@
 body, html {
   margin: 0;
   padding: 0;
-  background-color: #fafafa; /* Set consistent background color */
+  background-color: #fafafa;
   font-family: Arial, sans-serif;
   min-height: 100vh;
-  overflow-x: hidden; /* Prevent horizontal scrolling issues */
+  overflow-x: hidden;
 }
 
 /* Prevent Scroll Flickering */
@@ -14,7 +14,7 @@ body, html {
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
-  background-color: #fafafa; /* Ensure container matches background */
+  background-color: #fafafa;
   color: #333;
 }
 
@@ -33,7 +33,7 @@ body, html {
 .posts-grid {
   display: flex;
   flex-direction: column;
-  gap: 30px; /* Increased space between posts */
+  gap: 30px;
 }
 
 /* Individual Post Container */
@@ -43,12 +43,12 @@ body, html {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 0; /* Ensure consistent spacing */
+  padding: 0;
   transition: transform 0.2s ease;
 }
 
 .post-container:hover {
-  transform: translateY(-5px); /* Add slight lift on hover */
+  transform: translateY(-5px);
 }
 
 /* Post Header */
@@ -62,14 +62,14 @@ body, html {
 .post-owner {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #1a73e8; /* Highlight owner */
+  color: #1a73e8;
 }
 
 /* Post Image Styling */
 .post-image {
   width: 100%;
-  height: 250px; /* Adjusted to avoid cutting */
-  object-fit: cover; /* Maintain aspect ratio while covering */
+  height: 250px;
+  object-fit: cover;
 }
 
 /* Post Content */
@@ -115,17 +115,17 @@ body, html {
 
 /* Add top margin to the first post */
 .posts-grid .post-container:first-child {
-  margin-top: 80px; /* Adjust the value as needed */
+  margin-top: 80px;
 }
 
 /* Remove the default button styles for the icon */
 .fire-icon {
-  font-size: 2rem; /* Size the icon as needed */
+  font-size: 2rem;
   cursor: pointer;
-  color: #ff5733; /* Set the color of the icon */
+  color: #ff5733;
   transition: color 0.3s ease;
 }
 
 .fire-icon:hover {
-  color: #d43f00; /* Color change on hover */
+  color: #d43f00;
 }
