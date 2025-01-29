@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import userService, { User } from '../../services/auth_service';
-import trainerIcon from '../../assets/icons/trainerIcon.png';
-import './RegisterForm.moudle.css';
+import userService, { User } from '../services/auth_service';
+import trainerIcon from '../assets/icons/trainerIcon.png';
+import '../styles/RegisterForm.css'
 
 // Define the schema for registration
 const RegisterSchema = z.object({

@@ -3,8 +3,8 @@ import { FC, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import userService from '../../services/auth_service';
-import './LoginForm.moudle.css';
+import userService from '../services/auth_service';
+import '../styles/LoginForm.css'
 
 // Define the schema for login
 const LoginSchema = z.object({
