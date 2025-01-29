@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -41,13 +42,16 @@ const RegisterForm: FC = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterSchema),
   });
 
   const inputFileRef: { current: HTMLInputElement | null } = { current: null }
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [serverError, setServerError] = useState<string | null>(null);
   const [img] = watch(["img"])
 
   useEffect(() => {
@@ -60,61 +64,55 @@ const RegisterForm: FC = () => {
 
   const { ref, ...restRegisterParams } = register("img")
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log('Register Data:', data);
+  const onSubmit = async (data: RegisterFormData) => {
+    // Reset server error before submitting
+    setServerError(null);
 
-    // Step 1: Create the user object with no avatar
+    console.log('Register Data:', data);
+  
+    let relativeUrl = undefined;
+  
+    if (data.img && data.img[0]) {
+      try {
+        // Step 1: Upload the image
+        const { request: uploadRequest } = userService.uploadImage(data.img[0]);
+        const uploadResponse = await uploadRequest;
+        console.log('Image uploaded:', uploadResponse.data);
+  
+        // Step 2: Clean the URL to remove the base part
+        relativeUrl = new URL(uploadResponse.data.url).pathname;
+        console.log('Relative URL:', relativeUrl);
+      } catch (error: any) {
+        setServerError(error.response?.data?.message || 'An error occurred while uploading image');
+        return;
+      }
+    }
+  
+    // Step 3: Create the user object with the avatar if uploaded
     const user: User = {
       name: data.name,
       email: data.email,
       password: data.password,
-      avatar: undefined
+      avatar: relativeUrl ?? undefined,
     };
+  
+    try {
+      // Step 4: Register the user
+      const { request: registerRequest } = userService.register(user);
+      const registerResponse = await registerRequest;
+      console.log('User registered:', registerResponse.data);
 
-    // Step 2: Register the user
-    const { request: registerRequest } = userService.register(user);
+      // Redirect to login page with success message
+      navigate('/login', { state: { successMessage: 'Registered Successfully!' } });
 
-    registerRequest
-      .then((registerResponse) => {
-        console.log('User registered:', registerResponse.data);
-
-        if (data.img && data.img[0]) {
-          // Step 3: Upload the image
-          const { request: uploadRequest } = userService.uploadImage(data.img[0]);
-
-          uploadRequest
-            .then((uploadResponse) => {
-              console.log('Image uploaded:', uploadResponse.data);
-
-              // Step 4: Clean the URL to remove the base part
-              const relativeUrl = new URL(uploadResponse.data.url).pathname;
-              console.log(relativeUrl)
-
-              // Step 5: Update the user object with the cleaned avatar URL
-              const updatedUser: User = {
-                ...registerResponse.data,
-                avatar: relativeUrl
-              };
-
-              // Step 6: Update the user record with the avatar URL
-              const { request: updateRequest } = userService.updateUser(registerResponse.data._id!, updatedUser);
-
-              updateRequest
-                .then((updateResponse) => {
-                  console.log('User avatar updated:', updateResponse.data);
-                })
-                .catch((updateError) => {
-                  console.error('Error updating user avatar:', updateError);
-                });
-            })
-            .catch((uploadError) => {
-              console.error('Error uploading image:', uploadError);
-            });
-        }
-      })
-      .catch((registerError) => {
-        console.error('Error registering user:', registerError);
-      });
+    } catch (error: any) {
+      // Display error message (alert logic)
+      setServerError(error.response?.data?.message || 'An error occurred');
+      
+      // Clear all form inputs
+      reset();
+      setSelectedImage(null);
+    }
   };
 
   return (
@@ -225,6 +223,7 @@ const RegisterForm: FC = () => {
           </div>
         </div>
         <button type="submit" className="btn btn-primary">Register</button>
+        {serverError && <div className="alert alert-danger">{serverError}</div>}
       </form>
 
       <div className="login-link">

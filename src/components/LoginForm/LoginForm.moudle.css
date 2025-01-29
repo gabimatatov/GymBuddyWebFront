@@ -94,18 +94,18 @@ form {
 
 /* Styling for the register link */
 .register-link {
-    text-align: center;
-    font-size: 1rem;
-  }
-  
-  .register-link .link {
-    color: #347baf;
-    text-decoration: none;
-  }
-  
-  .register-link .link:hover {
-    text-decoration: underline;
-  }
+  text-align: center;
+  font-size: 1rem;
+}
+
+.register-link .link {
+  color: #347baf;
+  text-decoration: none;
+}
+
+.register-link .link:hover {
+  text-decoration: underline;
+}
 
   /* Logo styling */
 .logo-container {
@@ -118,4 +118,27 @@ form {
 .logo {
   max-width: 200px;
   height: auto; 
+}
+
+.alert {
+  padding: 15px;
+  border: 1px solid transparent;
+  border-radius: 17px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1;
+  width: 300px;
+}
+
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede; 
+  border-color: #ebccd1;
+}
+
+.alert-success {
+  color: #347baf;
+  background-color: #d1ecf1; 
+  border-color: #bee5eb;
+  margin-bottom: 15px;
 }
