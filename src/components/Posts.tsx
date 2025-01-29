@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import postService, { Post, CanceledError } from "../../services/post-service";
-import styles from "./Posts.module.css"; // Importing styles as a module
-import { FaFire } from "react-icons/fa"; // Importing FontAwesome Fire icon
+import postService, { Post, CanceledError } from "../services/post-service";
+import styles from '../styles/Posts.module.css';
+import { FaFire } from "react-icons/fa";
 
-const DEFAULT_IMAGE = "/GymBuddyLogo.png"; // Ensure this image is in the public folder
+const DEFAULT_IMAGE = "/GymBuddyLogo.png";
 
 const Posts = () => {
   const [posts, setPosts] = useState<Post[]>([]);

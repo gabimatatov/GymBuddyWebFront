@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import userService, { User } from '../../services/auth_service';
-import trainerIcon from '../../assets/icons/trainerIcon.png';
-import './RegisterForm.moudle.css';
+import userService, { User } from '../services/auth_service';
+import trainerIcon from '../assets/icons/trainerIcon.png';
+import '../styles/RegisterForm.css'
 
 // Define the schema for registration
 const RegisterSchema = z.object({
@@ -116,67 +116,67 @@ const RegisterForm: FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <div className="logo-container">
-        <img src="GymBuddyLogo.png" alt="Logo" className="logo" />
+    <div className="form-container-register">
+      <div className="logo-container-register">
+        <img src="GymBuddyLogo.png" alt="Logo" className="logo-register" />
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className='form-register'>
 
         {/* full name input */}
-        <div className="form-input">
-          <label htmlFor="name" className="form-label">Full Name</label>
+        <div className="form-input-register">
+          <label htmlFor="name" className="form-label-register">Full Name</label>
           <input
             {...register('name')}
             type="text"
-            className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+            className={`form-control-register ${errors.name ? 'is-invalid-register' : ''}`}
             id="name"
             placeholder="Enter your name"
           />
-          {errors.name && <p className="text-danger">{errors.name.message}</p>}
+          {errors.name && <p className="text-danger-register">{errors.name.message}</p>}
         </div>
 
         {/* email input */}
-        <div className="form-input">
-          <label htmlFor="email" className="form-label">Email</label>
+        <div className="form-input-register">
+          <label htmlFor="email" className="form-label-register">Email</label>
           <input
             {...register('email')}
             type="email"
-            className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+            className={`form-control-register ${errors.email ? 'is-invalid-register' : ''}`}
             id="email"
             placeholder="Enter your email"
           />
-          {errors.email && <p className="text-danger">{errors.email.message}</p>}
+          {errors.email && <p className="text-danger-register">{errors.email.message}</p>}
         </div>
 
         {/* password input */}
-        <div className="form-input">
-          <label htmlFor="password" className="form-label">Password</label>
+        <div className="form-input-register">
+          <label htmlFor="password" className="form-label-register">Password</label>
           <input
             {...register('password')}
             type="password"
-            className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+            className={`form-control-register ${errors.password ? 'is-invalid-register' : ''}`}
             id="password"
             placeholder="Enter your password"
           />
-          {errors.password && <p className="text-danger">{errors.password.message}</p>}
+          {errors.password && <p className="text-danger-register">{errors.password.message}</p>}
         </div>
 
         {/* confirm password input */}
-        <div className="form-input">
-          <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+        <div className="form-input-register">
+          <label htmlFor="confirmPassword" className="form-label-register">Confirm Password</label>
           <input
             {...register('confirmPassword')}
             type="password"
-            className={`form-control ${errors.confirmPassword ? 'is-invalid' : ''}`}
+            className={`form-control-register ${errors.confirmPassword ? 'is-invalid-register' : ''}`}
             id="confirmPassword"
             placeholder="Confirm your password"
           />
-          {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword.message}</p>}
+          {errors.confirmPassword && <p className="text-danger-register">{errors.confirmPassword.message}</p>}
         </div>
 
         {/* avatar selection input */}
-        <div className="form-input">
-          <label htmlFor="avatar" className="form-label">Avatar Selection</label>
+        <div className="form-input-register">
+          <label htmlFor="avatar" className="form-label-register">Avatar Selection</label>
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '1rem', width: '335px' }}>
             <div>
               <img
@@ -195,12 +195,12 @@ const RegisterForm: FC = () => {
             <div style={{ display: 'flex', gap: '1rem', flexDirection: 'column', width: '100%' }}>
               <button
                 type="button"
-                className="btn-add-image"
+                className="btn-add-image-register"
                 onClick={() => inputFileRef.current?.click()}
               ><FontAwesomeIcon icon={faImage} className='fa-l' /> Upload</button>
               <button
                 type="button"
-                className="btn-remove-image"
+                className="btn-remove-image-register"
                 onClick={() => {
                   setSelectedImage(null);
                   if (inputFileRef.current) {
@@ -222,14 +222,14 @@ const RegisterForm: FC = () => {
             />
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">Register</button>
-        {serverError && <div className="alert alert-danger">{serverError}</div>}
+        <button type="submit" className="btn-primary-register">Register</button>
+        {serverError && <div className="alert-register alert-danger-register">{serverError}</div>}
       </form>
 
-      <div className="login-link">
+      <div className="login-link-register">
         <p>
           Already have an account?{' '}
-          <a href="/login" className="link">Login here</a>
+          <a href="/login" className="link-register">Login here</a>
         </p>
       </div>
     </div>
