@@ -6,19 +6,16 @@ import { FaFire } from "react-icons/fa";
 const DEFAULT_IMAGE = "/GymBuddyLogo.png";
 
 // Utility function to format the date
-const formatDate = (date: string | Date) => {
-  // Ensure date is a valid Date object
+const formatDate = (date: string | number | Date) => {
   const validDate = new Date(date);
-  if (isNaN(validDate.getTime())) return "Invalid date"; // If invalid date, return a fallback message
+  if (isNaN(validDate.getTime())) return "Invalid date";
 
   const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: true
+    month: 'short',  // Abbreviated month
+    day: 'numeric',  // Day of the month
+    hour: 'numeric', // Hour in 12-hour format
+    minute: 'numeric', // Minute
+    hour12: true // 12-hour format with AM/PM
   };
   return validDate.toLocaleDateString('en-US', options);
 };
@@ -35,8 +32,8 @@ const Posts = () => {
       .then((response) => {
         // Sort posts by date (latest first)
         const sortedPosts = response.data.sort((a, b) => {
-          const dateA = new Date(a.date);  // Ensure date is a valid Date object
-          const dateB = new Date(b.date);  // Ensure date is a valid Date object
+          const dateA = new Date(a.createdAt);  // Use createdAt
+          const dateB = new Date(b.createdAt);  // Use createdAt
           return dateB.getTime() - dateA.getTime(); // Latest first
         });
         setPosts(sortedPosts);
@@ -67,7 +64,7 @@ const Posts = () => {
               <div className={styles["post-header"]}>
                 <div className={styles["post-owner"]}>{post.owner}</div>
                 <div className={styles["post-date"]}>
-                  {formatDate(post.date)} {/* Display formatted date */}
+                  {formatDate(post.createdAt)} {/* Display formatted date */}
                 </div>
               </div>
               {/* Post Image */}
