@@ -5,7 +5,11 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import PostsPage from "./pages/PostsPage";
 import ProfilePage from "./pages/ProfilePage"
+import ChatPage from "./pages/ChatPage";
+import HomePage from "./pages/HomePage";
 import './styles/App.css'
+
+
 
 const App: React.FC = () => {
   return (
@@ -16,7 +20,9 @@ const App: React.FC = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/posts" element={<PostsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
-        </Routes>
+          <Route path="/chat" element={<ChatPage/>} />
+          <Route path="/home" element={<HomePage/>} />
+      </Routes>
       </Router>
     </AuthProvider>
   );

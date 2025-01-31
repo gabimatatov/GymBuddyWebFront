@@ -1,0 +1,77 @@
+.navbar {
+    background-color: #ffffff; /* White background */
+    padding: 15px 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    display: flex;
+    align-items: center; /* Align items properly */
+}
+
+/* Logo and Navigation links grouped together on the left */
+.navContainer {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Space between logo and links */
+}
+
+/* Logo styling */
+.logo img {
+    height: 40px;
+}
+
+/* Nav links positioned on the left */
+.navLinks {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0; /* Remove margin */
+    padding: 0;
+}
+
+/* Login & Register positioned on the right */
+.authLinks {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin-left: auto; /* Pushes login & register to the right */
+    position: relative;
+    right: 40px; /* Moves login & register slightly to the left */
+}
+
+/* General navbar link styling */
+.navbar a {
+    color: #333333; /* Dark grey text for better contrast on white */
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Prettier hover effect with the updated color */
+.navbar a:hover {
+    background-color: #347baf; /* Updated color on hover */
+    color: #ffffff; /* White text on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for more depth */
+    transform: scale(1.1); /* Slight scale-up effect */
+    letter-spacing: 0.5px; /* Slight letter spacing for a more refined look */
+}
+
+/* Active link */
+.navbar a.active {
+    background-color: #e9ecef; /* Light grey for active state */
+    color: #276a8a; /* Dark blue for active link */
+    font-weight: bold;
+}
+
+/* No hover effect for the Logo link */
+.navbar .logo a:hover {
+    background-color: transparent; /* No background change */
+    color: #333333; /* Keep dark grey text for the logo */
+    box-shadow: none; /* No shadow */
+    transform: none; /* No scaling */
+}
