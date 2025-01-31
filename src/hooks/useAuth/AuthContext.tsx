@@ -9,7 +9,6 @@ interface AuthContextType {
     refreshToken: string | null;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    register: (user: User) => Promise<void>;
     isAuthenticated: Boolean | false;
     loading: Boolean | true;
 }
@@ -28,20 +27,20 @@ export const useAuth = () => {
     return context;
 };
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  // Use AuthProviderProps for type definition
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<Boolean | false>(false);
     const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
     const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refreshToken'));
 
-    // Effect to retrieve stored tokens from cookies when the app loads or tab is opened
-    const [loading, setLoading] = useState(true); // New loading state
+    // Loading state
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedAccessToken = Cookies.get('accessToken');
         const storedRefreshToken = Cookies.get('refreshToken');
         const storedUser = Cookies.get('user');
-    
+
         if (storedAccessToken && storedRefreshToken && storedUser) {
             const parsedUser = JSON.parse(storedUser);
             setAccessToken(storedAccessToken);
@@ -51,8 +50,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  //
         } else {
             setIsAuthenticated(false);
         }
-    
-        setLoading(false); // Mark loading as complete
+        setLoading(false);
     }, []);
 
     const login = async (email: string, password: string) => {
@@ -60,14 +58,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  //
             const { request } = userService.login({ email, password });
             const response = await request;
             const { accessToken, refreshToken, _id, username, email: userEmail } = response.data;
-    
+
             const userData = { _id, username, email: userEmail, password: '' };
-    
+
             // Store data in cookies (with secure attributes)
             Cookies.set('accessToken', accessToken, { path: '/', secure: true, sameSite: 'Strict' });
             Cookies.set('refreshToken', refreshToken, { path: '/', secure: true, sameSite: 'Strict' });
             Cookies.set('user', JSON.stringify(userData), { path: '/', secure: true, sameSite: 'Strict' });
-    
+
             // Update React state
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
@@ -84,25 +82,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  //
         setRefreshToken(null);
         setUser(null);
         setIsAuthenticated(false);
-    
+
         // Remove stored cookies
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
         Cookies.remove('user');
     };
 
-    const register = async (user: User) => {
-        try {
-            const { request } = userService.register(user);
-            await request;
-        } catch (error) {
-            console.log('Error during registration:', error);
-            throw new Error('Registration failed');
-        }
-    };
+    // const registerUser = async (user: User) => {
+    //     try {
+    //         const { request } = userService.register(user);
+    //         await request;
+    //     } catch (error) {
+    //         console.log('Error during registration:', error);
+    //         throw new Error('Registration failed');
+    //     }
+    // };
 
     return (
-        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, login, logout, register }}>
+        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
