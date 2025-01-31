@@ -5,6 +5,21 @@ import { FaFire } from "react-icons/fa";
 
 const DEFAULT_IMAGE = "/GymBuddyLogo.png";
 
+// Utility function to format the date
+const formatDate = (date: string | number | Date) => {
+  const validDate = new Date(date);
+  if (isNaN(validDate.getTime())) return "Invalid date";
+
+  const options: Intl.DateTimeFormatOptions = {
+    month: 'short',  // Abbreviated month
+    day: 'numeric',  // Day of the month
+    hour: 'numeric', // Hour in 12-hour format
+    minute: 'numeric', // Minute
+    hour12: true // 12-hour format with AM/PM
+  };
+  return validDate.toLocaleDateString('en-US', options);
+};
+
 const Posts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -15,7 +30,13 @@ const Posts = () => {
 
     request
       .then((response) => {
-        setPosts(response.data);
+        // Sort posts by date (latest first)
+        const sortedPosts = response.data.sort((a, b) => {
+          const dateA = new Date(a.createdAt);  // Use createdAt
+          const dateB = new Date(b.createdAt);  // Use createdAt
+          return dateB.getTime() - dateA.getTime(); // Latest first
+        });
+        setPosts(sortedPosts);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -33,7 +54,6 @@ const Posts = () => {
 
   return (
     <div className={styles["posts-container"]}>
-      <h1 className={styles["page-title"]}>Posts</h1>
       {posts.length === 0 ? (
         <p className={styles["no-posts-text"]}>No posts available</p>
       ) : (
@@ -43,6 +63,9 @@ const Posts = () => {
               {/* Post Header */}
               <div className={styles["post-header"]}>
                 <div className={styles["post-owner"]}>{post.owner}</div>
+                <div className={styles["post-date"]}>
+                  {formatDate(post.createdAt)} {/* Display formatted date */}
+                </div>
               </div>
               {/* Post Image */}
               <img
