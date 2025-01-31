@@ -130,7 +130,7 @@ const RegisterForm: FC = () => {
             type="text"
             className={`${styles["form-control-register"]} ${errors.username ? styles["is-invalid-register"] : ''}`}
             id="username"
-            placeholder="Enter your name"
+            placeholder="Enter your username"
           />
           {errors.username && <p className={styles["text-danger-register"]}>{errors.username.message}</p>}
         </div>
