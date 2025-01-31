@@ -65,3 +65,11 @@
     color: #1a4966;
     font-weight: bold;
 }
+
+/* No hover effect for the Logo link */
+.navbar .logo a:hover {
+    background-color: transparent; /* No background change */
+    color: white; /* Keep text color white */
+    box-shadow: none; /* Remove shadow */
+    transform: none; /* No scaling */
+}

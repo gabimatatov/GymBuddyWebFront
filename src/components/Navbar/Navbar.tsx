@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
       <div className={styles.logo}>
-        <Link to="/posts"> {/* Redirect to Home (Posts) */}
+        <Link to="/home"> {/* Redirect to Home (Posts) */}
           <img src="/GymBuddyLogo.png" alt="App Logo" />
         </Link>
       </div>
@@ -33,16 +33,11 @@ const Navbar: React.FC = () => {
         </li>
       </ul>
 
-      {/* Right side: Login & Register */}
+      {/* Right side: Logout (Redirects to Login) */}
       <ul className={styles.authLinks}>
         <li>
-          <Link to="/login" className={location.pathname === '/login' ? styles.active : ''}>
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link to="/register" className={location.pathname === '/register' ? styles.active : ''}>
-            Register
+          <Link to="/login" className={styles.logout}>
+            Logout
           </Link>
         </li>
       </ul>
