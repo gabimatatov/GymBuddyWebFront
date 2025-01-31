@@ -1,17 +1,22 @@
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 const ProtectedPage = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
 
-  // Handle case when user is not logged in (user is null)
-  if (!user) {
-    return <p>Please log in to access this page.</p>;
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
   }
 
   return (
     <div style={{ textAlign: "center", padding: "2rem" }}>
-      {/* Access user.username */}
-      <h1>Welcome, {user.username}</h1> 
+      <h1>Welcome, {user?.username}</h1>
+      <h4>{user?.email}</h4>
+      <h5>{user?._id}</h5>
       <p>This is a protected page. Only logged-in users can see this.</p>
 
       <button

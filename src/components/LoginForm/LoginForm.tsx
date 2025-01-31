@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import styles from './LoginForm.module.css';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth/AuthContext';
 
 // Define the schema for login
 const LoginSchema = z.object({

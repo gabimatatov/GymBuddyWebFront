@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User } from '../services/auth_service';
-import userService from '../services/auth_service';
+import { User } from '../../services/auth_service';
+import Cookies from 'js-cookie';
+import userService from '../../services/auth_service';
 
 interface AuthContextType {
     user: User | null;
@@ -9,10 +10,12 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
     register: (user: User) => Promise<void>;
+    isAuthenticated: Boolean | false;
+    loading: Boolean | true;
 }
 
 interface AuthProviderProps {
-    children: ReactNode;  // Define the children prop
+    children: ReactNode;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,29 +30,49 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  // Use AuthProviderProps for type definition
     const [user, setUser] = useState<User | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<Boolean | false>(false);
     const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
     const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refreshToken'));
 
+    // Effect to retrieve stored tokens from cookies when the app loads or tab is opened
+    const [loading, setLoading] = useState(true); // New loading state
+
     useEffect(() => {
-        if (accessToken) {
-            // Optionally fetch the user details here using the access token
+        const storedAccessToken = Cookies.get('accessToken');
+        const storedRefreshToken = Cookies.get('refreshToken');
+        const storedUser = Cookies.get('user');
+    
+        if (storedAccessToken && storedRefreshToken && storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setAccessToken(storedAccessToken);
+            setRefreshToken(storedRefreshToken);
+            setUser(parsedUser);
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
         }
-    }, [accessToken]);
+    
+        setLoading(false); // Mark loading as complete
+    }, []);
 
     const login = async (email: string, password: string) => {
         try {
             const { request } = userService.login({ email, password });
             const response = await request;
             const { accessToken, refreshToken, _id, username, email: userEmail } = response.data;
-
+    
+            const userData = { _id, username, email: userEmail, password: '' };
+    
+            // Store data in cookies (with secure attributes)
+            Cookies.set('accessToken', accessToken, { path: '/', secure: true, sameSite: 'Strict' });
+            Cookies.set('refreshToken', refreshToken, { path: '/', secure: true, sameSite: 'Strict' });
+            Cookies.set('user', JSON.stringify(userData), { path: '/', secure: true, sameSite: 'Strict' });
+    
+            // Update React state
             setAccessToken(accessToken);
             setRefreshToken(refreshToken);
-            setUser({ _id, username, email: userEmail, password: '' });
-
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-
-            // Redirect to profile page or dashboard
+            setUser(userData);
+            setIsAuthenticated(true);
         } catch (error: any) {
             const errorMessage = error.response?.data?.message;
             throw new Error(errorMessage);
@@ -60,9 +83,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  //
         setAccessToken(null);
         setRefreshToken(null);
         setUser(null);
-
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        setIsAuthenticated(false);
+    
+        // Remove stored cookies
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
+        Cookies.remove('user');
     };
 
     const register = async (user: User) => {
@@ -76,7 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {  //
     };
 
     return (
-        <AuthContext.Provider value={{ user, accessToken, refreshToken, login, logout, register }}>
+        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     );
