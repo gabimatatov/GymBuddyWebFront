@@ -11,7 +11,7 @@ import styles from './RegisterForm.module.css'
 
 // Define the schema for registration
 const RegisterSchema = z.object({
-  name: z.string().nonempty('Name is required'),
+  username: z.string().nonempty('Username is required'),
   email: z
     .string()
     .email('Invalid email address')
@@ -90,7 +90,7 @@ const RegisterForm: FC = () => {
 
     // Step 3: Create the user object with the avatar if uploaded
     const user: User = {
-      name: data.name,
+      username: data.username,
       email: data.email,
       password: data.password,
       avatar: relativeUrl ?? undefined,
@@ -124,15 +124,15 @@ const RegisterForm: FC = () => {
 
         {/* Full name input */}
         <div className={styles["form-input-register"]}>
-          <label htmlFor="name" className={styles["form-label-register"]}>Full Name</label>
+          <label htmlFor="username" className={styles["form-label-register"]}>Username</label>
           <input
-            {...register('name')}
+            {...register('username')}
             type="text"
-            className={`${styles["form-control-register"]} ${errors.name ? styles["is-invalid-register"] : ''}`}
-            id="name"
+            className={`${styles["form-control-register"]} ${errors.username ? styles["is-invalid-register"] : ''}`}
+            id="username"
             placeholder="Enter your name"
           />
-          {errors.name && <p className={styles["text-danger-register"]}>{errors.name.message}</p>}
+          {errors.username && <p className={styles["text-danger-register"]}>{errors.username.message}</p>}
         </div>
 
         {/* Email input */}
