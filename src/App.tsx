@@ -9,8 +9,6 @@ import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
 import './styles/App.css'
 
-
-
 const App: React.FC = () => {
   return (
     <AuthProvider>
@@ -19,9 +17,12 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/posts" element={<PostsPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/chat" element={<ChatPage/>} />
           <Route path="/home" element={<HomePage/>} />
+
+          {/* Protected Pages */}
+          <Route path="/profile" element={<ProfilePage />} />
+
       </Routes>
       </Router>
     </AuthProvider>
