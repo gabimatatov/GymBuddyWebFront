@@ -24,6 +24,8 @@ const login = (credentials: { email: string; password: string }) => {
         refreshToken: string;
         accessToken: string;
         _id: string;
+        username: string;
+        email: string;
     }>('/auth/login', credentials, { signal: abortController.signal });
 
     request
