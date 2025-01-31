@@ -52,9 +52,9 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* Prettier hover effect with teal color */
+/* Prettier hover effect with the updated color */
 .navbar a:hover {
-    background-color: #365b76; /* Teal background on hover */
+    background-color: #347baf; /* Updated color on hover */
     color: #ffffff; /* White text on hover */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for more depth */
     transform: scale(1.1); /* Slight scale-up effect */
@@ -64,7 +64,7 @@
 /* Active link */
 .navbar a.active {
     background-color: #e9ecef; /* Light grey for active state */
-    color: #1a4966; /* Dark blue for active link */
+    color: #276a8a; /* Dark blue for active link */
     font-weight: bold;
 }
 

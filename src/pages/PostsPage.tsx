@@ -7,7 +7,7 @@ const PostsPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div style={{ marginTop: "140px" }}>  {/* Adjust this value depending on Navbar height */}
+      <div>  
         <Posts />
       </div>
       <Footer />

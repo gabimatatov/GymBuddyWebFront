@@ -5,6 +5,24 @@ import { FaFire } from "react-icons/fa";
 
 const DEFAULT_IMAGE = "/GymBuddyLogo.png";
 
+// Utility function to format the date
+const formatDate = (date: string | Date) => {
+  // Ensure date is a valid Date object
+  const validDate = new Date(date);
+  if (isNaN(validDate.getTime())) return "Invalid date"; // If invalid date, return a fallback message
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    hour12: true
+  };
+  return validDate.toLocaleDateString('en-US', options);
+};
+
 const Posts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -15,7 +33,13 @@ const Posts = () => {
 
     request
       .then((response) => {
-        setPosts(response.data);
+        // Sort posts by date (latest first)
+        const sortedPosts = response.data.sort((a, b) => {
+          const dateA = new Date(a.date);  // Ensure date is a valid Date object
+          const dateB = new Date(b.date);  // Ensure date is a valid Date object
+          return dateB.getTime() - dateA.getTime(); // Latest first
+        });
+        setPosts(sortedPosts);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -33,7 +57,6 @@ const Posts = () => {
 
   return (
     <div className={styles["posts-container"]}>
-      <h1 className={styles["page-title"]}>Posts</h1>
       {posts.length === 0 ? (
         <p className={styles["no-posts-text"]}>No posts available</p>
       ) : (
@@ -43,6 +66,9 @@ const Posts = () => {
               {/* Post Header */}
               <div className={styles["post-header"]}>
                 <div className={styles["post-owner"]}>{post.owner}</div>
+                <div className={styles["post-date"]}>
+                  {formatDate(post.date)} {/* Display formatted date */}
+                </div>
               </div>
               {/* Post Image */}
               <img
