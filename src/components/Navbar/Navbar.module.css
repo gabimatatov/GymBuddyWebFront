@@ -1,12 +1,12 @@
 .navbar {
-    background-color: #1a4966;
+    background-color: #ffffff; /* White background */
     padding: 15px 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     display: flex;
     align-items: center; /* Align items properly */
 }
@@ -42,8 +42,9 @@
     right: 40px; /* Moves login & register slightly to the left */
 }
 
+/* General navbar link styling */
 .navbar a {
-    color: white;
+    color: #333333; /* Dark grey text for better contrast on white */
     text-decoration: none;
     font-size: 1.1rem;
     padding: 10px 15px;
@@ -51,25 +52,26 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* Hover effect */
+/* Prettier hover effect with teal color */
 .navbar a:hover {
-    background-color: #0056b3;
-    text-decoration: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: scale(1.05);
+    background-color: #365b76; /* Teal background on hover */
+    color: #ffffff; /* White text on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for more depth */
+    transform: scale(1.1); /* Slight scale-up effect */
+    letter-spacing: 0.5px; /* Slight letter spacing for a more refined look */
 }
 
 /* Active link */
 .navbar a.active {
-    background-color: #e9ecef;
-    color: #1a4966;
+    background-color: #e9ecef; /* Light grey for active state */
+    color: #1a4966; /* Dark blue for active link */
     font-weight: bold;
 }
 
 /* No hover effect for the Logo link */
 .navbar .logo a:hover {
     background-color: transparent; /* No background change */
-    color: white; /* Keep text color white */
-    box-shadow: none; /* Remove shadow */
+    color: #333333; /* Keep dark grey text for the logo */
+    box-shadow: none; /* No shadow */
     transform: none; /* No scaling */
 }
