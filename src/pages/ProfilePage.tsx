@@ -18,7 +18,7 @@ const ProtectedPage = () => {
     <>
       <Navbar />
       <ProfileForm />
-      <div style={{ textAlign: "center", padding: "2rem" }}>
+      {/* <div style={{ textAlign: "center", padding: "2rem" }}>
         <h1>Welcome, {user?.username}</h1>
         <h4>{user?.email}</h4>
         <h5>{user?._id}</h5>
@@ -38,7 +38,7 @@ const ProtectedPage = () => {
         >
           Logout
         </button>
-      </div>
+      </div> */}
     </>
   );
 };
