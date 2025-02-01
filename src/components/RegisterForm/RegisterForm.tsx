@@ -120,7 +120,7 @@ const RegisterForm: FC = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className={styles["form-register"]}>
 
-        {/* Full name input */}
+        {/* Username input */}
         <div className={styles["form-input-register"]}>
           <label htmlFor="username" className={styles["form-label-register"]}>Username</label>
           <input
