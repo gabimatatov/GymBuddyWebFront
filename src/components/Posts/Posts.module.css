@@ -121,7 +121,7 @@ body, html {
   margin-top: 1300px; /* Remove any additional margin to ensure it's fully visible */
 }
 
-/* Remove the default button styles for the icon */
+/* Fire icon styling */
 .fire-icon {
   font-size: 2rem;
   cursor: pointer;
@@ -131,6 +131,18 @@ body, html {
 
 .fire-icon:hover {
   color: #d43f00;
+}
+
+/* Comment icon styling */
+.comment-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  color: #4a90e2;
+  transition: color 0.3s ease;
+}
+
+.comment-icon:hover {
+  color: #357abd;
 }
 
 .post-date {

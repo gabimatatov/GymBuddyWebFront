@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import postService, { Post, CanceledError } from "../../services/post-service";
 import styles from './Posts.module.css';
-import { FaFire } from "react-icons/fa";
+import { FaFire, FaRegComment } from "react-icons/fa";
 
 const DEFAULT_IMAGE = "/GymBuddyLogo.png";
 
@@ -11,11 +11,11 @@ const formatDate = (date: string | number | Date) => {
   if (isNaN(validDate.getTime())) return "Invalid date";
 
   const options: Intl.DateTimeFormatOptions = {
-    month: 'short',  // Abbreviated month
-    day: 'numeric',  // Day of the month
-    hour: 'numeric', // Hour in 12-hour format
-    minute: 'numeric', // Minute
-    hour12: true // 12-hour format with AM/PM
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
   };
   return validDate.toLocaleDateString('en-US', options);
 };
@@ -30,11 +30,10 @@ const Posts = () => {
 
     request
       .then((response) => {
-        // Sort posts by date (latest first)
         const sortedPosts = response.data.sort((a, b) => {
-          const dateA = new Date(a.createdAt);  // Use createdAt
-          const dateB = new Date(b.createdAt);  // Use createdAt
-          return dateB.getTime() - dateA.getTime(); // Latest first
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB.getTime() - dateA.getTime();
         });
         setPosts(sortedPosts);
         setIsLoading(false);
@@ -46,7 +45,7 @@ const Posts = () => {
         }
       });
 
-    return abort; // Cleanup on unmount or request cancellation
+    return abort;
   }, []);
 
   if (isLoading) return <p className={styles["loading-text"]}>Loading posts...</p>;
@@ -64,7 +63,7 @@ const Posts = () => {
               <div className={styles["post-header"]}>
                 <div className={styles["post-owner"]}>{post.owner}</div>
                 <div className={styles["post-date"]}>
-                  {formatDate(post.createdAt)} {/* Display formatted date */}
+                  {formatDate(post.createdAt)}
                 </div>
               </div>
               {/* Post Image */}
@@ -84,7 +83,10 @@ const Posts = () => {
                   className={styles["fire-icon"]}
                   onClick={() => console.log("Like clicked")}
                 />
-                <button className={styles["action-button"]}>Comment</button>
+                <FaRegComment
+                  className={styles["comment-icon"]}
+                  onClick={() => console.log("Comment clicked")}
+                />
               </div>
             </div>
           ))}
