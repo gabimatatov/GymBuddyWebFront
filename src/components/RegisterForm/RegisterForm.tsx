@@ -6,12 +6,13 @@ import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import userService, { User } from '../../services/auth_service';
+import { useAuth } from '../../hooks/useAuth/AuthContext';
 import trainerIcon from '../../assets/icons/trainerIcon.png';
 import styles from './RegisterForm.module.css'
 
 // Define the schema for registration
 const RegisterSchema = z.object({
-  name: z.string().nonempty('Name is required'),
+  username: z.string().nonempty('Username is required'),
   email: z
     .string()
     .email('Invalid email address')
@@ -64,11 +65,16 @@ const RegisterForm: FC = () => {
 
   const { ref, ...restRegisterParams } = register("img")
 
+  const { isAuthenticated } = useAuth();
+  
+  // Redirect to profile if already authenticated.
+  // if(isAuthenticated){
+  //   navigate('/profile')
+  // }
+
   const onSubmit = async (data: RegisterFormData) => {
     // Reset server error before submitting
     setServerError(null);
-
-    console.log('Register Data:', data);
 
     let relativeUrl = undefined;
 
@@ -90,7 +96,7 @@ const RegisterForm: FC = () => {
 
     // Step 3: Create the user object with the avatar if uploaded
     const user: User = {
-      name: data.name,
+      username: data.username,
       email: data.email,
       password: data.password,
       avatar: relativeUrl ?? undefined,
@@ -124,15 +130,15 @@ const RegisterForm: FC = () => {
 
         {/* Full name input */}
         <div className={styles["form-input-register"]}>
-          <label htmlFor="name" className={styles["form-label-register"]}>Full Name</label>
+          <label htmlFor="username" className={styles["form-label-register"]}>Username</label>
           <input
-            {...register('name')}
+            {...register('username')}
             type="text"
-            className={`${styles["form-control-register"]} ${errors.name ? styles["is-invalid-register"] : ''}`}
-            id="name"
-            placeholder="Enter your name"
+            className={`${styles["form-control-register"]} ${errors.username ? styles["is-invalid-register"] : ''}`}
+            id="username"
+            placeholder="Enter your username"
           />
-          {errors.name && <p className={styles["text-danger-register"]}>{errors.name.message}</p>}
+          {errors.username && <p className={styles["text-danger-register"]}>{errors.username.message}</p>}
         </div>
 
         {/* Email input */}

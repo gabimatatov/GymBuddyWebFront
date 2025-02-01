@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import userService from '../../services/auth_service';
-import styles from './LoginForm.module.css'
+import styles from './LoginForm.module.css';
+import { useAuth } from '../../hooks/useAuth/AuthContext';
 
 // Define the schema for login
 const LoginSchema = z.object({
@@ -30,9 +30,12 @@ const LoginForm: FC = () => {
     resolver: zodResolver(LoginSchema),
   });
 
+  const { login } = useAuth();
+
   const [serverError, setServerError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.state?.successMessage) {
@@ -43,23 +46,19 @@ const LoginForm: FC = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      console.log('Login Data:', data);
       setSuccessMessage(null);
-
+      
       // Send the login request
-      const { request } = userService.login(data);
-      const response = await request;
-
-      console.log('Login successful:', response.data);
+      await login(data.email, data.password);
+      navigate('/profile');
 
       // Reset the form after successful login
       reset();
       setServerError(null);
 
-      // Perform any post-login actions (e.g., redirect to dashboard)
     } catch (error: any) {
       reset();
-      setServerError(error.response?.data?.message || 'An error occurred. Please try again.');
+      setServerError(error.message || 'An error occurred. Please try again.');
     }
   };
 
