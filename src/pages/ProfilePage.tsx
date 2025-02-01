@@ -1,6 +1,7 @@
 import { useAuth } from '../hooks/useAuth/AuthContext';
 import { Navigate } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
+import ProfileForm from '../components/ProfileForm/ProfileForm';
 
 const ProtectedPage = () => {
   const { user, isAuthenticated, loading } = useAuth();
@@ -16,6 +17,7 @@ const ProtectedPage = () => {
   return (
     <>
       <Navbar />
+      <ProfileForm />
       <div style={{ textAlign: "center", padding: "2rem" }}>
         <h1>Welcome, {user?.username}</h1>
         <h4>{user?.email}</h4>
