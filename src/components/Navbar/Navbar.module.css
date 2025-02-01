@@ -1,3 +1,4 @@
+/* Navbar - Fixed at the Top */
 .navbar {
     background-color: #ffffff; /* White background */
     padding: 15px 20px;
@@ -9,9 +10,21 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
     display: flex;
     align-items: center; /* Align items properly */
+    height: 60px; /* Ensures a consistent height */
 }
 
-/* Logo and Navigation links grouped together on the left */
+/* Ensure content starts below the navbar */
+.posts-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 5rem 20px 20px; /* Adjust 5rem if needed */
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+    color: #333;
+    position: relative; /* Ensures stacking context */
+}
+
+/* Nav Container - Aligns logo & links */
 .navContainer {
     display: flex;
     align-items: center;
@@ -23,7 +36,7 @@
     height: 40px;
 }
 
-/* Nav links positioned on the left */
+/* Navigation Links (Left) */
 .navLinks {
     list-style: none;
     display: flex;
@@ -32,19 +45,18 @@
     padding: 0;
 }
 
-/* Login & Register positioned on the right */
+/* Login & Register (Right-aligned) */
 .authLinks {
     list-style: none;
     display: flex;
     gap: 20px;
     margin-left: auto; /* Pushes login & register to the right */
-    position: relative;
-    right: 40px; /* Moves login & register slightly to the left */
+    margin-right: 20px; /* Instead of right: 40px */
 }
 
-/* General navbar link styling */
+/* Navbar links */
 .navbar a {
-    color: #333333; /* Dark grey text for better contrast on white */
+    color: #333333;
     text-decoration: none;
     font-size: 1.1rem;
     padding: 10px 15px;
@@ -52,26 +64,26 @@
     transition: all 0.3s ease-in-out;
 }
 
-/* Prettier hover effect with the updated color */
+/* Hover Effect */
 .navbar a:hover {
-    background-color: #347baf; /* Updated color on hover */
-    color: #ffffff; /* White text on hover */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow for more depth */
-    transform: scale(1.1); /* Slight scale-up effect */
-    letter-spacing: 0.5px; /* Slight letter spacing for a more refined look */
+    background-color: #347baf;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1);
+    letter-spacing: 0.5px;
 }
 
-/* Active link */
+/* Active Link */
 .navbar a.active {
-    background-color: #e9ecef; /* Light grey for active state */
-    color: #276a8a; /* Dark blue for active link */
+    background-color: #e9ecef;
+    color: #276a8a;
     font-weight: bold;
 }
 
-/* No hover effect for the Logo link */
+/* No Hover Effect for Logo */
 .navbar .logo a:hover {
-    background-color: transparent; /* No background change */
-    color: #333333; /* Keep dark grey text for the logo */
-    box-shadow: none; /* No shadow */
-    transform: none; /* No scaling */
+    background-color: transparent;
+    color: #333333;
+    box-shadow: none;
+    transform: none;
 }
