@@ -26,24 +26,18 @@ const ProfileForm: FC = () => {
     return (
         <div className={styles["user-details-container"]}>
             <div className={styles["user-details"]}>
-                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     {/* Avatar Profile */}
-                    <div className={styles["form-input-profile"]}>
-                            <img
-                                src={user?.avatar ? `http://localhost:3000${user.avatar}` : '/public/trainerIcon.png'}
-                                alt="User Avatar"
-                                style={{
-                                    width: '150px',
-                                    height: '150px',
-                                    objectFit: 'cover',
-                                    border: '2px none #ccc',
-                                }}
-                            />
-                    </div>
+                    <img
+                        src={user?.avatar ? `http://localhost:3000${user.avatar}` : '/public/trainerIcon.png'}
+                        alt="User Avatar"
+                        className={styles["avatar-image-profile"]}
+                    />
+
                     {/* User Details */}
-                    <div>
+                    <div className={styles["user-info-profile"]}>
                         <div className={styles["form-input-profile"]}>
-                            <label className={styles["form-label-profile"]}>Username</label>
+                            <label className={styles["form-label-profile"]}>Username:</label>
                             <input
                                 type="text"
                                 className={styles["form-control-profile"]}
@@ -52,7 +46,7 @@ const ProfileForm: FC = () => {
                             />
                         </div>
                         <div className={styles["form-input-profile"]}>
-                            <label className={styles["form-label-profile"]}>Email</label>
+                            <label className={styles["form-label-profile"]}>Email: </label>
                             <input
                                 type="email"
                                 className={styles["form-control-profile"]}
@@ -62,11 +56,11 @@ const ProfileForm: FC = () => {
                         </div>
                     </div>
 
+                    {/* Seperate Line */}
                 </div>
             </div>
-            
-
         </div>
+
     );
 };
 
