@@ -8,6 +8,7 @@ export interface Post {
     title: string;
     content: string;
     owner: string;
+    username: string;
     image: string;
     date: string;  // `date` is a string representing an ISO Date
 }

@@ -23,6 +23,7 @@ interface PostProps {
   post: {
     _id: string;
     owner: string;
+    username: string;
     title: string;
     content: string;
     image?: string;
@@ -35,7 +36,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     <div className={styles["post-container"]}>
       {/* Post Header */}
       <div className={styles["post-header"]}>
-        <div className={styles["post-owner"]}>{post.owner}</div>
+        <div className={styles["post-owner"]}>{post.username}</div>
         <div className={styles["post-date"]}>{formatDate(post.createdAt)}</div>
       </div>
       {/* Post Image */}

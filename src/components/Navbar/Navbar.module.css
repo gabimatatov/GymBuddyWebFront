@@ -36,6 +36,10 @@
     height: 40px;
 }
 
+.logout {
+    margin-right: 1rem;
+}
+
 /* Navigation Links (Left) */
 .navLinks {
     list-style: none;
