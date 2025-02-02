@@ -5,7 +5,6 @@ import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
 import styles from "./ProfileForm.module.css";
 import userService from '../../services/auth_service';
-import postService, { Post as PostType, CanceledError } from "../../services/post-service";
 import Posts from "../Posts/Posts";
 
 interface User {
@@ -22,8 +21,6 @@ interface FormData {
 
 const ProfileForm: FC = () => {
     const inputFileRef = useRef<HTMLInputElement | null>(null);
-    const [posts, setPosts] = useState<PostType[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const { register, handleSubmit, setValue } = useForm<FormData>();
@@ -45,28 +42,6 @@ const ProfileForm: FC = () => {
             }
         }
     }, [setValue]);
-
-    // Get User's Posts
-    useEffect(() => {
-        if (!user) return;
-
-        const { request, abort } = postService.getAllPostsByOwner(user._id);
-        request
-            .then((response) => {
-                const sortedPosts = response.data.sort((a, b) => {
-                    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-                });
-                setPosts(sortedPosts);
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                if (!(error instanceof CanceledError)) {
-                    setIsLoading(false);
-                }
-            });
-
-        return abort;
-    }, [user]);
 
     // Handle file selection and update the preview image
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +90,7 @@ const ProfileForm: FC = () => {
         // Step 3: Now, send the updated data (including username and avatar URL) to update the user profile
         const updatedUserData = {
             username: data.username,
-            avatar: updatedAvatar, // Use the updated avatar URL, or the original if no new image was selected
+            avatar: updatedAvatar,
         };
 
         console.log("Updated User Data:", updatedUserData);
@@ -124,7 +99,7 @@ const ProfileForm: FC = () => {
         try {
             // Update the user profile with new data
             const { request: updateRequest } = await userService.updateUser(updatedUserData);
-            const updateResponse = await updateRequest;  // Await the promise
+            const updateResponse = await updateRequest;
             setSuccessMessage("Profile updated successfully!");
             console.log('Profile update response:', updateResponse.data);
         } catch (error: any) {
@@ -224,16 +199,10 @@ const ProfileForm: FC = () => {
             {/* Separate Line */}
             <div className={styles["separate-line"]}></div>
 
-            {/* Scrollable Grid Container */}
-            {/* <div className={styles["scrollable-grid-container"]}>
-                <div className={styles["grid"]}>
-                    {Array.from({ length: 15 }).map((_, index) => (
-                        <div key={index} className={styles["grid-item"]}></div>
-                    ))}
-                </div>
-            </div> */}
+            {/* Scrollable My Posts Container */}
             <div className={styles["scrollable-grid-container"]}>
-                <Posts />
+                {/* <Posts /> */}
+                <Posts id={user?._id} />
             </div>
 
         </div>
