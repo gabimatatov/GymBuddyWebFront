@@ -19,4 +19,10 @@ const getAllPosts = () => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts };
+const getAllPostsByOwner = (id: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.get<Post[]>(`/posts?owner=${id}`, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+export default { getAllPosts, getAllPostsByOwner };
