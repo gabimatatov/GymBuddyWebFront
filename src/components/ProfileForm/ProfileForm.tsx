@@ -24,7 +24,6 @@ const ProfileForm: FC = () => {
     const [serverError, setServerError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-
     useEffect(() => {
         const storedUser = Cookies.get("user");
         if (storedUser) {
@@ -44,130 +43,138 @@ const ProfileForm: FC = () => {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
             const imageUrl = URL.createObjectURL(file);
-            setPreviewImage(imageUrl); // Update preview
-            setValue("avatar", event.target.files); // Update React Hook Form state
+            setPreviewImage(imageUrl);
+            setValue("avatar", event.target.files);
         }
     };
 
     // Handle file removal (clear input and preview)
     const handleRemoveFile = () => {
         if (inputFileRef.current) {
-            inputFileRef.current.value = ""; // Clear file input
+            inputFileRef.current.value = "";
         }
-        setPreviewImage(user?.avatar ? `http://localhost:3000${user.avatar}` : null); // Reset to avatar
-        setValue("avatar", undefined); // Reset form state
+        setPreviewImage(user?.avatar ? `http://localhost:3000${user.avatar}` : null);
+        setValue("avatar", undefined);
     };
-
 
     // Submit Form Function
     const onSubmit = (data: FormData) => {
-        // Reset server error before submitting
-        setServerError("Example");
-        setSuccessMessage("Example");
+        // Reset server messages before submitting
+        setServerError("exmaple");
+        // setSuccessMessage("examle");
 
         const updatedAvatar = data.avatar?.[0]
-            ? URL.createObjectURL(data.avatar[0]) // Use preview for the new image
-            : user?.avatar || ""; // Keep original relative path if no new file
+            ? URL.createObjectURL(data.avatar[0])
+            : user?.avatar || "";
 
-        console.log(data);
         console.log("Updated User Data:", {
             username: data.username,
             avatarUrl: updatedAvatar,
         });
     };
 
-
     return (
-        <form className={styles["user-details-container"]} onSubmit={handleSubmit(onSubmit)}>
-            <h2 style={{ alignSelf: "center" }}>My Profile</h2>
-            <div>
-                <div className={styles["user-details"]}>
-                    <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                        <div className={styles["avatar-container"]}>
+        <div className={styles["user-details-container"]}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <h2 style={{ textAlign: "center", margin: "1px" }}>My Profile</h2>
+                <div>
+                    <div className={styles["user-details"]}>
+                        <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+                            <div className={styles["avatar-container"]}>
 
-                            {/* Display the selected image or fallback to the stored avatar */}
-                            <img
-                                src={previewImage || "/public/trainerIcon.png"}
-                                alt="User Avatar"
-                                className={styles["avatar-image-profile"]}
-                            />
-                            <div className={styles["avatar-buttons"]}>
-                                <button
-                                    type="button"
-                                    className={styles["btn-add-image-profile"]}
-                                    onClick={() => inputFileRef.current?.click()}
-                                >
-                                    <FontAwesomeIcon icon={faImage} className={styles["fa-l"]} />
-                                </button>
-                                <button
-                                    type="button"
-                                    className={styles["btn-remove-image-profile"]}
-                                    onClick={handleRemoveFile}
-                                >
-                                    <FontAwesomeIcon icon={faTrashAlt} className={styles["fa-l"]} />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Hidden file input */}
-                        <input
-                            ref={(e) => {
-                                register("avatar");
-                                inputFileRef.current = e;
-                            }}
-                            type="file"
-                            accept="image/png, image/jpeg"
-                            onChange={handleFileChange}
-                            style={{ display: "block" }}
-                        />
-
-                        {/* User Details */}
-                        <div className={styles["user-info-profile"]}>
-                            <div className={styles["form-input-profile"]}>
-                                <label className={styles["form-label-profile"]}>Username:</label>
-                                <input
-                                    type="text"
-                                    className={styles["form-control-profile"]}
-                                    value={user?.username || ""}
-                                    readOnly
+                                {/* Display the selected image or fallback to the stored avatar */}
+                                <img
+                                    src={previewImage || "/public/trainerIcon.png"}
+                                    alt="User Avatar"
+                                    className={styles["avatar-image-profile"]}
                                 />
+                                <div className={styles["avatar-buttons"]}>
+                                    <button
+                                        type="button"
+                                        className={styles["btn-add-image-profile"]}
+                                        onClick={() => inputFileRef.current?.click()}
+                                    >
+                                        <FontAwesomeIcon icon={faImage} className={styles["fa-l"]} />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={styles["btn-remove-image-profile"]}
+                                        onClick={handleRemoveFile}
+                                    >
+                                        <FontAwesomeIcon icon={faTrashAlt} className={styles["fa-l"]} />
+                                    </button>
+                                </div>
                             </div>
-                            <div className={styles["form-input-profile"]}>
-                                <label className={styles["form-label-profile"]}>Email: </label>
-                                <input type="email" className={styles["form-control-profile"]} value={user?.email || ""} readOnly />
+
+                            {/* Hidden file input */}
+                            <input
+                                ref={(e) => {
+                                    register("avatar");
+                                    inputFileRef.current = e;
+                                }}
+                                type="file"
+                                accept="image/png, image/jpeg"
+                                onChange={handleFileChange}
+                                style={{ display: "none" }}
+                            />
+
+                            {/* User Details */}
+                            <div className={styles["user-info-profile"]}>
+                                <div className={styles["form-input-profile"]}>
+                                    <label className={styles["form-label-profile"]}>Username:</label>
+                                    <input
+                                        type="text"
+                                        className={styles["form-control-profile"]}
+                                        value={user?.username || ""}
+                                        readOnly
+                                    />
+                                </div>
+                                <div className={styles["form-input-profile"]}>
+                                    <label className={styles["form-label-profile"]}>Email: </label>
+                                    <input type="email" className={styles["form-control-profile"]} value={user?.email || ""} readOnly />
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    {/* Separate Line */}
+                    <div className={styles["separate-line"]}></div>
                 </div>
 
-                {/* Separate Line */}
-                <div className={styles["separate-line"]}></div>
-            </div>
+                {/* Update username input */}
+                <div className={styles["form-input-update-profile "]}>
+                    <label htmlFor="username" className={styles["form-label-profile"]}>Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        className={styles["form-control-update-profile"]}
+                        placeholder="Update your username"
+                        {...register("username")}
+                    />
+                </div>
 
-            {/* Update username input */}
-            <div className={styles["form-input-update-profile "]}>
-                <label htmlFor="username" className={styles["form-label-profile"]}>Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    className={styles["form-control-update-profile"]}
-                    placeholder="Update your username"
-                    {...register("username")}
-                />
-            </div>
+                {serverError && <div className={`${styles["alert-profile"]} ${styles["alert-danger-profile"]}`}>{serverError}</div>}
+                {successMessage && <div className={`${styles["alert-profile"]} ${styles["alert-success-profile"]}`}>{successMessage}</div>}
 
-            
-            {serverError && <div className={`${styles["alert-profile"]} ${styles["alert-danger-profile"]}`}>{serverError}</div>}
-            {successMessage && <div className={`${styles["alert-profile"]} ${styles["alert-success-profile"]}`}>{successMessage}</div>}
-            
-            {/* Submit Button */}
-            <button type="submit" className={styles["btn-edit-profile"]}>
-                Save Changes
-            </button>
+                {/* Submit Button */}
+                <button type="submit" className={styles["btn-edit-profile"]}>
+                    Save Changes
+                </button>
+            </form>
 
             {/* Separate Line */}
             <div className={styles["separate-line"]}></div>
-        </form>
+
+            {/* Scrollable Grid Container */}
+            <div className={styles["scrollable-grid-container"]}>
+                <div className={styles["grid"]}>
+                    {Array.from({ length: 15 }).map((_, index) => (
+                        <div key={index} className={styles["grid-item"]}></div>
+                    ))}
+                </div>
+            </div>
+
+        </div>
     );
 };
 
