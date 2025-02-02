@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
 import styles from "./ProfileForm.module.css";
+import userService from '../../services/auth_service';
 
 interface User {
     username: string;
@@ -58,19 +59,48 @@ const ProfileForm: FC = () => {
     };
 
     // Submit Form Function
-    const onSubmit = (data: FormData) => {
+    const onSubmit = async (data: FormData) => {
         // Reset server messages before submitting
-        setServerError("exmaple");
-        // setSuccessMessage("examle");
+        setServerError(null);
+        setSuccessMessage(null);
 
-        const updatedAvatar = data.avatar?.[0]
-            ? URL.createObjectURL(data.avatar[0])
-            : user?.avatar || "";
+        let updatedAvatar = user?.avatar || "";  // Default avatar URL
 
-        console.log("Updated User Data:", {
+        if (data.avatar?.[0]) {
+            try {
+                // Step 1: Upload the image to the server
+                const { request: uploadRequest } = userService.uploadImage(data.avatar[0]);
+                const uploadResponse = await uploadRequest;
+                console.log('Image uploaded:', uploadResponse.data);
+    
+                // Step 2: Extract the relative URL from the server's response
+                updatedAvatar = new URL(uploadResponse.data.url).pathname;
+                console.log('Relative URL:', updatedAvatar);
+    
+            } catch (error: any) {
+                setServerError(error.response?.data?.message || 'An error occurred while uploading image');
+                return;
+            }
+        }
+
+        // Step 3: Now, send the updated data (including username and avatar URL) to update the user profile
+        const updatedUserData = {
             username: data.username,
-            avatarUrl: updatedAvatar,
-        });
+            avatar: updatedAvatar, // Use the updated avatar URL, or the original if no new image was selected
+        };
+
+        console.log("Updated User Data:", updatedUserData);
+
+        // You can now send this data to your backend to update the profile
+        try {
+            // Update the user profile with new data
+            const {request: updateRequest} = await userService.updateUser(updatedUserData);
+            const updateResponse = await updateRequest;  // Await the promise
+            setSuccessMessage("Profile updated successfully!");
+            console.log('Profile update response:', updateResponse.data);
+        } catch (error: any) {
+            setServerError(error.response?.data?.message || 'An error occurred while updating profile');
+        }
     };
 
     return (
