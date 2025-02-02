@@ -1,10 +1,15 @@
 /* src/App.css */
 body {
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; /* Keep this consistent */
   margin: 0;
   color: black;
   display: flex;
   justify-content: center; 
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start; /* Align the content to the top */
+  width: 100%; /* Ensure the body stretches across the full width */
+}
+
+/* Optional: Apply this style to ensure posts take up full height if necessary */
+html, body {
+  height: auto; /* Allow natural height based on content */
 }

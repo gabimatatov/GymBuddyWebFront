@@ -1,31 +1,33 @@
-/* Wrapper for the entire page, ensuring consistent margin from the top */
-.posts-page-wrapper {
+/* Wrapper for the entire page, ensures consistent margin from the top */
+.postsPageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px; /* Adjust this based on the navbar height */
+  margin-top: 80px; /* Adjust based on navbar height */
+  width: 100%;
 }
 
-/* Style the posts container with padding for spacing */
-.posts-container {
+/* Styling for the posts container with padding for spacing */
+.postsContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  width: 100%;
 }
 
 /* Style for loading, error, and no posts text */
-.loading-text,
-.error-text,
-.no-posts-text {
+.loadingText,
+.errorText,
+.noPostsText {
   font-size: 16px;
   color: #888;
   text-align: center;
   margin-top: 20px;
 }
 
-/* Grid layout for posts */
-.posts-grid {
+/* Grid layout for posts, responsive and flexible */
+.postsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
@@ -33,11 +35,11 @@
   max-width: 1000px;
 }
 
-/* Ensures that the footer has consistent padding and is placed at the bottom */
+/* Footer styling with consistent padding and bottom margin */
 footer {
   padding: 20px;
   width: 100%;
   text-align: center;
   background-color: #f1f1f1;
-  margin-top: 40px; /* Space between posts and footer */
+  margin-top: 40px; /* Adjust space between posts and footer */
 }
