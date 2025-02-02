@@ -61,12 +61,10 @@
 /* Input fields */
 .form-control-profile,
 .form-control-update-profile {
-    background-color: #f5f5f5;
     border: 1px solid #ccc;
     border-radius: 17px;
     padding: 10px 15px;
     font-size: 1rem;
-    width: 100%;
     outline: none;
     color: #000;
 }
@@ -81,7 +79,8 @@
 .form-control-update-profile {
     background-color: #e9ecef;
     border-color: #ddd;
-    width: 68vw;
+    width: 100%;
+    max-width: 68vw;
 }
 
 /* Profile input container */
@@ -91,11 +90,17 @@
     width: 300px;
 }
 
+.form-input-update-profile {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
 /* Separate line styling */
 .separate-line {
     width: 100%;
     border-top: 2px solid #d3d3d3;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
 }
 
 /* Avatar Container */
@@ -115,7 +120,7 @@
 }
 
 /* Button for adding an image */
-.btn-add-image-register {
+.btn-add-image-profile {
     flex: 1;
     background-color: white;
     border-color: #347baf;
@@ -126,14 +131,14 @@
     transition: all 0.3s ease;
 }
 
-.btn-add-image-register:hover {
+.btn-add-image-profile:hover {
     background-color: #f1f1f1;
     border-color: #347baf;
     color: #347baf;
 }
 
 /* Button for removing an image */
-.btn-remove-image-register {
+.btn-remove-image-profile {
     flex: 1;
     background-color: white;
     border-color: #dc3545;
@@ -144,14 +149,36 @@
     transition: all 0.3s ease;
 }
 
-.btn-remove-image-register:hover {
+.btn-remove-image-profile:hover {
     background-color: #f1f1f1;
     border-color: #dc3545;
     color: #dc3545;
 }
 
+.alert-profile {
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 17px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.alert-danger-profile {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    margin: 14px 0px 7px 0px;
+}
+
+.alert-success-profile {
+    color: #347baf;
+    background-color: #d1ecf1; 
+    border-color: #bee5eb;
+}
+
 /* Edit button (if needed in future) */
-/* .btn-edit-profile {
+.btn-edit-profile {
     background-color: #347baf;
     color: white;
     border: none;
@@ -160,11 +187,12 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s ease;
+    margin-top: 7px;
 }
 
 .btn-edit-profile:hover {
     background-color: #0056b3;
-} */
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
