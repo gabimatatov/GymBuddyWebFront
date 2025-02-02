@@ -17,13 +17,13 @@ const App: React.FC = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/posts" element={<PostsPage />} />
-          <Route path="/chat" element={<ChatPage/>} />
-          <Route path="/home" element={<HomePage/>} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/home" element={<HomePage />} />
 
           {/* Protected Pages */}
           <Route path="/profile" element={<ProfilePage />} />
 
-      </Routes>
+        </Routes>
       </Router>
     </AuthProvider>
   );

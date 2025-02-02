@@ -26,6 +26,7 @@ const login = (credentials: { email: string; password: string }) => {
         _id: string;
         username: string;
         email: string;
+        avatar: string;
     }>('/auth/login', credentials, { signal: abortController.signal });
 
     request

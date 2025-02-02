@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import userService, { User } from '../../services/auth_service';
-import { useAuth } from '../../hooks/useAuth/AuthContext';
 import trainerIcon from '../../assets/icons/trainerIcon.png';
 import styles from './RegisterForm.module.css'
 
@@ -65,13 +64,6 @@ const RegisterForm: FC = () => {
 
   const { ref, ...restRegisterParams } = register("img")
 
-  const { isAuthenticated } = useAuth();
-  
-  // Redirect to profile if already authenticated.
-  // if(isAuthenticated){
-  //   navigate('/profile')
-  // }
-
   const onSubmit = async (data: RegisterFormData) => {
     // Reset server error before submitting
     setServerError(null);
@@ -128,7 +120,7 @@ const RegisterForm: FC = () => {
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className={styles["form-register"]}>
 
-        {/* Full name input */}
+        {/* Username input */}
         <div className={styles["form-input-register"]}>
           <label htmlFor="username" className={styles["form-label-register"]}>Username</label>
           <input

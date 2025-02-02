@@ -43,12 +43,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (storedAccessToken && storedRefreshToken && storedUser) {
             const parsedUser = JSON.parse(storedUser);
+            console.log(storedUser);
+            
             setAccessToken(storedAccessToken);
             setRefreshToken(storedRefreshToken);
             setUser(parsedUser);
             setIsAuthenticated(true);
         } else {
             setIsAuthenticated(false);
+            logout();
         }
         setLoading(false);
     }, []);
@@ -57,9 +60,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             const { request } = userService.login({ email, password });
             const response = await request;
-            const { accessToken, refreshToken, _id, username, email: userEmail } = response.data;
+            const { accessToken, refreshToken, _id, username, avatar, email: userEmail } = response.data;
 
-            const userData = { _id, username, email: userEmail, password: '' };
+            const userData = { _id, username, email: userEmail, avatar, password: '' };
 
             // Store data in cookies (with secure attributes)
             Cookies.set('accessToken', accessToken, { path: '/', secure: true, sameSite: 'Strict' });
