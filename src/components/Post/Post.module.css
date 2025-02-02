@@ -1,0 +1,101 @@
+.post-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    height: 500px; /* Fixed height */
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px; /* Fixed height */
+    position: relative;
+}
+
+.post-owner {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.post-date {
+    font-size: 0.85rem;
+    color: #777;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.post-image {
+    width: 100%;
+    height: 200px; /* Increased from 150px to 200px */
+    object-fit: cover;
+    margin: 0.5rem 0;
+}
+
+.post-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #222;
+    margin: 0.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+    height: 30px; /* Fixed height */
+    display: flex;
+    align-items: center;
+}
+
+.post-details-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.post-details {
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+/* Hide the scrollbar, but allow scrolling */
+.post-details::-webkit-scrollbar {
+    display: none;
+}
+
+.post-content {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.post-actions {
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid #eee;
+}
+
+.fire-icon,
+.comment-icon {
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: #888;
+}
+
+.fire-icon:hover {
+    color: #ff4500;
+}
+
+.comment-icon:hover {
+    color: #347baf;
+}
