@@ -9,6 +9,10 @@ export interface User {
     password: string;
     avatar?: string;
 }
+export interface UpdatedUser {
+    username: string;
+    avatar?: string;
+}
 
 // Register User Service
 const register = (user: User) => {
@@ -57,9 +61,12 @@ const uploadImage = (img: File) => {
 };
 
 // Update User Service
-const updateUser = (userId: string, updatedUser: User) => {
+const updateUser = (updatedUser: UpdatedUser) => {
     const abortController = new AbortController();
-    const request = apiClient.put<User>(`/auth/user/${userId}`, updatedUser, {
+    const request = apiClient.put<{
+        username: string;
+        avatar: string;
+    }>("/auth/user", updatedUser, {
         signal: abortController.signal,
     });
     return { request, abort: () => abortController.abort() };
