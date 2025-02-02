@@ -1,16 +1,15 @@
 import React from "react";
-import Navbar from "../components/Navbar/Navbar"; // Import Navbar
+import Navbar from "../components/Navbar/Navbar";
 import Posts from "../components/Posts/Posts";
-import Footer from "../components/Footer/Footer";
+import styles from './PostsPage.module.css';  // Import the CSS module
 
 const PostsPage: React.FC = () => {
   return (
-    <div>
+    <div className={styles.postsPageWrapper}>
       <Navbar />
-      <div>  
+      <div className={styles.postsContainer}>
         <Posts />
       </div>
-      <Footer />
     </div>
   );
 };
