@@ -5,8 +5,11 @@ import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Cookies from "js-cookie";
 import styles from "./ProfileForm.module.css";
 import userService from '../../services/auth_service';
+import postService, { Post as PostType, CanceledError } from "../../services/post-service";
+import Posts from "../Posts/Posts";
 
 interface User {
+    _id: string;
     username: string;
     email: string;
     avatar?: string;
@@ -19,17 +22,21 @@ interface FormData {
 
 const ProfileForm: FC = () => {
     const inputFileRef = useRef<HTMLInputElement | null>(null);
+    const [posts, setPosts] = useState<PostType[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const { register, handleSubmit, setValue } = useForm<FormData>();
     const [serverError, setServerError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+    // Get User Data
     useEffect(() => {
         const storedUser = Cookies.get("user");
         if (storedUser) {
             try {
                 const parsedUser = JSON.parse(storedUser);
+                console.log(parsedUser);
                 setUser(parsedUser);
                 setValue("username", parsedUser.username);
                 setPreviewImage(parsedUser.avatar ? `http://localhost:3000${parsedUser.avatar}` : null);
@@ -38,6 +45,28 @@ const ProfileForm: FC = () => {
             }
         }
     }, [setValue]);
+
+    // Get User's Posts
+    useEffect(() => {
+        if (!user) return;
+
+        const { request, abort } = postService.getAllPostsByOwner(user._id);
+        request
+            .then((response) => {
+                const sortedPosts = response.data.sort((a, b) => {
+                    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+                });
+                setPosts(sortedPosts);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                if (!(error instanceof CanceledError)) {
+                    setIsLoading(false);
+                }
+            });
+
+        return abort;
+    }, [user]);
 
     // Handle file selection and update the preview image
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,11 +101,11 @@ const ProfileForm: FC = () => {
                 const { request: uploadRequest } = userService.uploadImage(data.avatar[0]);
                 const uploadResponse = await uploadRequest;
                 console.log('Image uploaded:', uploadResponse.data);
-    
+
                 // Step 2: Extract the relative URL from the server's response
                 updatedAvatar = new URL(uploadResponse.data.url).pathname;
                 console.log('Relative URL:', updatedAvatar);
-    
+
             } catch (error: any) {
                 setServerError(error.response?.data?.message || 'An error occurred while uploading image');
                 return;
@@ -94,7 +123,7 @@ const ProfileForm: FC = () => {
         // You can now send this data to your backend to update the profile
         try {
             // Update the user profile with new data
-            const {request: updateRequest} = await userService.updateUser(updatedUserData);
+            const { request: updateRequest } = await userService.updateUser(updatedUserData);
             const updateResponse = await updateRequest;  // Await the promise
             setSuccessMessage("Profile updated successfully!");
             console.log('Profile update response:', updateResponse.data);
@@ -196,12 +225,15 @@ const ProfileForm: FC = () => {
             <div className={styles["separate-line"]}></div>
 
             {/* Scrollable Grid Container */}
-            <div className={styles["scrollable-grid-container"]}>
+            {/* <div className={styles["scrollable-grid-container"]}>
                 <div className={styles["grid"]}>
                     {Array.from({ length: 15 }).map((_, index) => (
                         <div key={index} className={styles["grid-item"]}></div>
                     ))}
                 </div>
+            </div> */}
+            <div className={styles["scrollable-grid-container"]}>
+                <Posts />
             </div>
 
         </div>

@@ -8,6 +8,7 @@ export interface Post {
     title: string;
     content: string;
     owner: string;
+    username: string;
     image: string;
     date: string;  // `date` is a string representing an ISO Date
 }
@@ -18,4 +19,10 @@ const getAllPosts = () => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts };
+const getAllPostsByOwner = (id: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.get<Post[]>(`/posts?owner=${id}`, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+export default { getAllPosts, getAllPostsByOwner };
