@@ -28,11 +28,12 @@ interface PostProps {
     title: string;
     content: string;
     image?: string;
-    createdAt: string;
+    createdAt: string | number | Date; // Allowing string, number, or Date for createdAt
   };
+  commentsCount: number; // Add commentsCount property
 }
 
-const Post: React.FC<PostProps> = ({ post }) => {
+const Post: React.FC<PostProps> = ({ post, commentsCount }) => {
   return (
     <div className={styles["post-container"]}>
       {/* Post Header */}
@@ -46,9 +47,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
         alt={post.title}
         className={styles["post-image"]}
       />
-      {/* Post Title - Moved outside of post-details */}
+      {/* Post Title */}
       <h2 className={styles["post-title"]}>{post.title}</h2>
-      {/* Post Content - Only this part will scroll */}
+      {/* Post Content */}
       <div className={styles["post-details-wrapper"]}>
         <div className={styles["post-details"]}>
           <p className={styles["post-content"]}>{post.content}</p>
@@ -57,9 +58,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
       {/* Post Actions */}
       <div className={styles["post-actions"]}>
         <FaFire className={styles["fire-icon"]} onClick={() => console.log("Like clicked")} />
-        <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>
-          <FaRegComment className={styles["comment-icon"]} />
-        </Link>
+        <div className={styles["comment-container"]}>
+          <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>
+            <FaRegComment className={styles["comment-icon"]} />
+          </Link>
+          <span className={styles["comment-count"]}>{commentsCount}</span> {/* Use commentsCount */}
+        </div>
       </div>
     </div>
   );
