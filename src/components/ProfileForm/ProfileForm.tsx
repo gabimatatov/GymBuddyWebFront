@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import styles from "./ProfileForm.module.css";
 import userService from '../../services/auth_service';
 import Posts from "../Posts/Posts";
+import { useAuth } from "../../hooks/useAuth/AuthContext";
 
 interface User {
     _id: string;
@@ -22,21 +23,19 @@ interface FormData {
 const ProfileForm: FC = () => {
     const inputFileRef = useRef<HTMLInputElement | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
-    const [user, setUser] = useState<User | null>(null);
     const { register, handleSubmit, setValue } = useForm<FormData>();
     const [serverError, setServerError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+    const { user } = useAuth();
+
     // Get User Data
     useEffect(() => {
-        const storedUser = Cookies.get("user");
-        if (storedUser) {
+        if (user) {
             try {
-                const parsedUser = JSON.parse(storedUser);
-                console.log(parsedUser);
-                setUser(parsedUser);
-                setValue("username", parsedUser.username);
-                setPreviewImage(parsedUser.avatar ? `http://localhost:3000${parsedUser.avatar}` : null);
+                console.log(user); // To Delete
+                setValue("username", user.username);
+                setPreviewImage(user.avatar ? `http://localhost:3000${user.avatar}` : null);
             } catch (error) {
                 console.error("Error parsing user cookie:", error);
             }
@@ -79,7 +78,6 @@ const ProfileForm: FC = () => {
 
                 // Step 2: Extract the relative URL from the server's response
                 updatedAvatar = new URL(uploadResponse.data.url).pathname;
-                console.log('Relative URL:', updatedAvatar);
 
             } catch (error: any) {
                 setServerError(error.response?.data?.message || 'An error occurred while uploading image');
