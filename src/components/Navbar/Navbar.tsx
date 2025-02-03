@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
       <div className={styles.logo}>
-        <Link to="/home"> {/* Redirect to Home (Posts) */}
+        <Link to="/profile"> {/* Redirect to Home (Posts) */}
           <img src="/GymBuddyLogo.png" alt="App Logo" />
         </Link>
       </div>
@@ -17,8 +17,8 @@ const Navbar: React.FC = () => {
       {/* Center links */}
       <ul className={styles.navLinks}>
         <li>
-          <Link to="/home" className={location.pathname === '/home' ? styles.active : ''}>
-            Home
+          <Link to="/profile" className={location.pathname === '/profile' ? styles.active : ''}>
+            Profile
           </Link>
         </li>
         <li>

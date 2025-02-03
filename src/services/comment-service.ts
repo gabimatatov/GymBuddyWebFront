@@ -1,6 +1,7 @@
 import apiClient from "./api-client";
 
 export interface Comment {
+  createdAt(createdAt: unknown): import("react").ReactNode;
   _id: string;
   owner: string;  // The author of the comment
   comment: string;  // The content of the comment
