@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./Post.module.css";
 import { FaFire, FaRegComment } from "react-icons/fa";
 
@@ -56,7 +57,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
       {/* Post Actions */}
       <div className={styles["post-actions"]}>
         <FaFire className={styles["fire-icon"]} onClick={() => console.log("Like clicked")} />
-        <FaRegComment className={styles["comment-icon"]} onClick={() => console.log("Comment clicked")} />
+        <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>
+          <FaRegComment className={styles["comment-icon"]} />
+        </Link>
       </div>
     </div>
   );

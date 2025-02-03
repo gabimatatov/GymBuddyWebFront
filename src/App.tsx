@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage"
 import ChatPage from "./pages/ChatPage";
 import HomePage from "./pages/HomePage";
 import './styles/App.css'
+import CommentsPage from "./pages/CommentsPage";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
           <Route path="/posts" element={<PostsPage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/post/:postId/comments" element={<CommentsPage />} />
 
           {/* Protected Pages */}
           <Route path="/profile" element={<ProfilePage />} />
