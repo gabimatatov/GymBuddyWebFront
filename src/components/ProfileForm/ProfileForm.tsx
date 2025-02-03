@@ -2,7 +2,6 @@ import { FC, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import Cookies from "js-cookie";
 import styles from "./ProfileForm.module.css";
 import userService from '../../services/auth_service';
 import Posts from "../Posts/Posts";

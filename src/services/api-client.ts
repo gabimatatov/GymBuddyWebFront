@@ -1,4 +1,4 @@
-import axios, { CanceledError, AxiosError, AxiosRequestConfig } from "axios";
+import axios, { CanceledError } from "axios";
 import Cookies from "js-cookie";
 
 export { CanceledError };
@@ -7,8 +7,6 @@ const apiClient = axios.create({
     baseURL: "http://localhost:3000/",
     headers: { 'Content-Type': 'application/json' },
 });
-
-let isRefreshing = false;
 
 // Attach access token to every request
 apiClient.interceptors.request.use(
