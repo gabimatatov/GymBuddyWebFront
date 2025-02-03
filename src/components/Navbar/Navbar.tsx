@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
         </li>
         <li>
           <Link to="/posts" className={location.pathname === '/posts' ? styles.active : ''}>
-            Posts
+            Explore
           </Link>
         </li>
         <li>
