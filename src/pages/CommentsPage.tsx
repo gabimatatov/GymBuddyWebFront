@@ -8,8 +8,7 @@ const CommentsPage: React.FC = () => {
   return (
     <div>
         <Navbar/>
-    <div>
-        <h1>Comments for Post {postId}</h1>
+    <div style={{ marginTop: "10rem" }}>
         <Comments postId={postId!} />
     </div>
     </div>
