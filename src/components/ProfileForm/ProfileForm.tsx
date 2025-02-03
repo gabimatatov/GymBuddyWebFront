@@ -7,13 +7,6 @@ import userService from '../../services/auth_service';
 import Posts from "../Posts/Posts";
 import { useAuth } from "../../hooks/useAuth/AuthContext";
 
-interface User {
-    _id: string;
-    username: string;
-    email: string;
-    avatar?: string;
-}
-
 interface FormData {
     username: string;
     avatar?: FileList;
