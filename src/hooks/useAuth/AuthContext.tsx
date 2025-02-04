@@ -81,7 +81,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const updateUserSession = (updatedFields: Partial<User>) => {
-        if (!user) return; // Ensure user exists before updating
+        // Ensure user exists before updating
+        if (!user) return; 
     
         const updatedUser: User = {
             ...user,
@@ -92,7 +93,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         Cookies.set("user", JSON.stringify(updatedUser), { path: "/", secure: true, sameSite: "Strict" });
     };
 
-    const logout = () => {
+    const logout = async () => {
+        // Check refresh token exists
+        if (refreshToken) {
+            try {
+                const { request } = userService.logout(refreshToken);
+                await request;
+            } catch (error) {
+                console.error("Logout failed", error);
+            }
+        }
+
+        // Remove all States
         setAccessToken(null);
         setRefreshToken(null);
         setUser(null);

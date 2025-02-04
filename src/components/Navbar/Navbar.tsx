@@ -1,15 +1,29 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './Navbar.module.css';
+import { useAuth } from '../../hooks/useAuth/AuthContext';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      logout();
+
+      // After logout, redirect to login page
+      navigate('/login');
+    } catch (error) {
+      console.error('Error logging out', error);
+    }
+  };
 
   return (
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
       <div className={styles.logo}>
-        <Link to="/profile"> {/* Redirect to Home (Posts) */}
+        <Link to="/profile">
           <img src="/GymBuddyLogo.png" alt="App Logo" />
         </Link>
       </div>
@@ -41,9 +55,9 @@ const Navbar: React.FC = () => {
       {/* Right side: Logout (Redirects to Login) */}
       <ul className={styles.authLinks}>
         <li>
-          <Link to="/login" className={styles.logout}>
+          <button onClick={handleLogout} className={`${styles.logout} ${styles.log}`}>
             Logout
-          </Link>
+          </button>
         </li>
       </ul>
     </nav>

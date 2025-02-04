@@ -1,34 +1,33 @@
-/* Navbar - Fixed at the Top */
+/* Navbar */
 .navbar {
-    background-color: #ffffff; /* White background */
+    background-color: #ffffff;
     padding: 15px 20px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
-    align-items: center; /* Align items properly */
-    height: 60px; /* Ensures a consistent height */
+    align-items: center;
+    height: 60px;
 }
 
-/* Ensure content starts below the navbar */
 .posts-container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 5rem 20px 20px; /* Adjust 5rem if needed */
+    padding: 5rem 20px 20px;
     font-family: Arial, sans-serif;
     background-color: #fafafa;
     color: #333;
-    position: relative; /* Ensures stacking context */
+    position: relative;
 }
 
-/* Nav Container - Aligns logo & links */
+/* Nav Container */
 .navContainer {
     display: flex;
     align-items: center;
-    gap: 25px; /* Space between logo and links */
+    gap: 25px;
 }
 
 /* Logo styling */
@@ -38,6 +37,7 @@
 
 .logout {
     margin-right: 1rem;
+    background-color: transparent;
 }
 
 /* Navigation Links (Left) */
@@ -45,21 +45,22 @@
     list-style: none;
     display: flex;
     gap: 25px;
-    margin: 0; /* Remove margin */
+    margin: 0; 
     padding: 0;
 }
 
-/* Login & Register (Right-aligned) */
+/* Logout (Right-aligned) */
 .authLinks {
     list-style: none;
     display: flex;
     gap: 20px;
-    margin-left: auto; /* Pushes login & register to the right */
-    margin-right: 20px; /* Instead of right: 40px */
+    margin-left: auto;
+    margin-right: 20px;
 }
 
 /* Navbar links */
-.navbar a {
+.navbar a,
+.navbar .logout {
     color: #333333;
     text-decoration: none;
     font-size: 1.1rem;
@@ -69,12 +70,14 @@
 }
 
 /* Hover Effect */
-.navbar a:hover {
+.navbar a:hover,
+.navbar .logout:hover {
     background-color: #347baf;
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: scale(1.1);
     letter-spacing: 0.5px;
+    border: none;
 }
 
 /* Active Link */
