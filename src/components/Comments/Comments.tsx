@@ -28,6 +28,8 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [commentToDelete, setCommentToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const { request, abort } = commentService.getCommentsByPostId(postId);
@@ -53,6 +55,32 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
     return () => abort();
   }, [postId]);
 
+  // Handle delete comment
+  const handleDeleteComment = (commentId: string) => {
+    setCommentToDelete(commentId);
+    setModalVisible(true);
+  };
+
+  const confirmDelete = () => {
+    if (commentToDelete) {
+      commentService.deleteComment(commentToDelete)
+        .then(() => {
+          // Remove the deleted comment from state
+          setComments((prevComments) => prevComments.filter((comment) => comment._id !== commentToDelete));
+          setModalVisible(false);
+        })
+        .catch((error) => {
+          console.error("Error deleting comment:", error);
+          setError("An error occurred while deleting the comment.");
+          setModalVisible(false);
+        });
+    }
+  };
+
+  const cancelDelete = () => {
+    setModalVisible(false);
+  };
+
   if (isLoading) return <p className={styles["loading-text"]}>Loading comments...</p>;
   if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
 
@@ -72,7 +100,10 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
                       <button className={styles["edit-button"]}>
                         <FontAwesomeIcon icon={faPencilAlt} />
                       </button>
-                      <button className={styles["delete-button"]}>
+                      <button
+                        className={styles["delete-button"]}
+                        onClick={() => handleDeleteComment(comment._id)}
+                      >
                         <FontAwesomeIcon icon={faTrashAlt} />
                       </button>
                     </div>
@@ -85,6 +116,19 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
               <div className={styles["comment-content"]}>{comment.comment}</div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Modal */}
+      {modalVisible && (
+        <div className={`${styles["modal-overlay"]} ${modalVisible ? styles.show : ""}`}>
+          <div className={`${styles["modal-container"]} ${modalVisible ? styles.show : ""}`}>
+            <div className={styles["modal-title"]}>Are you sure you want to delete this comment?</div>
+            <div className={styles["modal-buttons"]}>
+              <button className={`${styles["modal-button"]} ${styles.cancel}`} onClick={cancelDelete}>Cancel</button>
+              <button className={`${styles["modal-button"]} ${styles.confirm}`} onClick={confirmDelete}>Yes, Delete</button>
+            </div>
+          </div>
         </div>
       )}
     </div>
