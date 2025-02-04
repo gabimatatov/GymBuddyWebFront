@@ -19,7 +19,7 @@ const CommentsPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div style={{ marginTop: "10rem"}}>
+      <div style={{ marginTop: "7rem"}}>
         <Comments postId={postId!} key={refreshKey} />
         <CommentForm postId={postId!} onSubmit={handleAddComment} />
       </div>
