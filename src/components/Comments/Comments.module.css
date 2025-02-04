@@ -27,9 +27,9 @@
   background-color: #fff;
   padding: 15px;
   margin-bottom: 12px;
-  border: 1px solid #e0e0e0; /* Add a subtle border */
-  border-radius: 8px; /* Rounded corners for a softer look */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.2s ease, transform 0.1s ease;
 }
 
@@ -46,20 +46,17 @@
   margin-bottom: 8px;
 }
 
-/* Left section (Username + Icons) */
 .comment-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Right section (Date) */
 .comment-date {
   font-size: 0.85rem;
   color: #777;
 }
 
-/* Comment Owner */
 .comment-owner {
   font-weight: bold;
   color: #333;
@@ -72,13 +69,7 @@
   line-height: 1.4;
 }
 
-/* Action Buttons for User's Own Comments */
-.comment-actions {
-  display: flex;
-  gap: 8px;
-}
-
-/* Adjust icons */
+/* Action Buttons */
 .edit-button,
 .delete-button {
   font-size: 1rem;
@@ -89,11 +80,11 @@
 }
 
 .edit-button {
-  color: #347baf; /* Yellow */
+  color: #347baf;
 }
 
 .delete-button {
-  color: #ef4444; /* Red */
+  color: #ef4444;
 }
 
 .edit-button:hover,
@@ -135,7 +126,6 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Modal Title */
 .modal-title {
   font-size: 1.2rem;
   font-weight: bold;
@@ -197,7 +187,6 @@
 
   .edit-button,
   .delete-button {
-    padding: 5px 10px;
     font-size: 0.8rem;
   }
 }
@@ -205,7 +194,7 @@
 /* Updated Comment Edit Text Input */
 .comment-edit-input {
   width: 100%;
-  max-width: 90%; /* Ensures it stays within the container */
+  max-width: 90%;
   height: 100px;
   padding: 10px;
   border-radius: 4px;
@@ -213,57 +202,12 @@
   margin-bottom: 10px;
   font-size: 14px;
   line-height: 1.4;
-  box-sizing: border-box; /* Includes padding in the width */
-  margin: 0 auto; /* Center the input horizontally */
-  resize: none; /* Optional: Disable resizing */
+  box-sizing: border-box;
+  margin: 0 auto;
+  resize: none;
 }
 
-/* Save Button */
-.save-button {
-  background-color: #347baf;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: block; /* Ensures the button is centered */
-  margin: 10px auto 0 auto; /* Center the button */
-}
-
-.cancel-button {
-  background-color: #ccc;
-  color: #333;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-left: 10px;
-  font-size: 14px;
-}
-
-.cancel-button:hover {
-  background-color: #999;
-}
-
-
-/* Comment Edit Section */
-.comment-edit-input {
-  width: 100%;
-  height: 100px;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  resize: vertical;
-}
-
-.comment-edit-actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* Ensure both buttons are aligned at the same height */
-}
-
+/* Save/Cancel Buttons */
 .save-button,
 .cancel-button {
   padding: 8px 16px;
@@ -271,38 +215,7 @@
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  height: 36px; /* Set a consistent height for both buttons */
-}
-
-.comment-edit-input {
-  width: 100%;
-  height: 100px;
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  resize: vertical;
-}
-
-.comment-edit-actions {
-  margin-top: 10px;
-  display: flex;
-  justify-content: flex-start; /* Ensure buttons are aligned side by side */
-  align-items: center; /* Vertically align buttons at the same height */
-  gap: 10px; /* Space between buttons */
-}
-
-.save-button,
-.cancel-button {
-  padding: 8px 16px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 36px; /* Same height for both buttons */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  height: 36px;
 }
 
 .save-button {
@@ -321,4 +234,12 @@
 
 .save-button:hover {
   background-color: #2f6a9d;
+}
+
+.comment-edit-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
 }
