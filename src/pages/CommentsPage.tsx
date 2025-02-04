@@ -1,4 +1,3 @@
-// src/pages/CommentsPage.tsx
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import Comments from "../components/Comments/Comments";
@@ -19,9 +18,10 @@ const CommentsPage: React.FC = () => {
   return (
     <div>
       <Navbar />
-      <div style={{ marginTop: "7rem"}}>
-        <Comments postId={postId!} key={refreshKey} />
+      <div style={{ marginTop: "7rem" }}>
+        {/* Move CommentForm above Comments */}
         <CommentForm postId={postId!} onSubmit={handleAddComment} />
+        <Comments postId={postId!} key={refreshKey} />
       </div>
     </div>
   );

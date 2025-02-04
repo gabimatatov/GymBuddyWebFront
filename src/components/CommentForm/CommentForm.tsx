@@ -52,7 +52,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, onSubmit }) => {
             type="text"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Write a comment..."
+            placeholder="Share your thoughts..."
             className={styles.input}
             disabled={isSubmitting}
           />
