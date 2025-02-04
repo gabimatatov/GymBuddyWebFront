@@ -33,7 +33,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       .then((response) => {
         // Sort comments by `createdAt` in descending order (latest first)
         const sortedComments = response.data.sort(
-          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          (a, b) => new Date(b.createdAt as unknown as string | number | Date).getTime() - new Date(a.createdAt as unknown as string | number | Date).getTime()
         );
 
         setComments(sortedComments);
@@ -63,7 +63,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
               <div className={styles["comment-header"]}>
                 <div className={styles["comment-owner"]}>{comment.username}</div>
                 <div className={styles["comment-date"]}>
-                  {formatDate(comment.createdAt)}
+                  {formatDate(comment.createdAt as unknown as string | number | Date)}
                 </div>
               </div>
               <div className={styles["comment-content"]}>{comment.comment}</div>

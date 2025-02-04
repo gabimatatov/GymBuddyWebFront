@@ -24,13 +24,17 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, onSubmit }) => {
     const commentData = {
       comment,
       postId,
-      username: user?.username || "Anonymous",
+      username: typeof user?.username === "string" ? user.username : "Anonymous", // Ensure username is a string
     };
 
     try {
       const createdComment = await commentService.createComment(commentData);
       console.log("Created Comment:", createdComment);
-      onSubmit(createdComment);
+      onSubmit({
+        comment: createdComment.comment,
+        postId: createdComment.postId,
+        username: typeof createdComment.username === "string" ? createdComment.username : "Anonymous",
+      });
       setComment("");
     } catch (error) {
       console.error("Error creating comment:", error);

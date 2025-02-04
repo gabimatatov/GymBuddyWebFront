@@ -33,7 +33,7 @@ const ProfileForm: FC = () => {
                 console.error("Error parsing user cookie:", error);
             }
         }
-    }, [setValue]);
+    }, [setValue, user]);
 
     // Handle file selection and update the preview image
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
