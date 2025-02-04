@@ -30,6 +30,8 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
   const [error, setError] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [commentToDelete, setCommentToDelete] = useState<string | null>(null);
+  const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
+  const [editedComment, setEditedComment] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const { request, abort } = commentService.getCommentsByPostId(postId);
@@ -81,6 +83,36 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
     setModalVisible(false);
   };
 
+  // Toggle edit mode
+  const toggleEditMode = (commentId: string, commentText: string) => {
+    setEditMode((prev) => ({ ...prev, [commentId]: !prev[commentId] }));
+    setEditedComment((prev) => ({ ...prev, [commentId]: commentText }));
+  };
+
+  // Handle input change
+  const handleCommentChange = (commentId: string, value: string) => {
+    setEditedComment((prev) => ({ ...prev, [commentId]: value }));
+  };
+
+  // Handle update
+  const handleUpdateComment = (commentId: string) => {
+    const updatedComment = editedComment[commentId];
+
+    commentService.updateComment(commentId, { comment: updatedComment })
+      .then((updatedCommentData) => {
+        setComments((prevComments) =>
+          prevComments.map((comment) =>
+            comment._id === commentId ? { ...comment, comment: updatedCommentData.comment } : comment
+          )
+        );
+        setEditMode((prev) => ({ ...prev, [commentId]: false }));
+      })
+      .catch((error) => {
+        console.error("Error updating comment:", error);
+        setError("An error occurred while updating the comment.");
+      });
+  };
+
   if (isLoading) return <p className={styles["loading-text"]}>Loading comments...</p>;
   if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
 
@@ -97,7 +129,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
                   <div className={styles["comment-owner"]}>{comment.username}</div>
                   {user?.username === comment.username && (
                     <div className={styles["comment-actions"]}>
-                      <button className={styles["edit-button"]}>
+                      <button className={styles["edit-button"]} onClick={() => toggleEditMode(comment._id, comment.comment)}>
                         <FontAwesomeIcon icon={faPencilAlt} />
                       </button>
                       <button
@@ -113,7 +145,25 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
                   {formatDate(comment.createdAt as unknown as string)}
                 </div>
               </div>
-              <div className={styles["comment-content"]}>{comment.comment}</div>
+              {editMode[comment._id] ? (
+                <div className={styles["comment-content"]}>
+                  <textarea
+                    value={editedComment[comment._id] || ""}
+                    onChange={(e) => handleCommentChange(comment._id, e.target.value)}
+                    className={styles["comment-edit-input"]}
+                  />
+                  <div className={styles["comment-edit-actions"]}>
+                    <button
+                      className={styles["save-button"]}
+                      onClick={() => handleUpdateComment(comment._id)}
+                    >
+                      Save
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className={styles["comment-content"]}>{comment.comment}</div>
+              )}
             </div>
           ))}
         </div>

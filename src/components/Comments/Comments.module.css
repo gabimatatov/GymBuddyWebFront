@@ -201,3 +201,124 @@
     font-size: 0.8rem;
   }
 }
+
+/* Updated Comment Edit Text Input */
+.comment-edit-input {
+  width: 100%;
+  max-width: 90%; /* Ensures it stays within the container */
+  height: 100px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box; /* Includes padding in the width */
+  margin: 0 auto; /* Center the input horizontally */
+  resize: none; /* Optional: Disable resizing */
+}
+
+/* Save Button */
+.save-button {
+  background-color: #347baf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block; /* Ensures the button is centered */
+  margin: 10px auto 0 auto; /* Center the button */
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.cancel-button:hover {
+  background-color: #999;
+}
+
+
+/* Comment Edit Section */
+.comment-edit-input {
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.comment-edit-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ensure both buttons are aligned at the same height */
+}
+
+.save-button,
+.cancel-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 36px; /* Set a consistent height for both buttons */
+}
+
+.comment-edit-input {
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.comment-edit-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start; /* Ensure buttons are aligned side by side */
+  align-items: center; /* Vertically align buttons at the same height */
+  gap: 10px; /* Space between buttons */
+}
+
+.save-button,
+.cancel-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 36px; /* Same height for both buttons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-button {
+  background-color: #347baf;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background-color: #999;
+}
+
+.save-button:hover {
+  background-color: #2f6a9d;
+}

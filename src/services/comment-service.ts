@@ -44,4 +44,17 @@ const deleteComment = async (commentId: string) => {
   }
 };
 
-export default { getCommentsByPostId, createComment, deleteComment };
+// Update a comment
+const updateComment = async (commentId: string, updatedCommentData: { comment: string }) => {
+  try {
+    const response = await apiClient.put<Comment>(`/comments/${commentId}`, {
+      comment: updatedCommentData.comment, // Updated comment content
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating comment:", error);
+    throw error; // Rethrow error so it can be handled in the component
+  }
+};
+
+export default { getCommentsByPostId, createComment, deleteComment, updateComment };
