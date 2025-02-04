@@ -8,6 +8,7 @@ interface AuthContextType {
     accessToken: string | null;
     refreshToken: string | null;
     login: (email: string, password: string) => Promise<void>;
+    updateUserSession: (updatedFields: Partial<User>) => void;
     logout: () => void;
     isAuthenticated: Boolean | false;
     loading: Boolean | true;
@@ -43,7 +44,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (storedAccessToken && storedRefreshToken && storedUser) {
             const parsedUser = JSON.parse(storedUser);
-            console.log(storedUser);
             
             setAccessToken(storedAccessToken);
             setRefreshToken(storedRefreshToken);
@@ -80,6 +80,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     };
 
+    const updateUserSession = (updatedFields: Partial<User>) => {
+        if (!user) return; // Ensure user exists before updating
+    
+        const updatedUser: User = {
+            ...user,
+            ...updatedFields,
+        };
+    
+        setUser(updatedUser);
+        Cookies.set("user", JSON.stringify(updatedUser), { path: "/", secure: true, sameSite: "Strict" });
+    };
+
     const logout = () => {
         setAccessToken(null);
         setRefreshToken(null);
@@ -103,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // };
 
     return (
-        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, login, logout }}>
+        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, updateUserSession, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
