@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../hooks/useAuth/AuthContext"; // Import auth context
+import { useAuth } from "../../hooks/useAuth/AuthContext";
 import commentService, { Comment } from "../../services/comment-service";
 import styles from "./Comments.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 const formatDate = (date: string | number | Date) => {
   const validDate = new Date(date);
@@ -22,7 +24,7 @@ interface CommentsProps {
 }
 
 const Comments: React.FC<CommentsProps> = ({ postId }) => {
-  const { user } = useAuth(); // Get logged-in user
+  const { user } = useAuth();
   const [comments, setComments] = useState<Comment[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,8 +36,8 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       .then((response) => {
         const sortedComments = response.data.sort(
           (a, b) =>
-            new Date(b.createdAt as string).getTime() -
-            new Date(a.createdAt as string).getTime()
+            new Date(b.createdAt as unknown as string).getTime() -
+            new Date(a.createdAt as unknown as string).getTime()
         );
 
         setComments(sortedComments);
@@ -63,20 +65,24 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
           {comments.map((comment) => (
             <div key={comment._id} className={styles["comment-item"]}>
               <div className={styles["comment-header"]}>
-                <div className={styles["comment-owner"]}>{comment.username}</div>
+                <div className={styles["comment-left"]}>
+                  <div className={styles["comment-owner"]}>{comment.username}</div>
+                  {user?.username === comment.username && (
+                    <div className={styles["comment-actions"]}>
+                      <button className={styles["edit-button"]}>
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                      </button>
+                      <button className={styles["delete-button"]}>
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                      </button>
+                    </div>
+                  )}
+                </div>
                 <div className={styles["comment-date"]}>
-                  {formatDate(comment.createdAt as string)}
+                  {formatDate(comment.createdAt as unknown as string)}
                 </div>
               </div>
               <div className={styles["comment-content"]}>{comment.comment}</div>
-
-              {/* Show buttons if the logged-in user is the comment's author */}
-              {user?.username === comment.username && (
-                <div className={styles["comment-actions"]}>
-                  <button className={styles["edit-button"]}>Edit</button>
-                  <button className={styles["delete-button"]}>Delete</button>
-                </div>
-              )}
             </div>
           ))}
         </div>
