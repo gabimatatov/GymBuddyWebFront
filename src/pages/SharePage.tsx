@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar/Navbar";
 
-const ChatPage: React.FC = () => {
+const SharePage: React.FC = () => {
   return (
     <div>
       <Navbar />
@@ -11,4 +11,4 @@ const ChatPage: React.FC = () => {
   );
 };
 
-export default ChatPage;
+export default SharePage;
