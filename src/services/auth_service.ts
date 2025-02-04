@@ -10,7 +10,7 @@ export interface User {
     avatar?: string;
 }
 export interface UpdatedUser {
-    username: string;
+    username?: string;
     avatar?: string;
 }
 

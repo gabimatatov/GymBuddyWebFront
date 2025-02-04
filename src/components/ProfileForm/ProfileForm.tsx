@@ -9,7 +9,7 @@ import userService from '../../services/auth_service';
 import Posts from "../Posts/Posts";
 
 interface FormData {
-    username: string;
+    username?: string;
     avatar?: FileList;
 }
 
@@ -80,9 +80,14 @@ const ProfileForm: FC = () => {
 
         // Step 3: Now, send the updated data (including username and avatar URL) to update the user profile
         const updatedUserData = {
-            username: data.username,
-            avatar: updatedAvatar,
+            ...(data.username !== user?.username && { username: data.username }),
+            ...(updatedAvatar !== user?.avatar && { avatar: updatedAvatar }),
         };
+        
+        if (Object.keys(updatedUserData).length === 0) {
+            setSuccessMessage("No changes detected.");
+            return;
+        }
 
         try {
             // Update the user profile with new data
