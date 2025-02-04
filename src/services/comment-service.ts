@@ -1,6 +1,9 @@
+// src/services/comment-service.ts
+import { ReactNode } from "react";
 import apiClient from "./api-client";
 
 export interface Comment {
+  username: ReactNode;
   createdAt(createdAt: unknown): import("react").ReactNode;
   _id: string;
   owner: string;  // The author of the comment
@@ -16,4 +19,19 @@ const getCommentsByPostId = (postId: string) => {
   return { request, abort: () => abortController.abort() };
 };
 
-export default { getCommentsByPostId };
+// Create a new comment
+const createComment = async (commentData: { comment: string; postId: string; username: string }) => {
+  try {
+    const response = await apiClient.post<Comment>("/comments", {
+      comment: commentData.comment,
+      postId: commentData.postId,
+      username: commentData.username, // Sending the username
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error creating comment:", error);
+    throw error; // Rethrow error so it can be caught in the component
+  }
+};
+
+export default { getCommentsByPostId, createComment };

@@ -3,10 +3,9 @@ import commentService, { Comment } from "../../services/comment-service";
 import styles from "./Comments.module.css";
 
 // Utility function to format the date (same as in Post component)
-const formatDate = (date: unknown) => {
-  if (!date) return "Unknown date"; // Handle missing date
-  const validDate = new Date(date as string);
-  if (isNaN(validDate.getTime())) return "Invalid date"; // Handle invalid dates
+const formatDate = (date: string | number | Date) => {
+  const validDate = new Date(date);
+  if (isNaN(validDate.getTime())) return "Invalid date";
 
   const options: Intl.DateTimeFormatOptions = {
     month: "short",
@@ -17,7 +16,6 @@ const formatDate = (date: unknown) => {
   };
   return validDate.toLocaleDateString("en-US", options);
 };
-
 
 interface CommentsProps {
   postId: string;
@@ -35,7 +33,7 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
       .then((response) => {
         // Sort comments by `createdAt` in descending order (latest first)
         const sortedComments = response.data.sort(
-          (a, b) => new Date(String(b.createdAt)).getTime() - new Date(String(a.createdAt)).getTime()
+          (a, b) => new Date(b.createdAt as unknown as string | number | Date).getTime() - new Date(a.createdAt as unknown as string | number | Date).getTime()
         );
 
         setComments(sortedComments);
@@ -63,9 +61,9 @@ const Comments: React.FC<CommentsProps> = ({ postId }) => {
           {comments.map((comment) => (
             <div key={comment._id} className={styles["comment-item"]}>
               <div className={styles["comment-header"]}>
-                <div className={styles["comment-owner"]}>{comment.owner}</div>
+                <div className={styles["comment-owner"]}>{comment.username}</div>
                 <div className={styles["comment-date"]}>
-                  {formatDate(comment.createdAt)}
+                  {formatDate(comment.createdAt as unknown as string | number | Date)}
                 </div>
               </div>
               <div className={styles["comment-content"]}>{comment.comment}</div>

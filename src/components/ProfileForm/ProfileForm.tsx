@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,7 +33,7 @@ const ProfileForm: FC = () => {
                 console.error("Error parsing user cookie:", error);
             }
         }
-    }, [setValue]);
+    }, [setValue, user]);
 
     // Handle file selection and update the preview image
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
