@@ -27,6 +27,11 @@ const Navbar: React.FC = () => {
           </Link>
         </li>
         <li>
+          <Link to="/share" className={location.pathname === '/share' ? styles.active : ''}>
+            Share
+          </Link>
+        </li>
+        <li>
           <Link to="/chat" className={location.pathname === '/chat' ? styles.active : ''}>
             Chat
           </Link>
