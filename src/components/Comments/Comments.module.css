@@ -1,14 +1,13 @@
-/* Comments.module.css */
+/* Comments Container */
 .comments-container {
   margin-top: 20px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  padding: 15px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
 }
 
+/* Status Messages */
 .loading-text,
 .error-text,
 .no-comments-text {
@@ -18,40 +17,308 @@
   margin-top: 20px;
 }
 
+/* Comments List */
 .comments-list {
   margin-top: 20px;
 }
 
+/* Individual Comment Container */
 .comment-item {
   background-color: #fff;
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 12px;
+  border: 1px solid #e0e0e0; /* Add a subtle border */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: box-shadow 0.2s ease, transform 0.1s ease;
 }
 
-.comment-owner {
-  font-weight: bold;
-  margin-bottom: 6px;
+.comment-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
-.comment-content {
-  font-size: 16px;
-  color: #333;
-}
-
+/* Comment Header */
 .comment-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
 }
 
-.comment-owner {
-  font-weight: bold;
+/* Left section (Username + Icons) */
+.comment-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+/* Right section (Date) */
 .comment-date {
   font-size: 0.85rem;
   color: #777;
 }
 
+/* Comment Owner */
+.comment-owner {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Comment Content */
+.comment-content {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.4;
+}
+
+/* Action Buttons for User's Own Comments */
+.comment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Adjust icons */
+.edit-button,
+.delete-button {
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: transform 0.1s ease;
+}
+
+.edit-button {
+  color: #347baf; /* Yellow */
+}
+
+.delete-button {
+  color: #ef4444; /* Red */
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  transform: scale(1.1);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Modal Container */
+.modal-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  max-width: 80%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.modal-button.cancel {
+  background-color: #f3f3f3;
+  color: #333;
+}
+
+.modal-button.cancel:hover {
+  background-color: #e0e0e0;
+}
+
+.modal-button.confirm {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.modal-button.confirm:hover {
+  background-color: #d91f1f;
+}
+
+/* Show Modal */
+.modal-overlay.show,
+.modal-container.show {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .comments-container {
+    padding: 10px;
+    max-width: 90%;
+  }
+
+  .comment-item {
+    padding: 12px;
+  }
+
+  .edit-button,
+  .delete-button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Updated Comment Edit Text Input */
+.comment-edit-input {
+  width: 100%;
+  max-width: 90%; /* Ensures it stays within the container */
+  height: 100px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box; /* Includes padding in the width */
+  margin: 0 auto; /* Center the input horizontally */
+  resize: none; /* Optional: Disable resizing */
+}
+
+/* Save Button */
+.save-button {
+  background-color: #347baf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block; /* Ensures the button is centered */
+  margin: 10px auto 0 auto; /* Center the button */
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.cancel-button:hover {
+  background-color: #999;
+}
+
+
+/* Comment Edit Section */
+.comment-edit-input {
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.comment-edit-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ensure both buttons are aligned at the same height */
+}
+
+.save-button,
+.cancel-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 36px; /* Set a consistent height for both buttons */
+}
+
+.comment-edit-input {
+  width: 100%;
+  height: 100px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+.comment-edit-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-start; /* Ensure buttons are aligned side by side */
+  align-items: center; /* Vertically align buttons at the same height */
+  gap: 10px; /* Space between buttons */
+}
+
+.save-button,
+.cancel-button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 36px; /* Same height for both buttons */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save-button {
+  background-color: #347baf;
+  color: white;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background-color: #999;
+}
+
+.save-button:hover {
+  background-color: #2f6a9d;
+}
