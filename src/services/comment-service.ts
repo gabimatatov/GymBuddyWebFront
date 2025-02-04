@@ -78,4 +78,11 @@ const updateComment = async (commentId: string, updatedCommentData: { comment: s
   }
 };
 
-export default { getCommentsByPostId, createComment, deleteComment, updateComment };
+// Update Many Comments by Owner (username only)
+const updateCommentsByOwner = (id: string, username: string) => {
+  const abortController = new AbortController();
+  const request = apiClient.put(`/comments/update/${id}`, { username }, { signal: abortController.signal });
+  return { request, abort: () => abortController.abort() };
+};
+
+export default { getCommentsByPostId, createComment, deleteComment, updateComment, updateCommentsByOwner };

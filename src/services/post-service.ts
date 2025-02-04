@@ -25,4 +25,11 @@ const getAllPostsByOwner = (id: string) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts, getAllPostsByOwner };
+const updatePostsByOwner = (id: string, username: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.put(`/posts/update/${id}`, { username }, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+
+export default { getAllPosts, getAllPostsByOwner, updatePostsByOwner };
