@@ -3,13 +3,13 @@ import { FC, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../../hooks/useAuth/AuthContext";
 import styles from "./ProfileForm.module.css";
 import userService from '../../services/auth_service';
 import Posts from "../Posts/Posts";
-import { useAuth } from "../../hooks/useAuth/AuthContext";
 
 interface FormData {
-    username: string;
+    username?: string;
     avatar?: FileList;
 }
 
@@ -20,7 +20,7 @@ const ProfileForm: FC = () => {
     const [serverError, setServerError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const { user } = useAuth();
+    const { user, updateUserSession } = useAuth();
 
     // Get User Data
     useEffect(() => {
@@ -60,7 +60,7 @@ const ProfileForm: FC = () => {
         setServerError(null);
         setSuccessMessage(null);
 
-        let updatedAvatar = user?.avatar || "";  // Default avatar URL
+        let updatedAvatar = user?.avatar || "";
 
         if (data.avatar?.[0]) {
             try {
@@ -80,19 +80,24 @@ const ProfileForm: FC = () => {
 
         // Step 3: Now, send the updated data (including username and avatar URL) to update the user profile
         const updatedUserData = {
-            username: data.username,
-            avatar: updatedAvatar,
+            ...(data.username !== user?.username && { username: data.username }),
+            ...(updatedAvatar !== user?.avatar && { avatar: updatedAvatar }),
         };
+        
+        if (Object.keys(updatedUserData).length === 0) {
+            setSuccessMessage("No changes detected.");
+            return;
+        }
 
-        console.log("Updated User Data:", updatedUserData);
-
-        // You can now send this data to your backend to update the profile
         try {
             // Update the user profile with new data
             const { request: updateRequest } = await userService.updateUser(updatedUserData);
             const updateResponse = await updateRequest;
-            setSuccessMessage("Profile updated successfully!");
+
             console.log('Profile update response:', updateResponse.data);
+
+            updateUserSession(updateResponse.data)
+            setSuccessMessage("Profile updated successfully!");
         } catch (error: any) {
             setServerError(error.response?.data?.message || 'An error occurred while updating profile');
         }
