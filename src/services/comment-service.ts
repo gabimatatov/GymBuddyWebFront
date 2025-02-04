@@ -1,4 +1,3 @@
-// src/services/comment-service.ts
 import { ReactNode } from "react";
 import apiClient from "./api-client";
 
@@ -34,4 +33,15 @@ const createComment = async (commentData: { comment: string; postId: string; use
   }
 };
 
-export default { getCommentsByPostId, createComment };
+// Delete a comment
+const deleteComment = async (commentId: string) => {
+  try {
+    await apiClient.delete(`/comments/${commentId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+    throw error; // Rethrow error so it can be handled in the component
+  }
+};
+
+export default { getCommentsByPostId, createComment, deleteComment };
