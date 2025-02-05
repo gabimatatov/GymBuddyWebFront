@@ -126,11 +126,12 @@
     transition: transform 0.3s ease;
     border: none;
     padding: 0;
-    transform: translateX(-25px); /* Move the update icon 5px to the left */
+    transform: translateX(-25px); /* Move the update icon 5px to the left initially */
 }
 
+/* Update Button Hover (scale only, no movement) */
 .btn-update-post:hover {
-    transform: translateX(-5px) scale(1.1); /* Maintain same position shift on hover */
+    transform: translateX(-25px) scale(1.1); /* Keep the position shift on hover */
 }
 
 /* Delete Button */
