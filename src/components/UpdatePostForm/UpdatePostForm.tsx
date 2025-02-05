@@ -108,7 +108,12 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
 
         // If the image is to be removed, append a flag or handle removal server-side
         if (removeImage) {
-          formData.append('image', '');  // You can change this depending on how your API handles it
+          const image = 'none';
+          formData.append('image', image);
+        }
+
+        for (const [key, value] of formData.entries()) {
+          console.log(`${key}: ${value}`);
         }
 
         const { request } = postsService.updatePost(postId, formData);
@@ -197,7 +202,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
               type="file"
               accept="image/*"
               onChange={handleFileChange}
-              style={{ display: "block" }}
+              style={{ display: "none" }}
             />
           </div>
           {serverError && <div className={`${styles["alert-post"]} ${styles["alert-danger-post"]}`}>{serverError}</div>}

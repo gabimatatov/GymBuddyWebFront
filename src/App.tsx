@@ -10,7 +10,7 @@ import HomePage from "./pages/HomePage";
 import CommentsPage from "./pages/CommentsPage";
 import SharePage from "./pages/SharePage";
 import './styles/App.css'
-import UpdatePostForm from "./components/UpdatePostForm/UpdatePostForm";
+import UpdatePostPage from "./pages/UpdatePostPage";
 
 
 const App: React.FC = () => {
@@ -25,8 +25,7 @@ const App: React.FC = () => {
           <Route path="/share" element={<SharePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/post/:postId/comments" element={<CommentsPage />} />
-          <Route path="/update-post/:id" element={<UpdatePostForm />} />
-
+          <Route path="/update-post/:id" element={<UpdatePostPage />} />
 
           {/* Protected Pages */}
           <Route path="/profile" element={<ProfilePage />} />

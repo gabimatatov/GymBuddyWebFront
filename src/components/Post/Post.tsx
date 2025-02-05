@@ -21,21 +21,30 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [postToDelete, setPostToDelete] = useState<string | null>(null); 
+  const [postToDelete, setPostToDelete] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const formatDate = (date: string) => {
-    const d = new Date(date);
-    return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
+    const validDate = new Date(date);
+
+    const options: Intl.DateTimeFormatOptions = {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+
+    return validDate.toLocaleString("en-US", options);
   };
 
   const handleDelete = async () => {
     if (postToDelete && !loading) {
       try {
         setLoading(true);
-        onDelete(postToDelete); // Only call parent's onDelete
+        onDelete(postToDelete);
         setModalVisible(false);
       } catch (error) {
         console.error("Error deleting post:", error);
