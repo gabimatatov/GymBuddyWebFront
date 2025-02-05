@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import postService, { Post as PostType, CanceledError } from "../../services/post-service";
 import commentService from "../../services/comment-service";
 import Post from "../Post/Post";
@@ -13,9 +14,11 @@ const Posts = ({ id }: PostsProps) => {
   const [commentsCount, setCommentsCount] = useState<{ [postId: string]: number }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [modalMessage, setModalMessage] = useState<string>('');
-  const [modalType, setModalType] = useState<'success' | 'error'>('success'); // For different styles
+  // const [modalVisible, setModalVisible] = useState<boolean>(false);
+  // const [modalMessage, setModalMessage] = useState<string>('');
+  // const [modalType, setModalType] = useState<'success' | 'error'>('success'); // For different styles
+  const navigate = useNavigate(); // Initialize useNavigate
+
 
   useEffect(() => {
     const { request, abort } = id
@@ -74,27 +77,29 @@ const Posts = ({ id }: PostsProps) => {
 
   const handleUpdate = (postId: string) => {
     console.log(`Update post with ID: ${postId}`);
+    navigate(`/update-post/${postId}`); // Navigate to the update form with the post ID
   };
 
   const handleDelete = async (postId: string) => {
     try {
       await postService.deletePost(postId);
-      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId)); // Remove the post from the state
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
       setCommentsCount((prev) => {
         const updatedCounts = { ...prev };
         delete updatedCounts[postId]; // Remove the deleted post's comment count
         return updatedCounts;
       });
 
-      setModalMessage('Post deleted successfully!');
-      setModalType('success');
+      // setModalMessage('Post deleted successfully!');
+      // setModalType('success');
     } catch (error) {
       console.error("Error deleting post:", error);
-      setModalMessage('Error deleting post');
-      setModalType('error');
-    } finally {
-      setModalVisible(true); // Display modal regardless of success or failure
-    }
+      // setModalMessage('Error deleting post');
+      // setModalType('error');
+    } 
+    // finally {
+    //   setModalVisible(true); // Display modal regardless of success or failure
+    // }
   };
 
   return (
@@ -119,7 +124,7 @@ const Posts = ({ id }: PostsProps) => {
       )}
 
       {/* Modal for success/error messages */}
-      {modalVisible && (
+      {/* {modalVisible && (
         <div className={styles["modal-overlay"]}>
           <div className={`${styles["modal-container"]} ${modalType === 'success' ? styles.success : styles.error}`}>
             <div className={styles["modal-title"]}>{modalMessage}</div>
@@ -131,7 +136,7 @@ const Posts = ({ id }: PostsProps) => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
