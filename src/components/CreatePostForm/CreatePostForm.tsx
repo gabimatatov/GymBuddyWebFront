@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -26,8 +27,8 @@ const CreatePostForm: FC = () => {
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<CreatePostFormData>({
     resolver: zodResolver(CreatePostSchema),
   });
-  const { user } = useAuth(); // Get the authenticated user
-  const navigate = useNavigate(); // Navigate for redirection
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Handle file selection and update the preview image
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +52,7 @@ const CreatePostForm: FC = () => {
   const onSubmit = async (data: CreatePostFormData) => {
     try {
       setServerError(null);
-      setSuccessMessage(null); // Reset success message before submitting
+      setSuccessMessage(null);
 
       if (!user?.username) {
         setServerError('User not authenticated. Please log in.');
@@ -64,21 +65,18 @@ const CreatePostForm: FC = () => {
       formData.append('content', data.content);
       formData.append('username', user.username);
 
-      let imageFilename = ''; // This will store the image filename to send in the post data
+      let imageFilename = '';
 
       // Check if there is an image and upload it
       if (data.image && data.image.length > 0) {
-        // Upload the image first and get the filename from the server
         const imageFile = data.image[0];
         const { request } = postsService.uploadImage(imageFile);
         const response = await request;
 
-        // The server should return the filename or URL of the saved image
-        imageFilename = response.data.url; // Assuming the server returns the image URL
+        imageFilename = response.data.url;
 
         console.log('Image uploaded with URL:', imageFilename);
 
-        // Add the image filename (URL) to the form data
         formData.append('image', imageFilename);
       }
 
@@ -86,16 +84,13 @@ const CreatePostForm: FC = () => {
       const { request, abort } = postsService.createPost(formData);
       await request;
 
-      // Set success message after successful post creation
       setSuccessMessage('Post created successfully!');
 
-      // Reset the form after successful submission
       reset();
 
-      // Redirect to the posts page after a short delay
       setTimeout(() => {
-        navigate('/posts'); // Redirect to the posts page
-      }, 1500); // Delay before redirecting (optional)
+        navigate('/posts');
+      }, 1500);
     } catch (error: any) {
       setServerError(error.message || 'An error occurred. Please try again.');
     }
@@ -131,7 +126,7 @@ const CreatePostForm: FC = () => {
 
         <div className={styles["form-input-post"]}>
           <label htmlFor="image" className={styles["form-label-post"]}>Image (optional)</label>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className={styles["image-container"]}>
             {/* Preview Image */}
             {previewImage && (
               <img
@@ -140,6 +135,7 @@ const CreatePostForm: FC = () => {
                 className={styles["image-preview"]}
               />
             )}
+            {/* Image Buttons */}
             <div className={styles["image-buttons"]}>
               <button
                 type="button"
