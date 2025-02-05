@@ -1,0 +1,217 @@
+/* CreatePostForm.module.css */
+
+/* Center the form container */
+.form-container-post {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+    width: 450px;
+    padding: 2rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Form styling */
+.form-post {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+/* Form title */
+.form-title-post {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+/* Label styling */
+.form-label-post {
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    text-align: left;
+    margin-left: 5px;
+}
+
+/* Input and Textarea styling */
+.form-control-post {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 17px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    width: 350px;
+    outline: none;
+    color: #000;
+}
+
+/* Textarea styling */
+.form-control-post textarea {
+    resize: none !important; 
+    width: 100%;
+    overflow: hidden;
+    display: block;
+}
+
+/* Input focus state */
+.form-control-post:focus {
+    background-color: #e9ecef;
+    border-color: #347baf;
+    box-shadow: 0 0 5px rgba(52, 123, 175, 0.5);
+}
+
+/* File input styling */
+.form-control-post[type="file"] {
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Form input container */
+.form-input-post {
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+/* Image Preview Container */
+.image-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Image preview */
+.image-preview {
+    width: 150px;  /* Fixed width */
+    height: 150px; /* Fixed height */
+    object-fit: cover; /* Ensures full coverage without distortion */
+    border-radius: 5px; /* Optional rounded corners */
+    border: 1px solid #ccc; /* Border for visibility */
+}
+
+/* Buttons Container for Upload/Remove Image */
+.image-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+/* Button for adding an image */
+.btn-add-image-post {
+    background-color: white;
+    border-color: #347baf;
+    color: #347baf;
+    border-radius: 15px;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-add-image-post:hover {
+    background-color: #f1f1f1;
+    border-color: #347baf;
+}
+
+/* Button for removing an image */
+.btn-remove-image-post {
+    background-color: white;
+    border-color: #dc3545;
+    color: #dc3545;
+    border-radius: 15px;
+    padding: 10px 15px;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-remove-image-post:hover {
+    background-color: #f1f1f1;
+    border-color: #dc3545;
+}
+
+/* Button styling */
+.btn-primary-post {
+    background-color: #347baf;
+    border-color: #347baf;
+    color: white;
+    border-radius: 17px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    width: 365px;
+}
+
+.btn-primary-post:hover {
+    background-color: #0056b3;
+}
+
+/* Error message styling */
+.text-danger-post {
+    font-size: 0.875em;
+    color: #dc3545;
+    text-align: left;
+    width: 350px;
+    margin: 2px 5px 0px 5px;
+}
+
+/* Prevent sliding and maintain fixed alignment */
+.is-invalid-post {
+    border-color: #dc3545;
+}
+
+/* Alert messages */
+.alert-post {
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 17px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1;
+    width: 350px;
+}
+
+.alert-danger-post {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+.alert-success-post {
+    color: #347baf;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    margin-bottom: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container-post {
+        width: 80vw;
+        height: auto;
+    }
+
+    .image-preview {
+        width: 120px; /* Adjust preview size for mobile */
+        height: 120px;
+    }
+}
+
+.form-control-post,
+.form-control-post textarea {
+    font-family: Arial, sans-serif;  /* Change to your desired font */
+    font-size: 1rem;  /* Keep consistent font size */
+}
