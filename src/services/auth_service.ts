@@ -21,6 +21,13 @@ const register = (user: User) => {
     return { request, abort: () => abortController.abort() };
 };
 
+// Logout User Service
+const logout = (refreshToken: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.post('/auth/logout', { refreshToken }, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
 // Login User Service
 const login = (credentials: { email: string; password: string }) => {
     const abortController = new AbortController();
@@ -45,7 +52,6 @@ const login = (credentials: { email: string; password: string }) => {
 
     return { request, abort: () => abortController.abort() };
 };
-
 
 // Upload Avatar Image Service
 const uploadImage = (img: File) => {
@@ -72,4 +78,4 @@ const updateUser = (updatedUser: UpdatedUser) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { register, login, uploadImage, updateUser };
+export default { register, login, uploadImage, updateUser, logout };

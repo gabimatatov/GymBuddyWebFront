@@ -1,15 +1,37 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './Navbar.module.css';
+import { useAuth } from '../../hooks/useAuth/AuthContext';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const handleLogoutClick = () => {
+    setModalVisible(true);
+  };
+
+  const cancelLogout = () => {
+    setModalVisible(false);
+  };
+
+  const confirmLogout = async () => {
+    try {
+      logout();
+      setModalVisible(false);
+      navigate('/login');
+    } catch (error) {
+      console.error('Error logging out', error);
+    }
+  };
 
   return (
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
       <div className={styles.logo}>
-        <Link to="/profile"> {/* Redirect to Home (Posts) */}
+        <Link to="/profile">
           <img src="/GymBuddyLogo.png" alt="App Logo" />
         </Link>
       </div>
@@ -38,14 +60,27 @@ const Navbar: React.FC = () => {
         </li>
       </ul>
 
-      {/* Right side: Logout (Redirects to Login) */}
+      {/* Right side: Logout */}
       <ul className={styles.authLinks}>
         <li>
-          <Link to="/login" className={styles.logout}>
+          <button onClick={handleLogoutClick} className={`${styles.logout} ${styles.log}`}>
             Logout
-          </Link>
+          </button>
         </li>
       </ul>
+
+      {/* Logout Confirmation Modal */}
+      {modalVisible && (
+        <div className={`${styles["modal-overlay"]} ${modalVisible ? styles.show : ""}`}>
+          <div className={`${styles["modal-container"]} ${modalVisible ? styles.show : ""}`}>
+            <div className={styles["modal-title"]}>Are you sure you want to logout?</div>
+            <div className={styles["modal-buttons"]}>
+              <button className={`${styles["modal-button"]} ${styles.cancel}`} onClick={cancelLogout}>Cancel</button>
+              <button className={`${styles["modal-button"]} ${styles.confirm}`} onClick={confirmLogout}>Yes</button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
