@@ -13,39 +13,41 @@ export interface Post {
     date: string;
 }
 
+// Get all Posts
 const getAllPosts = () => {
     const abortController = new AbortController();
     const request = apiClient.get<Post[]>("/posts", { signal: abortController.signal });
     return { request, abort: () => abortController.abort() };
 };
 
+// Gell Posts by Owner
 const getAllPostsByOwner = (id: string) => {
     const abortController = new AbortController();
     const request = apiClient.get<Post[]>(`/posts?owner=${id}`, { signal: abortController.signal });
     return { request, abort: () => abortController.abort() };
 };
 
+// Update Many Posts
 const updatePostsByOwner = (id: string, username: string) => {
     const abortController = new AbortController();
     const request = apiClient.put(`/posts/update/${id}`, { username }, { signal: abortController.signal });
     return { request, abort: () => abortController.abort() };
 };
 
-
+// Create Post
 const createPost = (postData: Omit<Post, "_id" | "createdAt">) => {
     const abortController = new AbortController();
     const request = apiClient.post<Post>("/posts", postData, { signal: abortController.signal });
     return { request, abort: () => abortController.abort() };
 };
 
+// Upload Image - Extract to different file
 const uploadImage = (img: File) => {
     const formData = new FormData();
 
     formData.append("file", img);
     const request = apiClient.post('/file?file=' + img.name, formData, {
-        headers: {
-            'Content-Type': `${img.type}`,
-        },
+        headers: { 'Content-Type': `${img.type}` },
     });
     return { request };
 };
@@ -57,4 +59,18 @@ const deletePost = (id: string) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage, deletePost, updatePostsByOwner };
+// Get Post by Id
+const getPostById = (id: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.get<Post>(`/posts/${id}`, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+// Update post
+const updatePost = (id: string, postData: FormData) => {
+    const abortController = new AbortController();
+    const request = apiClient.put(`/posts/${id}`, postData, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage, deletePost, updatePostsByOwner, updatePost, getPostById };

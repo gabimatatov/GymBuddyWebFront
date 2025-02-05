@@ -2,10 +2,9 @@ import { useAuth } from '../hooks/useAuth/AuthContext';
 import { Navigate } from 'react-router-dom';
 import React from "react";
 import Navbar from "../components/Navbar/Navbar";
-import Posts from "../components/Posts/Posts";
-import styles from './PostsPage.module.css';
+import UpdatePostForm from "../components/UpdatePostForm/UpdatePostForm";
 
-const PostsPage: React.FC = () => {
+const UpdatePostPage: React.FC = () => {
 
   const { isAuthenticated, loading } = useAuth();
 
@@ -18,13 +17,13 @@ const PostsPage: React.FC = () => {
   }
 
   return (
-    <div className={styles.postsPageWrapper}>
+    <div>
       <Navbar />
-      <div className={styles.postsContainer}>
-        <Posts />
+      <div style={{ marginTop: "120px" }}>
+        <UpdatePostForm />
       </div>
     </div>
   );
 };
 
-export default PostsPage;
+export default UpdatePostPage;
