@@ -69,6 +69,16 @@ const Posts = ({ id }: PostsProps) => {
   if (isLoading) return <p className={styles["loading-text"]}>Loading posts...</p>;
   if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
 
+  const handleUpdate = (postId: string) => {
+    // Implement update logic if needed
+    console.log(`Update post with ID: ${postId}`);
+  };
+
+  const handleDelete = (postId: string) => {
+    // Implement delete logic if needed
+    console.log(`Delete post with ID: ${postId}`);
+  };
+
   return (
     <div className={styles["posts-container"]}>
       {posts.length === 0 ? (
@@ -78,8 +88,13 @@ const Posts = ({ id }: PostsProps) => {
           {posts.map((post) => (
             <Post
               key={post._id}
-              post={post}
-              commentsCount={commentsCount[post._id] ?? 0} // Pass the comment count
+              post={{
+                ...post,
+                createdAt: new Date(post.createdAt).toISOString(), // Ensure createdAt is a string
+              }}
+              commentsCount={commentsCount[post._id] ?? 0}
+              onUpdate={() => handleUpdate(post._id)}
+              onDelete={() => handleDelete(post._id)}
             />
           ))}
         </div>

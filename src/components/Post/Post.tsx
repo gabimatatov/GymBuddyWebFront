@@ -38,7 +38,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
 
       {/* Post Image */}
       <img
-        src={post.image || "/path/to/default/image.jpg"}
+        src={post.image || "GymBuddyLogo.png"}
         alt={post.title}
         className={styles["post-image"]}
       />
