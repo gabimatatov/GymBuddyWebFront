@@ -6,7 +6,6 @@ import RegisterPage from "./pages/RegisterPage";
 import PostsPage from "./pages/PostsPage";
 import ProfilePage from "./pages/ProfilePage"
 import ChatPage from "./pages/ChatPage";
-import HomePage from "./pages/HomePage";
 import CommentsPage from "./pages/CommentsPage";
 import SharePage from "./pages/SharePage";
 import './styles/App.css'
@@ -18,16 +17,16 @@ const App: React.FC = () => {
     <AuthProvider>
       <Router>
         <Routes>
+          
+          {/* Protected Pages */}
+          <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/posts" element={<PostsPage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/share" element={<SharePage />} />
-          <Route path="/home" element={<HomePage />} />
           <Route path="/post/:postId/comments" element={<CommentsPage />} />
           <Route path="/update-post/:id" element={<UpdatePostPage />} />
-
-          {/* Protected Pages */}
           <Route path="/profile" element={<ProfilePage />} />
 
         </Routes>
