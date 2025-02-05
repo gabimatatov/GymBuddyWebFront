@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaFire, FaRegComment } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,10 +22,28 @@ interface PostProps {
 
 const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) => {
   const { user } = useAuth(); // Access the logged-in user
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [postToDelete, setPostToDelete] = useState<string | null>(null); // Store post ID for deletion
 
   const formatDate = (date: string) => {
     const d = new Date(date);
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
+  };
+
+  const handleDelete = () => {
+    if (postToDelete) {
+      onDelete(postToDelete);
+      setModalVisible(false);
+    }
+  };
+
+  const showDeleteModal = (postId: string) => {
+    setPostToDelete(postId);
+    setModalVisible(true);
+  };
+
+  const cancelDelete = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -70,12 +88,32 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
             <button className={styles["btn-update-post"]} onClick={() => onUpdate(post._id)}>
               <FontAwesomeIcon icon={faPencilAlt} />
             </button>
-            <button className={styles["btn-delete-post"]} onClick={() => onDelete(post._id)}>
+            <button
+              className={styles["btn-delete-post"]}
+              onClick={() => showDeleteModal(post._id)}
+            >
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
           </div>
         )}
       </div>
+
+      {/* Delete Modal */}
+      {modalVisible && (
+        <div className={`${styles["modal-overlay"]} ${modalVisible ? styles.show : ""}`}>
+          <div className={`${styles["modal-container"]} ${modalVisible ? styles.show : ""}`}>
+            <div className={styles["modal-title"]}>Are you sure you want to delete this post?</div>
+            <div className={styles["modal-buttons"]}>
+              <button className={`${styles["modal-button"]} ${styles.cancel}`} onClick={cancelDelete}>
+                Cancel
+              </button>
+              <button className={`${styles["modal-button"]} ${styles.confirm}`} onClick={handleDelete}>
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

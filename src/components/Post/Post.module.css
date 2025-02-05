@@ -1,3 +1,4 @@
+/* Post Container */
 .post-container {
     background: #fff;
     border-radius: 8px;
@@ -96,7 +97,7 @@
 
 .fire-icon:hover {
     transform: scale(1.1);
-    color: #ff4500; /* Change the color of the fire icon on hover (e.g., orange/red) */
+    color: #ff4500;
 }
 
 /* Comment Icon */
@@ -109,7 +110,7 @@
 
 .comment-icon:hover {
     transform: scale(1.1);
-    color: #007bff; /* Change the color of the comment icon on hover (e.g., blue) */
+    color: #007bff;
 }
 
 /* Post Actions - Comment Section */
@@ -123,24 +124,24 @@
 .btn-update-post {
     background-color: transparent;
     color: #347baf;
-    font-size: 1.3rem; /* Reduced font size */
+    font-size: 1.3rem;
     cursor: pointer;
     transition: transform 0.3s ease;
     border: none;
     padding: 0;
-    transform: translateX(-25px); /* Move the update icon 5px to the left initially */
+    transform: translateX(-25px);
 }
 
-/* Update Button Hover (scale only, no movement) */
+/* Update Button Hover */
 .btn-update-post:hover {
-    transform: translateX(-25px) scale(1.1); /* Keep the position shift on hover */
+    transform: translateX(-25px) scale(1.1);
 }
 
 /* Delete Button */
 .btn-delete-post {
     background-color: transparent;
     color: #dc3545;
-    font-size: 1.3rem; /* Reduced font size */
+    font-size: 1.3rem;
     cursor: pointer;
     transition: transform 0.3s ease;
     border: none;
@@ -154,15 +155,142 @@
 /* Post Buttons - Update and Delete */
 .post-actions-buttons {
     display: flex;
-    gap: 30px; /* Adjusted the gap */
+    gap: 30px;
     justify-content: center;
     width: 100%;
-    font-size: 1.3rem; /* Reduced font size for buttons */
+    font-size: 1.3rem;
 }
 
-/* Button Disabled state (optional) */
+/* Button Disabled State */
 .btn-update-post:disabled,
 .btn-delete-post:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+    display: flex;
+    opacity: 1;
+}
+
+/* Modal Container */
+.modal-container {
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal-button {
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.cancel:hover {
+    background-color: #999;
+}
+
+.confirm {
+    background-color: #dc3545;
+    color: white;
+}
+
+.confirm:hover {
+    background-color: #c82333;
+}
+
+/* Modal Styles (Updated) */
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.modal-button.cancel {
+    background-color: #f3f3f3;
+    color: #333;
+}
+
+.modal-button.cancel:hover {
+    background-color: #e0e0e0;
+}
+
+.modal-button.confirm {
+    background-color: #ef4444;
+    color: #fff;
+}
+
+.modal-button.confirm:hover {
+    background-color: #d91f1f;
+}
+
+/* Show Modal */
+.modal-overlay.show,
+.modal-container.show {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .modal-container {
+        padding: 15px;
+    }
+
+    .modal-button {
+        font-size: 0.9rem;
+    }
+
+    .post-container {
+        max-width: 100%;
+        height: auto;
+    }
 }
