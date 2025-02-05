@@ -25,6 +25,13 @@ const getAllPostsByOwner = (id: string) => {
     return { request, abort: () => abortController.abort() };
 };
 
+const updatePostsByOwner = (id: string, username: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.put(`/posts/update/${id}`, { username }, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+
 const createPost = (postData: Omit<Post, "_id" | "createdAt">) => {
     const abortController = new AbortController();
     const request = apiClient.post<Post>("/posts", postData, { signal: abortController.signal });
@@ -50,4 +57,4 @@ const deletePost = (id: string) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage, deletePost };
+export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage, deletePost, updatePostsByOwner };

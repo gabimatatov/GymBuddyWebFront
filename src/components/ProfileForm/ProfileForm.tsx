@@ -6,6 +6,8 @@ import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../hooks/useAuth/AuthContext";
 import styles from "./ProfileForm.module.css";
 import userService from '../../services/auth_service';
+import postsService from '../../services/post-service';
+import commentsService from '../../services/comment-service';
 import Posts from "../Posts/Posts";
 
 interface FormData {
@@ -19,6 +21,17 @@ const ProfileForm: FC = () => {
     const { register, handleSubmit, setValue } = useForm<FormData>();
     const [serverError, setServerError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    // Refreshing Posts After Update.
+    const [refreshPosts, setRefreshPosts] = useState<number>(0);
+    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+    const refreshPostsHandler = () => {
+        setIsRefreshing(true); // Start loading state
+        setRefreshPosts((prev) => prev + 1); // Trigger re-render of Posts
+        setTimeout(() => setIsRefreshing(false), 1000); // Simulate delay
+    };
+
 
     const { user, updateUserSession } = useAuth();
 
@@ -83,7 +96,7 @@ const ProfileForm: FC = () => {
             ...(data.username !== user?.username && { username: data.username }),
             ...(updatedAvatar !== user?.avatar && { avatar: updatedAvatar }),
         };
-        
+
         if (Object.keys(updatedUserData).length === 0) {
             setSuccessMessage("No changes detected.");
             return;
@@ -96,8 +109,26 @@ const ProfileForm: FC = () => {
 
             console.log('Profile update response:', updateResponse.data);
 
+            if (updatedUserData.username && user?._id) {
+                try {
+                    // Updating Comments and Posts
+                    const { request: updateCommentsRequest } = commentsService.updateCommentsByOwner(user._id, updatedUserData.username);
+                    await updateCommentsRequest;
+
+                    const { request: updatePostsRequest } = postsService.updatePostsByOwner(user._id, updatedUserData.username);
+                    await updatePostsRequest;
+
+                } catch (error: any) {
+                    console.error('Error updating comments:', error);
+                    setServerError(error.response.data.message);
+                }
+            }
+
             updateUserSession(updateResponse.data)
             setSuccessMessage("Profile updated successfully!");
+
+            // Refresh posts smoothly
+            refreshPostsHandler();
         } catch (error: any) {
             setServerError(error.response?.data?.message || 'An error occurred while updating profile');
         }
@@ -197,10 +228,12 @@ const ProfileForm: FC = () => {
 
             {/* Scrollable My Posts Container */}
             <div className={styles["scrollable-grid-container"]}>
-                {/* <Posts /> */}
-                <Posts id={user?._id} />
+                {isRefreshing ? (
+                    <p className={styles["loading-text"]}>Refreshing Posts...</p>
+                ) : (
+                    <Posts key={refreshPosts} id={user?._id} />
+                )}
             </div>
-
         </div>
     );
 };
