@@ -13,6 +13,9 @@ const Posts = ({ id }: PostsProps) => {
   const [commentsCount, setCommentsCount] = useState<{ [postId: string]: number }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const [modalType, setModalType] = useState<'success' | 'error'>('success'); // For different styles
 
   useEffect(() => {
     const { request, abort } = id
@@ -82,9 +85,15 @@ const Posts = ({ id }: PostsProps) => {
         delete updatedCounts[postId]; // Remove the deleted post's comment count
         return updatedCounts;
       });
+
+      setModalMessage('Post deleted successfully!');
+      setModalType('success');
     } catch (error) {
       console.error("Error deleting post:", error);
-      setError("Error deleting post");
+      setModalMessage('Error deleting post');
+      setModalType('error');
+    } finally {
+      setModalVisible(true); // Display modal regardless of success or failure
     }
   };
 
@@ -106,6 +115,21 @@ const Posts = ({ id }: PostsProps) => {
               onDelete={() => handleDelete(post._id)}
             />
           ))}
+        </div>
+      )}
+
+      {/* Modal for success/error messages */}
+      {modalVisible && (
+        <div className={styles["modal-overlay"]}>
+          <div className={`${styles["modal-container"]} ${modalType === 'success' ? styles.success : styles.error}`}>
+            <div className={styles["modal-title"]}>{modalMessage}</div>
+            <button
+              className={styles["modal-button"]}
+              onClick={() => setModalVisible(false)} // Close modal
+            >
+              Close
+            </button>
+          </div>
         </div>
       )}
     </div>

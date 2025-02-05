@@ -294,3 +294,8 @@
         height: auto;
     }
 }
+
+.btn-update-post:focus,
+.btn-delete-post:focus {
+    outline: none;
+}

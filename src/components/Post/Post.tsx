@@ -4,7 +4,6 @@ import { FaFire, FaRegComment } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../hooks/useAuth/AuthContext";
-import postService from "../../services/post-service";
 import styles from "./Post.module.css";
 
 interface PostProps {
