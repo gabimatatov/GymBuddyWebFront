@@ -70,13 +70,22 @@ const Posts = ({ id }: PostsProps) => {
   if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
 
   const handleUpdate = (postId: string) => {
-    // Implement update logic if needed
     console.log(`Update post with ID: ${postId}`);
   };
 
-  const handleDelete = (postId: string) => {
-    // Implement delete logic if needed
-    console.log(`Delete post with ID: ${postId}`);
+  const handleDelete = async (postId: string) => {
+    try {
+      await postService.deletePost(postId);
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId)); // Remove the post from the state
+      setCommentsCount((prev) => {
+        const updatedCounts = { ...prev };
+        delete updatedCounts[postId]; // Remove the deleted post's comment count
+        return updatedCounts;
+      });
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      setError("Error deleting post");
+    }
   };
 
   return (

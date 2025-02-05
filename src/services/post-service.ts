@@ -43,4 +43,11 @@ const uploadImage = (img: File) => {
     return { request };
 };
 
-export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage };
+// Delete post function
+const deletePost = (id: string) => {
+    const abortController = new AbortController();
+    const request = apiClient.delete(`/posts/${id}`, { signal: abortController.signal });
+    return { request, abort: () => abortController.abort() };
+};
+
+export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage, deletePost };

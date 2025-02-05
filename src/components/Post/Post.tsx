@@ -4,6 +4,7 @@ import { FaFire, FaRegComment } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../hooks/useAuth/AuthContext";
+import postService from "../../services/post-service";
 import styles from "./Post.module.css";
 
 interface PostProps {
@@ -21,19 +22,27 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) => {
-  const { user } = useAuth(); // Access the logged-in user
+  const { user } = useAuth(); 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [postToDelete, setPostToDelete] = useState<string | null>(null); // Store post ID for deletion
+  const [postToDelete, setPostToDelete] = useState<string | null>(null); 
+  const [loading, setLoading] = useState<boolean>(false);
 
   const formatDate = (date: string) => {
     const d = new Date(date);
     return `${d.toLocaleDateString()} ${d.toLocaleTimeString()}`;
   };
 
-  const handleDelete = () => {
-    if (postToDelete) {
-      onDelete(postToDelete);
-      setModalVisible(false);
+  const handleDelete = async () => {
+    if (postToDelete && !loading) {
+      try {
+        setLoading(true);
+        onDelete(postToDelete); // Only call parent's onDelete
+        setModalVisible(false);
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -82,7 +91,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
           <span className={styles["comment-count"]}>{commentsCount}</span>
         </div>
 
-        {/* Conditionally render Update and Delete buttons if the logged-in user is the post's owner */}
+        {/* Update and Delete buttons */}
         {user?.username === post.username && (
           <div className={styles["post-actions-buttons"]}>
             <button className={styles["btn-update-post"]} onClick={() => onUpdate(post._id)}>
@@ -91,6 +100,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
             <button
               className={styles["btn-delete-post"]}
               onClick={() => showDeleteModal(post._id)}
+              disabled={loading} // Disable button while deleting
             >
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
@@ -98,7 +108,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
         )}
       </div>
 
-      {/* Delete Modal */}
+      {/* Delete Confirmation Modal */}
       {modalVisible && (
         <div className={`${styles["modal-overlay"]} ${modalVisible ? styles.show : ""}`}>
           <div className={`${styles["modal-container"]} ${modalVisible ? styles.show : ""}`}>
@@ -107,8 +117,12 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
               <button className={`${styles["modal-button"]} ${styles.cancel}`} onClick={cancelDelete}>
                 Cancel
               </button>
-              <button className={`${styles["modal-button"]} ${styles.confirm}`} onClick={handleDelete}>
-                Yes, Delete
+              <button
+                className={`${styles["modal-button"]} ${styles.confirm}`}
+                onClick={handleDelete}
+                disabled={loading} // Disable confirm button while deleting
+              >
+                {loading ? "Deleting..." : "Yes, Delete"}
               </button>
             </div>
           </div>
