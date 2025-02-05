@@ -31,4 +31,16 @@ const createPost = (postData: Omit<Post, "_id" | "createdAt">) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts, getAllPostsByOwner, createPost };
+const uploadImage = (img: File) => {
+    const formData = new FormData();
+
+    formData.append("file", img);
+    const request = apiClient.post('/file?file=' + img.name, formData, {
+        headers: {
+            'Content-Type': `${img.type}`,
+        },
+    });
+    return { request };
+};
+
+export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage };

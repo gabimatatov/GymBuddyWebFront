@@ -1,11 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useState } from 'react';
+import { FC, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import styles from './CreatePostForm.module.css';
 import postsService from '../../services/post-service';
 import { useAuth } from "../../hooks/useAuth/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 // Define the schema for creating a post
 const CreatePostSchema = z.object({
@@ -17,21 +19,34 @@ const CreatePostSchema = z.object({
 type CreatePostFormData = z.infer<typeof CreatePostSchema>;
 
 const CreatePostForm: FC = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<CreatePostFormData>({
+  const inputFileRef = useRef<HTMLInputElement | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<CreatePostFormData>({
     resolver: zodResolver(CreatePostSchema),
   });
-
   const { user } = useAuth(); // Get the authenticated user
-  const [serverError, setServerError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null); // Success message state
   const navigate = useNavigate(); // Navigate for redirection
 
-  console.log("User:", user); // Debugging: Check if user exists
+  // Handle file selection and update the preview image
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewImage(imageUrl);
+      setValue("image", event.target.files);
+    }
+  };
+
+  // Handle file removal (clear input and preview)
+  const handleRemoveFile = () => {
+    if (inputFileRef.current) {
+      inputFileRef.current.value = "";
+    }
+    setPreviewImage(null);
+    setValue("image", undefined);
+  };
 
   const onSubmit = async (data: CreatePostFormData) => {
     try {
@@ -49,20 +64,23 @@ const CreatePostForm: FC = () => {
       formData.append('content', data.content);
       formData.append('username', user.username);
 
-      // Check if there is an image and append it
-      if (data.image && data.image.length > 0) {
-        formData.append('image', data.image[0]);
-        console.log('Image name:', data.image[0].name); // Log the image name safely
-      }
+      let imageFilename = ''; // This will store the image filename to send in the post data
 
-      // Log the data being sent
-      console.log('Sending the following data to create the post:');
-      console.log({
-        title: data.title,
-        content: data.content,
-        username: user.username,
-        image: data.image && data.image.length > 0 ? data.image[0].name : null,
-      });
+      // Check if there is an image and upload it
+      if (data.image && data.image.length > 0) {
+        // Upload the image first and get the filename from the server
+        const imageFile = data.image[0];
+        const { request } = postsService.uploadImage(imageFile);
+        const response = await request;
+
+        // The server should return the filename or URL of the saved image
+        imageFilename = response.data.url; // Assuming the server returns the image URL
+
+        console.log('Image uploaded with URL:', imageFilename);
+
+        // Add the image filename (URL) to the form data
+        formData.append('image', imageFilename);
+      }
 
       // Call the createPost function
       const { request, abort } = postsService.createPost(formData);
@@ -113,12 +131,38 @@ const CreatePostForm: FC = () => {
 
         <div className={styles["form-input-post"]}>
           <label htmlFor="image" className={styles["form-label-post"]}>Image (optional)</label>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {/* Preview Image */}
+            {previewImage && (
+              <img
+                src={previewImage}
+                alt="Image Preview"
+                className={styles["image-preview"]}
+              />
+            )}
+            <div className={styles["image-buttons"]}>
+              <button
+                type="button"
+                className={styles["btn-add-image-post"]}
+                onClick={() => inputFileRef.current?.click()}
+              >
+                <FontAwesomeIcon icon={faImage} className={styles["fa-l"]} />
+              </button>
+              <button
+                type="button"
+                className={styles["btn-remove-image-post"]}
+                onClick={handleRemoveFile}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} className={styles["fa-l"]} />
+              </button>
+            </div>
+          </div>
           <input
-            {...register('image')}
+            ref={inputFileRef}
             type="file"
-            className={styles["form-control-post"]}
-            id="image"
             accept="image/*"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
           />
         </div>
 
