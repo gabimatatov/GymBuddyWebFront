@@ -61,9 +61,9 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
   }, [postId]);
 
   const handleRemoveFile = () => {
-    setPreviewImage(previousImage); // Revert to the previous image URL
     setImageFile(null); // Reset image file
-    setRemoveImage(true); // Flag for image removal
+    setPreviewImage(previousImage); // Revert to the previous image URL
+    setRemoveImage(false); // Do not set the image for removal anymore
     if (inputFileRef.current) {
       inputFileRef.current.value = ''; // Clear the file input field
     }
@@ -81,41 +81,42 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     // Clear previous messages
     setServerError(null);
     setSuccessMessage(null);
     setValidationErrors({});
-
+  
     try {
       // Validate the form data using Zod
       postSchema.parse({ title, content });
-
+  
       if (!postId) {
         setServerError('Post ID is missing!');
         return;
       }
-
+  
       const formData = new FormData();
       formData.append('title', title);
       formData.append('content', content);
-
+  
       let imageFilename = '';
       if (imageFile) {
         const { request } = postsService.uploadImage(imageFile);
         const response = await request;
         imageFilename = response.data.url;
         const relativePath = imageFilename.replace('http://localhost:3000', '');
-        formData.append('image', relativePath);
+        formData.append('image', relativePath); // Append the new image if provided
       }
-
-      if (removeImage) {
-        formData.append('image', 'none'); // Mark image for removal
+  
+      // Only mark image for removal if the imageFile is null and a remove image action was performed
+      if (removeImage && !imageFile) {
+        formData.append('image', 'none'); // Only append 'none' if the image is really meant to be removed
       }
-
+  
       const { request } = postsService.updatePost(postId, formData);
       await request;
-
+  
       setSuccessMessage('Post updated successfully!');
       setTimeout(() => {
         navigate('/posts');
@@ -138,7 +139,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
       }
     }
   };
-
+  
   return (
     <div className={styles["form-container-post"]}>
       <h2 className={styles["form-title-post"]}>Update Post</h2>
