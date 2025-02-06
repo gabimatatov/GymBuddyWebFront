@@ -1,7 +1,7 @@
 /* Adjust the container width to ensure it stays fixed */
 .container {
   width: 100%;
-  max-width: 80rem; /* You can keep the container width flexible */
+  max-width: 80rem; 
   margin: 1.5rem auto 0;
 }
 
@@ -16,7 +16,7 @@
 .inputWrapper {
   display: flex;
   gap: 0.5rem;
-  width: 100%; /* Ensure full width */
+  width: 100%; 
 }
 
 /* Fixed width for input field */
@@ -28,10 +28,10 @@
   border: 1px solid #e2e8f0;
   border-radius: 0.5rem;
   transition: all 0.2s ease;
-  width: 50rem; /* Set a fixed width (adjust as needed) */
-  height: 3rem; /* Set a fixed height for consistency */
-  resize: none; /* Prevent resizing */
-  box-sizing: border-box; /* Ensure padding doesn't increase the width */
+  width: 50rem; 
+  height: 3rem; 
+  resize: none; 
+  box-sizing: border-box; 
 }
 
 /* Focus styling */
