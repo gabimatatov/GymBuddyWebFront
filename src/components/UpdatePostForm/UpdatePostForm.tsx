@@ -39,7 +39,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
 
           console.log('Fetched post:', post); // Log the current post data
 
-          setPreviewImage(post.image || null);
+          setPreviewImage(`http://localhost:3000${post.image}`);
           setTitle(post.title || '');
           setContent(post.content || '');
         } catch (error: unknown) {
@@ -95,12 +95,14 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
         if (imageFile) {
           const { request } = postsService.uploadImage(imageFile);
           const response = await request;
-
+        
           imageFilename = response.data.url;
-
-          console.log('Image uploaded with URL:', imageFilename);
-
-          formData.append('image', imageFilename);
+        
+          const relativePath = imageFilename.replace('http://localhost:3000', ''); // Remove the base URL
+        
+          console.log('Image uploaded with relative URL:', relativePath);
+        
+          formData.append('image', relativePath); // Append the relative path
         }
 
         // If the image is to be removed, append a flag or handle removal server-side
