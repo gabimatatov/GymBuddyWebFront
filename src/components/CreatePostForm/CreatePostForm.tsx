@@ -53,40 +53,41 @@ const CreatePostForm: FC = () => {
     try {
       setServerError(null);
       setSuccessMessage(null);
-
+  
       if (!user?.username) {
         setServerError('User not authenticated. Please log in.');
         return;
       }
-
-      // Prepare form data
-      const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('content', data.content);
-      formData.append('username', user.username);
-
+  
+      // Prepare the data to be sent to the backend
+      const postData = {
+        title: data.title,
+        content: data.content,
+        username: user.username,
+        image: data.image ? data.image[0].name : '',
+        owner: user.username,
+        date: new Date().toISOString(),
+      };
+  
       // Check if there is an image and upload it
       if (data.image && data.image.length > 0) {
         const imageFile = data.image[0];
         const { request } = postsService.uploadImage(imageFile);
         const response = await request;
-      
+  
         const imagePath = new URL(response.data.url).pathname; // Extracts "/storage/filename"
-      
-        console.log('Image uploaded with path:', imagePath);
-      
-        formData.append('image', imagePath);
+        
+        postData.image = imagePath; // Set the image path as a string URL
         setPreviewImage(`http://localhost:3000${imagePath}`);
       }
-
-      // Call the createPost function
-      const { request, abort } = postsService.createPost(formData);
+  
+      // Call the createPost function with the correct data
+      const { request } = postsService.createPost(postData);
       await request;
-
+  
       setSuccessMessage('Post created successfully!');
-
       reset();
-
+  
       setTimeout(() => {
         navigate('/posts');
       }, 1500);
@@ -98,6 +99,8 @@ const CreatePostForm: FC = () => {
       }
     }
   };
+  
+
 
   return (
     <div className={styles["form-container-post"]}>
