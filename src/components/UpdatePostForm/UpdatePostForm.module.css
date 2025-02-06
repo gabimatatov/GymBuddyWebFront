@@ -3,7 +3,7 @@
     border-radius: 15px;
     box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
     width: 450px;
-    padding: 2rem;
+    padding: 1.5rem;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -13,6 +13,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    margin-top: 40px;
 }
 
 .form-post {
@@ -87,7 +88,7 @@
 .image-preview {
     width: 150px;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 5px;
     border: 1px solid #ccc;
     display: block;
@@ -141,7 +142,7 @@
 
 .text-danger-post {
     font-size: 0.875em;
-    color: #dc3545;
+    color: #a94442;
     text-align: left;
     width: 100%;
     margin-top: 0.125rem;
@@ -153,13 +154,13 @@
 }
 
 .alert-post {
-    padding: 5px 10px;
+    padding: 15px;
     border: 1px solid transparent;
     border-radius: 17px;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
     line-height: 1;
-    width: 100%;
+    width: 350px;
 }
 
 .alert-danger-post {
@@ -172,7 +173,15 @@
     color: #347baf;
     background-color: #d1ecf1;
     border-color: #bee5eb;
-    margin-bottom: 10px;
+}
+
+/* Error message styling */
+.text-danger {
+    font-size: 0.875em;
+    color: #a94442;
+    text-align: left;
+    width: 350px;
+    margin: 2px 5px 0px 5px;
 }
 
 @media (max-width: 768px) {

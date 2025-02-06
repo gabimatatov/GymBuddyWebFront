@@ -161,7 +161,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
             placeholder="Enter post title"
           />
           {validationErrors.title && (
-            <div className={styles["alert-post"]} style={{ color: 'red' }}>
+            <div className={styles["text-danger"]} style={{ color: 'red' }}>
               {validationErrors.title}
             </div>
           )}
@@ -178,7 +178,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
             rows={5}
           />
           {validationErrors.content && (
-            <div className={styles["alert-post"]} style={{ color: 'red' }}>
+            <div className={styles["text-danger"]} style={{ color: 'red' }}>
               {validationErrors.content}
             </div>
           )}
