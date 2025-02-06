@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { User } from '../../services/auth_service';
 import Cookies from 'js-cookie';
 import userService from '../../services/auth_service';
+import { AxiosError } from 'axios';
 
 interface AuthContextType {
     user: User | null;
@@ -10,8 +11,8 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     updateUserSession: (updatedFields: Partial<User>) => void;
     logout: () => void;
-    isAuthenticated: Boolean | false;
-    loading: Boolean | true;
+    isAuthenticated: boolean; // Changed to boolean
+    loading: boolean; // Changed to boolean
 }
 
 interface AuthProviderProps {
@@ -30,12 +31,12 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<Boolean | false>(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // Changed to boolean
     const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
     const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refreshToken'));
 
     // Loading state
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true); // Changed to boolean
 
     useEffect(() => {
         const storedAccessToken = Cookies.get('accessToken');
@@ -74,9 +75,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setRefreshToken(refreshToken);
             setUser(userData);
             setIsAuthenticated(true);
-        } catch (error: any) {
-            const errorMessage = error.response?.data?.message;
-            throw new Error(errorMessage);
+        } catch (error: unknown) {
+            if (error instanceof AxiosError) {
+                const errorMessage = error.response?.data?.message;
+                throw new Error(errorMessage || 'An unexpected error occurred');
+            } else {
+                throw new Error('An unexpected error occurred');
+            }
         }
     };
 

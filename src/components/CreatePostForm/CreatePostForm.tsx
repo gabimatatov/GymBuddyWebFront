@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,7 +11,7 @@ import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 // Define the schema for creating a post
 const CreatePostSchema = z.object({
-  title: z.string().nonempty('Title is required'),
+  title: z.string().nonempty('Title is required').max(25, 'Title must be at most 25 characters long'),
   content: z.string().nonempty('Content is required'),
   image: z.instanceof(FileList).optional(),
 });
@@ -53,48 +52,54 @@ const CreatePostForm: FC = () => {
     try {
       setServerError(null);
       setSuccessMessage(null);
-
+  
       if (!user?.username) {
         setServerError('User not authenticated. Please log in.');
         return;
       }
-
-      // Prepare form data
-      const formData = new FormData();
-      formData.append('title', data.title);
-      formData.append('content', data.content);
-      formData.append('username', user.username);
-
-      let imageFilename = '';
-
+  
+      // Prepare the data to be sent to the backend
+      const postData = {
+        title: data.title,
+        content: data.content,
+        username: user.username,
+        image: data.image ? data.image[0].name : '',
+        owner: user.username,
+        date: new Date().toISOString(),
+      };
+  
       // Check if there is an image and upload it
       if (data.image && data.image.length > 0) {
         const imageFile = data.image[0];
         const { request } = postsService.uploadImage(imageFile);
         const response = await request;
-
-        imageFilename = response.data.url;
-
-        console.log('Image uploaded with URL:', imageFilename);
-
-        formData.append('image', imageFilename);
+  
+        const imagePath = new URL(response.data.url).pathname; // Extracts "/storage/filename"
+        
+        postData.image = imagePath; // Set the image path as a string URL
+        setPreviewImage(`http://localhost:3000${imagePath}`);
       }
-
-      // Call the createPost function
-      const { request, abort } = postsService.createPost(formData);
+  
+      // Call the createPost function with the correct data
+      const { request } = postsService.createPost(postData);
       await request;
-
+  
       setSuccessMessage('Post created successfully!');
-
       reset();
-
+  
       setTimeout(() => {
         navigate('/posts');
       }, 1500);
-    } catch (error: any) {
-      setServerError(error.message || 'An error occurred. Please try again.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setServerError(error.message);
+      } else {
+        setServerError("An error occurred. Please try again.");
+      }
     }
   };
+  
+
 
   return (
     <div className={styles["form-container-post"]}>

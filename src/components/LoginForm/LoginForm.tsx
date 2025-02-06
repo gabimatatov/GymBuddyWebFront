@@ -56,9 +56,14 @@ const LoginForm: FC = () => {
       reset();
       setServerError(null);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       reset();
-      setServerError(error.message || 'An error occurred. Please try again.');
+      
+      if (error instanceof Error) {
+        setServerError(error.message || 'An error occurred. Please try again.');
+      } else {
+        setServerError('An error occurred. Please try again.');
+      }
     }
   };
 

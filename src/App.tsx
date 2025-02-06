@@ -8,8 +8,8 @@ import ProfilePage from "./pages/ProfilePage"
 import ChatPage from "./pages/ChatPage";
 import CommentsPage from "./pages/CommentsPage";
 import SharePage from "./pages/SharePage";
-import './styles/App.css'
 import UpdatePostPage from "./pages/UpdatePostPage";
+import './styles/App.css'
 
 
 const App: React.FC = () => {
