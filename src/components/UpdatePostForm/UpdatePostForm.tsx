@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 // Define the validation schema using Zod
 const postSchema = z.object({
-  title: z.string().nonempty('Title is required'),
+  title: z.string().nonempty('Title is required').max(25, 'Title must be at most 25 characters long'),
   content: z.string().nonempty('Content is required'),
   image: z.instanceof(FileList).optional(),
 });

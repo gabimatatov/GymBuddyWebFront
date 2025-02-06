@@ -11,7 +11,7 @@ import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 // Define the schema for creating a post
 const CreatePostSchema = z.object({
-  title: z.string().nonempty('Title is required'),
+  title: z.string().nonempty('Title is required').max(25, 'Title must be at most 25 characters long'),
   content: z.string().nonempty('Content is required'),
   image: z.instanceof(FileList).optional(),
 });
