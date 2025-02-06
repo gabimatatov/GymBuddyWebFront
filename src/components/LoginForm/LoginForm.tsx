@@ -3,8 +3,9 @@ import { FC, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import styles from './LoginForm.module.css';
 import { useAuth } from '../../hooks/useAuth/AuthContext';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import styles from './LoginForm.module.css';
 
 // Define the schema for login
 const LoginSchema = z.object({
@@ -30,7 +31,7 @@ const LoginForm: FC = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  const { login } = useAuth();
+  const { login, googleSignIn } = useAuth();
 
   const [serverError, setServerError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -66,6 +67,15 @@ const LoginForm: FC = () => {
       }
     }
   };
+
+  const onGoogleLoginSuccess = async (response: CredentialResponse)=>{
+    await googleSignIn(response);
+    navigate('/profile');
+  }
+
+  const onGoogleLoginFailure = ()=>{
+    console.log("Google Login Failed");
+  }
 
   return (
     <div className={styles["form-container-login"]}>
@@ -109,6 +119,7 @@ const LoginForm: FC = () => {
           </p>
         </div>
       </form>
+      <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure}/>
     </div>
   );
 };
