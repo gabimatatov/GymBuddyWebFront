@@ -42,8 +42,12 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
           setPreviewImage(post.image || null);
           setTitle(post.title || '');
           setContent(post.content || '');
-        } catch (error: any) {
-          setServerError(error.message || 'Error fetching post data.');
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            setServerError(error.message);
+          } else {
+            setServerError("Error fetching post data.");
+          }
         }
       };
 
@@ -116,8 +120,12 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
         setTimeout(() => {
           navigate('/posts');
         }, 1500);
-      } catch (error: any) {
-        setServerError(error.message || 'An error occurred.');
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setServerError(error.message);
+        } else {
+          setServerError("An error occurred.");
+        }
       }
     };
 

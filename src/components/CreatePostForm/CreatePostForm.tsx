@@ -90,8 +90,12 @@ const CreatePostForm: FC = () => {
       setTimeout(() => {
         navigate('/posts');
       }, 1500);
-    } catch (error: any) {
-      setServerError(error.message || 'An error occurred. Please try again.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setServerError(error.message);
+      } else {
+        setServerError("An error occurred. Please try again.");
+      }
     }
   };
 

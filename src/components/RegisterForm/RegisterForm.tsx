@@ -8,6 +8,7 @@ import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import userService, { User } from '../../services/auth_service';
 import trainerIcon from '../../assets/icons/trainerIcon.png';
 import styles from './RegisterForm.module.css'
+import { AxiosError } from 'axios';
 
 // Define the schema for registration
 const RegisterSchema = z.object({
@@ -80,8 +81,12 @@ const RegisterForm: FC = () => {
         // Step 2: Clean the URL to remove the base part
         relativeUrl = new URL(uploadResponse.data.url).pathname;
         console.log('Relative URL:', relativeUrl);
-      } catch (error: any) {
-        setServerError(error.response?.data?.message || 'An error occurred while uploading image');
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          setServerError(error.response?.data?.message || 'An error occurred while uploading image');
+        } else {
+          setServerError('An error occurred while uploading image');
+        }
         return;
       }
     }
@@ -103,10 +108,13 @@ const RegisterForm: FC = () => {
       // Redirect to login page with success message
       navigate('/login', { state: { successMessage: 'Registered Successfully!' } });
 
-    } catch (error: any) {
-      // Display error message (alert logic)
-      setServerError(error.response?.data?.message || 'An error occurred');
-
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        setServerError(error.response?.data?.message || 'An error occurred');
+      } else {
+        setServerError('An error occurred');
+      }
+    
       // Clear all form inputs
       reset();
       setSelectedImage(null);
