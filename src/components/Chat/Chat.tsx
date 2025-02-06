@@ -50,11 +50,11 @@ const ChatPage = () => {
             setLoading(false);
         }
     };
-    
 
     return (
         <div className={styles.container}>
-            <h1>Ask your GymBuddy a Question</h1>
+            <h1>Welcome to GymBuddy!</h1>
+            <p className={styles.introduction}>Hi, it's me, your GymBuddy! I'm here to help with all your fitness questions. Whether you're looking for workout ideas, tips, or motivation, just ask away!</p>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.inputWrapper}>
                     <textarea
@@ -76,7 +76,7 @@ const ChatPage = () => {
             </form>
             {response && (
                 <div className={styles.responseSection}>
-                    <h2>Response</h2>
+                    <h2>Your GymBuddy's Response</h2>
                     <p className={styles.response}>{response}</p>
                 </div>
             )}
