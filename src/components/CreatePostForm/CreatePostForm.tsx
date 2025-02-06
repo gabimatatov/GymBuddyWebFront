@@ -8,6 +8,7 @@ import postsService from '../../services/post-service';
 import { useAuth } from "../../hooks/useAuth/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import fileService from '../../services/file-service';
 
 // Define the schema for creating a post
 const CreatePostSchema = z.object({
@@ -71,7 +72,7 @@ const CreatePostForm: FC = () => {
       // Check if there is an image and upload it
       if (data.image && data.image.length > 0) {
         const imageFile = data.image[0];
-        const { request } = postsService.uploadImage(imageFile);
+        const { request } = fileService.uploadImage(imageFile);
         const response = await request;
   
         const imagePath = new URL(response.data.url).pathname; // Extracts "/storage/filename"

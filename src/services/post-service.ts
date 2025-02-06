@@ -41,17 +41,6 @@ const createPost = (postData: Omit<Post, "_id" | "createdAt">) => {
     return { request, abort: () => abortController.abort() };
 };
 
-// Upload Image - Extract to different file
-const uploadImage = (img: File) => {
-    const formData = new FormData();
-
-    formData.append("file", img);
-    const request = apiClient.post('/file?file=' + img.name, formData, {
-        headers: { 'Content-Type': `${img.type}` },
-    });
-    return { request };
-};
-
 // Delete post function
 const deletePost = (id: string) => {
     const abortController = new AbortController();
@@ -73,4 +62,4 @@ const updatePost = (id: string, postData: FormData) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { getAllPosts, getAllPostsByOwner, createPost, uploadImage, deletePost, updatePostsByOwner, updatePost, getPostById };
+export default { getAllPosts, getAllPostsByOwner, createPost, deletePost, updatePostsByOwner, updatePost, getPostById };
