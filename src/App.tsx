@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <Routes>
           
           {/* Protected Pages */}
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<PostsPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/posts" element={<PostsPage />} />
