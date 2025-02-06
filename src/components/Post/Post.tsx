@@ -73,7 +73,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
 
       {/* Post Image */}
       <img
-        src={post.image ? `http://localhost:3000${post.image}` : "GymBuddyLogo.png"}
+        src={post.image && post.image !== 'none' ? `http://localhost:3000${post.image}` : "GymBuddyLogo.png"}
         alt={post.title}
         className={styles["post-image"]}
       />

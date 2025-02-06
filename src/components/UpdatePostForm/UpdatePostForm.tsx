@@ -47,7 +47,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
           return;
         }
 
-        const imageUrl = post.image ? `http://localhost:3000${post.image}` : '/public/GymBuddyLogo.png';
+        const imageUrl = post.image && post.image !== 'none' ? `http://localhost:3000${post.image}` : '/public/GymBuddyLogo.png';
         setPreviewImage(imageUrl);
         setPreviousImage(imageUrl); // Track the previous image
         setTitle(post.title || '');
@@ -77,6 +77,12 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
       setImageFile(file);
       setRemoveImage(false); // Reset remove image flag when a new image is selected
     }
+  };
+
+  const handleDeleteImage = () => {
+    setImageFile(null); // Reset image file
+    setPreviewImage(null); // Reset image preview
+    setRemoveImage(true); // Set flag to remove image on submit
   };
 
   const onSubmit = async (event: React.FormEvent) => {
@@ -181,12 +187,14 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
         <div className={styles["form-input-post"]}>
           <label htmlFor="image" className={styles["form-label-post"]}>Image (optional)</label>
           <div className={styles["image-container"]}>
-            {previewImage && (
+            {previewImage ? (
               <img
                 src={previewImage}
                 alt="Image Preview"
                 className={styles["image-preview"]}
               />
+            ) : (
+              <p>No image selected</p>
             )}
             <div className={styles["image-buttons"]}>
               <button
@@ -202,6 +210,13 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
                 onClick={handleRemoveFile}
               >
                 <FontAwesomeIcon icon={faTrashAlt} className={styles["fa-l"]} />
+              </button>
+              <button
+                type="button"
+                className={styles["btn-remove-image-post"]}
+                onClick={handleDeleteImage} // New button for deleting the image completely
+              >
+                Delete Image Completely
               </button>
             </div>
           </div>
