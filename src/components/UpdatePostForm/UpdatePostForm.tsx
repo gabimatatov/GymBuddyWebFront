@@ -39,7 +39,9 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
 
           console.log('Fetched post:', post); // Log the current post data
 
-          setPreviewImage(`http://localhost:3000${post.image}`);
+          const imageUrl = post.image ? `http://localhost:3000${post.image}` : '/public/GymBuddyLogo.png';
+          setPreviewImage(imageUrl);
+
           setTitle(post.title || '');
           setContent(post.content || '');
         } catch (error: unknown) {
