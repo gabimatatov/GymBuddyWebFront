@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
