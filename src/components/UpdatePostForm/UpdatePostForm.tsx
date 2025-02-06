@@ -185,7 +185,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
         </div>
 
         <div className={styles["form-input-post"]}>
-          <label htmlFor="image" className={styles["form-label-post"]}>Image (optional)</label>
+          <label htmlFor="image" className={styles["form-label-post"]}></label>
           <div className={styles["image-container"]}>
             {previewImage ? (
               <img
@@ -214,9 +214,9 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
               <button
                 type="button"
                 className={styles["btn-remove-image-post"]}
-                onClick={handleDeleteImage} // New button for deleting the image completely
+                onClick={handleDeleteImage}
               >
-                Delete Image Completely
+                Delete Image
               </button>
             </div>
           </div>
