@@ -69,11 +69,12 @@ const ChatPage = () => {
                         className={`${styles.button} ${loading ? styles.loading : ""}`}
                         disabled={loading}
                     >
-                        {loading ? "Asking..." : "Ask"}
+                        {loading ? "GymBuddy is thinking..." : "Ask"}
                     </button>
                 </div>
                 {error && <p className={styles.error}>{error}</p>}
             </form>
+            {loading && !error && <p className={styles.thinkingMessage}>GymBuddy is thinking...</p>}
             {response && (
                 <div className={styles.responseSection}>
                     <h2>Your GymBuddy's Response</h2>
