@@ -53,19 +53,6 @@ const login = (credentials: { email: string; password: string }) => {
     return { request, abort: () => abortController.abort() };
 };
 
-// Upload Avatar Image Service
-const uploadImage = (img: File) => {
-    const formData = new FormData();
-
-    formData.append("file", img);
-    const request = apiClient.post('/file?file=' + img.name, formData, {
-        headers: {
-            'Content-Type': `${img.type}`,
-        },
-    });
-    return { request };
-};
-
 // Update User Service
 const updateUser = (updatedUser: UpdatedUser) => {
     const abortController = new AbortController();
@@ -78,4 +65,4 @@ const updateUser = (updatedUser: UpdatedUser) => {
     return { request, abort: () => abortController.abort() };
 };
 
-export default { register, login, uploadImage, updateUser, logout };
+export default { register, login, updateUser, logout };

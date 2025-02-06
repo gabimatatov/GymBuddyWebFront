@@ -5,6 +5,7 @@ import postsService from '../../services/post-service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { z } from 'zod';
+import fileService from '../../services/file-service';
 
 // Define the validation schema using Zod
 const postSchema = z.object({
@@ -108,7 +109,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
   
       let imageFilename = '';
       if (imageFile) {
-        const { request } = postsService.uploadImage(imageFile);
+        const { request } = fileService.uploadImage(imageFile);
         const response = await request;
         imageFilename = response.data.url;
         const relativePath = imageFilename.replace('http://localhost:3000', '');

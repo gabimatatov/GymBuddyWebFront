@@ -9,6 +9,7 @@ import userService, { User } from '../../services/auth_service';
 import trainerIcon from '../../assets/icons/trainerIcon.png';
 import styles from './RegisterForm.module.css'
 import { AxiosError } from 'axios';
+import fileService from '../../services/file-service';
 
 // Define the schema for registration
 const RegisterSchema = z.object({
@@ -74,7 +75,7 @@ const RegisterForm: FC = () => {
     if (data.img && data.img[0]) {
       try {
         // Step 1: Upload the image
-        const { request: uploadRequest } = userService.uploadImage(data.img[0]);
+        const { request: uploadRequest } = fileService.uploadImage(data.img[0]);
         const uploadResponse = await uploadRequest;
         console.log('Image uploaded:', uploadResponse.data);
 

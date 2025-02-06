@@ -9,6 +9,7 @@ import userService from '../../services/auth_service';
 import postsService from '../../services/post-service';
 import commentsService from '../../services/comment-service';
 import Posts from "../Posts/Posts";
+import fileService from "../../services/file-service";
 
 interface FormData {
     username?: string;
@@ -78,7 +79,7 @@ const ProfileForm: FC = () => {
         if (data.avatar?.[0]) {
             try {
                 // Step 1: Upload the image to the server
-                const { request: uploadRequest } = userService.uploadImage(data.avatar[0]);
+                const { request: uploadRequest } = fileService.uploadImage(data.avatar[0]);
                 const uploadResponse = await uploadRequest;
                 console.log('Image uploaded:', uploadResponse.data);
 
