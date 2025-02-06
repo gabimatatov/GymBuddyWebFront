@@ -71,13 +71,6 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
       setRemoveImage(false); // Reset the removal flag when file is removed
     };
 
-    // Handle "Remove Image Completely"
-    const handleRemoveImageCompletely = () => {
-      setRemoveImage(true); // Set the flag to indicate the image should be removed
-      setPreviewImage(null); // Clear the preview image
-      setImageFile(null); // Remove the image file from state
-    };
-
     const onSubmit = async () => {
       try {
         setServerError(null);
@@ -184,17 +177,6 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
                 >
                   <FontAwesomeIcon icon={faTrashAlt} className={styles["fa-l"]} />
                 </button>
-                
-                {/* Remove Image Completely */}
-                {previewImage && (
-                  <button
-                    type="button"
-                    className={styles["btn-remove-image-completely"]}
-                    onClick={handleRemoveImageCompletely}
-                  >
-                    Remove Image Completely
-                  </button>
-                )}
               </div>
             </div>
             <input

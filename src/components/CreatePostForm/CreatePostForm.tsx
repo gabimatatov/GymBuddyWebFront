@@ -65,19 +65,18 @@ const CreatePostForm: FC = () => {
       formData.append('content', data.content);
       formData.append('username', user.username);
 
-      let imageFilename = '';
-
       // Check if there is an image and upload it
       if (data.image && data.image.length > 0) {
         const imageFile = data.image[0];
         const { request } = postsService.uploadImage(imageFile);
         const response = await request;
-
-        imageFilename = response.data.url;
-
-        console.log('Image uploaded with URL:', imageFilename);
-
-        formData.append('image', imageFilename);
+      
+        const imagePath = new URL(response.data.url).pathname; // Extracts "/storage/filename"
+      
+        console.log('Image uploaded with path:', imagePath);
+      
+        formData.append('image', imagePath);
+        setPreviewImage(`http://localhost:3000${imagePath}`);
       }
 
       // Call the createPost function
