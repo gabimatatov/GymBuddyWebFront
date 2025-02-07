@@ -2,6 +2,7 @@ import { useAuth } from '../hooks/useAuth/AuthContext';
 import { Navigate } from 'react-router-dom';
 import React from "react";
 import Navbar from "../components/Navbar/Navbar";
+import Chat from '../components/Chat/Chat';
 
 const ChatPage: React.FC = () => {
 
@@ -19,6 +20,7 @@ const ChatPage: React.FC = () => {
     <div>
       <Navbar />
       <div style={{ marginTop: "120px" }}>
+      <Chat/>
       </div>
     </div>
   );
