@@ -40,9 +40,14 @@ const ProfileForm: FC = () => {
     useEffect(() => {
         if (user) {
             try {
-                console.log(user); // To Delete
+                if (user?.avatar) {
+                    setPreviewImage(user.avatar.startsWith("/storage/")
+                        ? `http://localhost:3000${user.avatar}`
+                        : user.avatar);
+                } else {
+                    setPreviewImage(null);
+                }
                 setValue("username", user.username);
-                setPreviewImage(user.avatar ? `http://localhost:3000${user.avatar}` : null);
             } catch (error) {
                 console.error("Error parsing user cookie:", error);
             }

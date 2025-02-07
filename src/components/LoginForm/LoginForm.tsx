@@ -48,7 +48,7 @@ const LoginForm: FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       setSuccessMessage(null);
-      
+
       // Send the login request
       await login(data.email, data.password);
       navigate('/profile');
@@ -59,7 +59,7 @@ const LoginForm: FC = () => {
 
     } catch (error: unknown) {
       reset();
-      
+
       if (error instanceof Error) {
         setServerError(error.message || 'An error occurred. Please try again.');
       } else {
@@ -68,12 +68,14 @@ const LoginForm: FC = () => {
     }
   };
 
-  const onGoogleLoginSuccess = async (response: CredentialResponse)=>{
+
+
+  const onGoogleLoginSuccess = async (response: CredentialResponse) => {
     await googleSignIn(response);
     navigate('/profile');
   }
 
-  const onGoogleLoginFailure = ()=>{
+  const onGoogleLoginFailure = () => {
     console.log("Google Login Failed");
   }
 
@@ -119,7 +121,10 @@ const LoginForm: FC = () => {
           </p>
         </div>
       </form>
-      <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure}/>
+      {/* Separate Line */}
+      <div className={styles["separate-line"]}></div>
+      <p>Login with Google</p>
+      <GoogleLogin onSuccess={onGoogleLoginSuccess} onError={onGoogleLoginFailure} type='standard' />
     </div>
   );
 };
