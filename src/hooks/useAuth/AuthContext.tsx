@@ -1,18 +1,20 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from '../../services/auth_service';
+import { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import userService from '../../services/auth_service';
-import { AxiosError } from 'axios';
+import { CredentialResponse } from '@react-oauth/google';
 
 interface AuthContextType {
     user: User | null;
     accessToken: string | null;
     refreshToken: string | null;
     login: (email: string, password: string) => Promise<void>;
+    googleSignIn: (response: CredentialResponse) => void;
     updateUserSession: (updatedFields: Partial<User>) => void;
     logout: () => void;
-    isAuthenticated: boolean; // Changed to boolean
-    loading: boolean; // Changed to boolean
+    isAuthenticated: boolean;
+    loading: boolean;
 }
 
 interface AuthProviderProps {
@@ -31,12 +33,12 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // Changed to boolean
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
     const [refreshToken, setRefreshToken] = useState<string | null>(localStorage.getItem('refreshToken'));
 
     // Loading state
-    const [loading, setLoading] = useState<boolean>(true); // Changed to boolean
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const storedAccessToken = Cookies.get('accessToken');
@@ -45,7 +47,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (storedAccessToken && storedRefreshToken && storedUser) {
             const parsedUser = JSON.parse(storedUser);
-            
+
             setAccessToken(storedAccessToken);
             setRefreshToken(storedRefreshToken);
             setUser(parsedUser);
@@ -85,15 +87,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     };
 
+    const googleSignIn = async (response: CredentialResponse) => {
+        try {
+            const {request: googleSignInRequest } = await userService.googleSignIn(response);
+            const googleSignInResponse = await googleSignInRequest;
+
+            const { accessToken, refreshToken, _id, username, avatar, email } = googleSignInResponse.data;
+            const userData = { _id, username, email, avatar, password: '' };
+
+            Cookies.set('accessToken', accessToken, { path: '/', secure: true, sameSite: 'Strict' });
+            Cookies.set('refreshToken', refreshToken, { path: '/', secure: true, sameSite: 'Strict' });
+            Cookies.set('user', JSON.stringify(userData), { path: '/', secure: true, sameSite: 'Strict' });
+            
+            setAccessToken(accessToken);
+            setRefreshToken(refreshToken);
+            setUser(userData);
+            setIsAuthenticated(true);
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateUserSession = (updatedFields: Partial<User>) => {
         // Ensure user exists before updating
-        if (!user) return; 
-    
+        if (!user) return;
+
         const updatedUser: User = {
             ...user,
             ...updatedFields,
         };
-    
+
         setUser(updatedUser);
         Cookies.set("user", JSON.stringify(updatedUser), { path: "/", secure: true, sameSite: "Strict" });
     };
@@ -121,18 +145,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         Cookies.remove('user');
     };
 
-    // const registerUser = async (user: User) => {
-    //     try {
-    //         const { request } = userService.register(user);
-    //         await request;
-    //     } catch (error) {
-    //         console.log('Error during registration:', error);
-    //         throw new Error('Registration failed');
-    //     }
-    // };
-
     return (
-        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, updateUserSession, login, logout }}>
+        <AuthContext.Provider value={{ loading, isAuthenticated, user, accessToken, refreshToken, updateUserSession, login, logout, googleSignIn }}>
             {children}
         </AuthContext.Provider>
     );
