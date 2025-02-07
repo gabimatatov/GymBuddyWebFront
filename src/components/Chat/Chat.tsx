@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { z } from "zod"; 
+import { z } from "zod";
 import chatService from "../../services/chat-service";
 import { useAuth } from "../../hooks/useAuth/AuthContext";
-import styles from "./Chat.module.css"; 
+import styles from "./Chat.module.css";
+import React from "react";
 
 const chatSchema = z.object({
     content: z.string().max(100, "Content must be 100 characters or less"),
@@ -20,24 +21,24 @@ const ChatPage = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
-    
+
         try {
             const chatData = {
                 content: question,
                 username: user!.username,
             };
-    
+
             const validationResult = chatSchema.safeParse(chatData);
-    
+
             if (!validationResult.success) {
                 setError(validationResult.error.errors[0].message);
                 setLoading(false);
                 return;
             }
-    
+
             const { request } = chatService.createChatMessage(chatData);
             const { data } = await request;
-    
+
             if (data && data.response) {
                 setResponse(data.response);
             } else {
@@ -78,7 +79,14 @@ const ChatPage = () => {
             {response && (
                 <div className={styles.responseSection}>
                     <h2>Your GymBuddy's Response</h2>
-                    <p className={styles.response}>{response}</p>
+                    <p className={styles.response}>
+                        {response.split('\n').map((line, index) => (
+                            <React.Fragment key={index}>
+                                {line}
+                                <br />
+                            </React.Fragment>
+                        ))}
+                    </p>
                 </div>
             )}
         </div>
