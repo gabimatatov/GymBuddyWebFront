@@ -98,11 +98,11 @@
 
 /* Image preview */
 .image-preview {
-    width: 150px;  /* Fixed width */
-    height: 150px; /* Fixed height */
-    object-fit: cover; /* Ensures full coverage without distortion */
-    border-radius: 5px; /* Optional rounded corners */
-    border: 1px solid #ccc; /* Border for visibility */
+    width: 150px;  
+    height: 150px; 
+    object-fit: cover; 
+    border-radius: 5px; 
+    border: 1px solid #ccc; 
 }
 
 /* Buttons Container for Upload/Remove Image */
@@ -205,13 +205,13 @@
     }
 
     .image-preview {
-        width: 120px; /* Adjust preview size for mobile */
+        width: 120px; 
         height: 120px;
     }
 }
 
 .form-control-post,
 .form-control-post textarea {
-    font-family: Arial, sans-serif;  /* Change to your desired font */
-    font-size: 1rem;  /* Keep consistent font size */
+    font-family: Arial, sans-serif;  
+    font-size: 1rem; 
 }

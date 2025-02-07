@@ -1,0 +1,131 @@
+.container {
+    width: 100%;
+    max-width: 80rem;
+    margin: 1.5rem auto;
+    padding: 1rem;
+}
+
+.introduction {
+    margin-bottom: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.textarea {
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    height: 7rem;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: transparent;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+.textarea:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+}
+
+.button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background-color: #347baf;
+    border: none;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+    width: auto;
+    align-self: flex-start;
+}
+
+.button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563eb;
+}
+
+.button:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.responseSection {
+    margin-top: 2rem;
+}
+
+.responseSection h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.response {
+    font-size: 1rem;
+    color: #4b5563;
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.response:hover {
+    background-color: #e5e7eb;
+}
+
+.loading {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}
+
+.thinkingMessage {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4b5563;
+    text-align: center;
+    margin-top: 1rem;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.7;
+    }
+}
