@@ -143,3 +143,9 @@
   border-color: #bee5eb;
   margin-bottom: 15px;
 }
+
+/* Separate line styling */
+.separate-line {
+  width: 335px;
+  border-top: 2px solid #d3d3d3;
+}
