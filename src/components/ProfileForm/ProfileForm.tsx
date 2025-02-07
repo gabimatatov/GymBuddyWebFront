@@ -28,9 +28,9 @@ const ProfileForm: FC = () => {
     const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
     const refreshPostsHandler = () => {
-        setIsRefreshing(true); // Start loading state
-        setRefreshPosts((prev) => prev + 1); // Trigger re-render of Posts
-        setTimeout(() => setIsRefreshing(false), 1000); // Simulate delay
+        setIsRefreshing(true);
+        setRefreshPosts((prev) => prev + 1);
+        setTimeout(() => setIsRefreshing(false), 1000);
     };
 
 
