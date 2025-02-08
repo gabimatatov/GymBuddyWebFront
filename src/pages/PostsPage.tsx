@@ -43,7 +43,6 @@ const PostsPage: React.FC = () => {
             Post your workouts, ask questions, and support each other on your fitness journey.
           </p>
         </div>
-
         <Posts />
       </div>
     </div>
