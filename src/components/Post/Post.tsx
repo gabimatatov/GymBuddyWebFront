@@ -29,6 +29,8 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likesActiveCount, setlikesActiveCount] = useState<number>(likesCount || 0);
+  
 
   const formatDate = (date: string) => {
     const validDate = new Date(date);
@@ -52,9 +54,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
           const likedResponse = await likedRequest;
 
           // Set isLiked state this post
-          setIsLiked((prev) => {
-            console.log("Previous state:", prev);
-            console.log("New state:", likedResponse.data.liked);
+          setIsLiked(() => {
             return likedResponse.data.liked;
           });
 
@@ -86,11 +86,11 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
       if (isLiked) {
         await likesService.DeleteLike(postId);
         setIsLiked(false);
-        console.log("Like removed successfully!");
+        setlikesActiveCount((prevCount) => Math.max(0, prevCount - 1));
       } else {
         await likesService.CreateLike(postId);
         setIsLiked(true);
-        console.log("Like added successfully!");
+        setlikesActiveCount((prevCount) => prevCount + 1);
       }
     } catch (error) {
       console.error("Error toggling like:", error);
@@ -135,7 +135,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
       <div className={styles["post-actions"]}>
         <div className={styles["likes-container"]}>
           <FaFire className={styles["fire-icon"]} onClick={() => handleLike(post._id)} style={{ color: isLiked ? "#ff4500" : "" }} />
-          <span className={styles["likes-count"]}>{likesCount}</span>
+          <span className={styles["likes-count"]}>{likesActiveCount}</span>
         </div>
 
         <div className={styles["comment-container"]}>
@@ -174,7 +174,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
               <button
                 className={`${styles["modal-button"]} ${styles.confirm}`}
                 onClick={handleDelete}
-                disabled={loading} // Disable confirm button while deleting
+                disabled={loading}
               >
                 {loading ? "Deleting..." : "Yes, Delete"}
               </button>
