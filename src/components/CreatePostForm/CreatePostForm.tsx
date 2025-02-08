@@ -67,6 +67,7 @@ const CreatePostForm: FC = () => {
         image: data.image ? data.image[0].name : '',
         owner: user.username,
         date: new Date().toISOString(),
+        likesCount: 0,
       };
   
       // Check if there is an image and upload it
