@@ -131,7 +131,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
 
       {/* Post Actions */}
       <div className={styles["post-actions"]}>
-        <FaFire className={styles["fire-icon"]} onClick={() => handleLike(post._id)} />
+        <FaFire className={styles["fire-icon"]} onClick={() => handleLike(post._id)} style={{ color: isLiked ? "#ff4500" : "" }}/>
 
         <div className={styles["comment-container"]}>
           <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>
