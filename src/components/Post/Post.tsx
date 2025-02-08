@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaFire, FaRegComment } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "../../hooks/useAuth/AuthContext";
 import styles from "./Post.module.css";
+import likesService from "../../services/likes-service";
 
 interface PostProps {
   post: {
@@ -14,17 +15,22 @@ interface PostProps {
     content: string;
     image: string;
     createdAt: string;
+    likesCount: number;
   };
   commentsCount: number;
+  likesCount: number;
   onUpdate: (postId: string) => void;
   onDelete: (postId: string) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) => {
+const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, onDelete }) => {
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likesActiveCount, setlikesActiveCount] = useState<number>(likesCount || 0);
+  
 
   const formatDate = (date: string) => {
     const validDate = new Date(date);
@@ -40,6 +46,27 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
     return validDate.toLocaleString("en-US", options);
   };
 
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      if (user?._id) {
+        try {
+          const { request: likedRequest } = likesService.getLikeByOwner(post._id, user._id);
+          const likedResponse = await likedRequest;
+
+          // Set isLiked state this post
+          setIsLiked(() => {
+            return likedResponse.data.liked;
+          });
+
+        } catch (error) {
+          console.error("Error fetching like status:", error);
+        }
+      }
+    };
+
+    fetchLikeStatus();
+  }, [user, post._id]);  // Re-run if user or post._id changes
+
   const handleDelete = async () => {
     if (postToDelete && !loading) {
       try {
@@ -51,6 +78,22 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handleLike = async (postId: string) => {
+    try {
+      if (isLiked) {
+        await likesService.DeleteLike(postId);
+        setIsLiked(false);
+        setlikesActiveCount((prevCount) => Math.max(0, prevCount - 1));
+      } else {
+        await likesService.CreateLike(postId);
+        setIsLiked(true);
+        setlikesActiveCount((prevCount) => prevCount + 1);
+      }
+    } catch (error) {
+      console.error("Error toggling like:", error);
     }
   };
 
@@ -90,7 +133,10 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
 
       {/* Post Actions */}
       <div className={styles["post-actions"]}>
-        <FaFire className={styles["fire-icon"]} onClick={() => console.log("Like clicked")} />
+        <div className={styles["likes-container"]}>
+          <FaFire className={styles["fire-icon"]} onClick={() => handleLike(post._id)} style={{ color: isLiked ? "#ff4500" : "" }} />
+          <span className={styles["likes-count"]}>{likesActiveCount}</span>
+        </div>
 
         <div className={styles["comment-container"]}>
           <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>
@@ -108,7 +154,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
             <button
               className={styles["btn-delete-post"]}
               onClick={() => showDeleteModal(post._id)}
-              disabled={loading} // Disable button while deleting
+              disabled={loading}
             >
               <FontAwesomeIcon icon={faTrashAlt} />
             </button>
@@ -128,7 +174,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
               <button
                 className={`${styles["modal-button"]} ${styles.confirm}`}
                 onClick={handleDelete}
-                disabled={loading} // Disable confirm button while deleting
+                disabled={loading}
               >
                 {loading ? "Deleting..." : "Yes, Delete"}
               </button>

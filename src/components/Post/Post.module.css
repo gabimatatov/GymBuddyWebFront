@@ -128,6 +128,17 @@
     right: 10px;
 }
 
+.likes-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.comment-count,
+.likes-count {
+    margin-left: 4px;
+}
+
 /* Update Button */
 .btn-update-post {
     background-color: transparent;
@@ -178,7 +189,8 @@
 
 /* Modal Overlay */
 .modal-overlay {
-    position: fixed;
+    position: absolute;
+    padding: 10px;
     top: 0;
     left: 0;
     right: 0;
@@ -186,10 +198,12 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     display: none;
+    pointer-events: none;
     justify-content: center;
     align-items: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+    border-radius: 8px;
 }
 
 .modal-overlay.show {

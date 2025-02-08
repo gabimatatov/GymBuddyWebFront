@@ -14,10 +14,7 @@ const Posts = ({ id }: PostsProps) => {
   const [commentsCount, setCommentsCount] = useState<{ [postId: string]: number }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // const [modalVisible, setModalVisible] = useState<boolean>(false);
-  // const [modalMessage, setModalMessage] = useState<string>('');
-  // const [modalType, setModalType] = useState<'success' | 'error'>('success'); // For different styles
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -77,7 +74,7 @@ const Posts = ({ id }: PostsProps) => {
 
   const handleUpdate = (postId: string) => {
     console.log(`Update post with ID: ${postId}`);
-    navigate(`/update-post/${postId}`); // Navigate to the update form with the post ID
+    navigate(`/update-post/${postId}`);
   };
 
   const handleDelete = async (postId: string) => {
@@ -86,20 +83,12 @@ const Posts = ({ id }: PostsProps) => {
       setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
       setCommentsCount((prev) => {
         const updatedCounts = { ...prev };
-        delete updatedCounts[postId]; // Remove the deleted post's comment count
+        delete updatedCounts[postId];
         return updatedCounts;
       });
-
-      // setModalMessage('Post deleted successfully!');
-      // setModalType('success');
     } catch (error) {
       console.error("Error deleting post:", error);
-      // setModalMessage('Error deleting post');
-      // setModalType('error');
-    } 
-    // finally {
-    //   setModalVisible(true); // Display modal regardless of success or failure
-    // }
+    }
   };
 
   return (
@@ -113,30 +102,16 @@ const Posts = ({ id }: PostsProps) => {
               key={post._id}
               post={{
                 ...post,
-                createdAt: new Date(post.createdAt).toISOString(), // Ensure createdAt is a string
+                createdAt: new Date(post.createdAt).toISOString(),
               }}
               commentsCount={commentsCount[post._id] ?? 0}
+              likesCount={post.likesCount}
               onUpdate={() => handleUpdate(post._id)}
               onDelete={() => handleDelete(post._id)}
             />
           ))}
         </div>
       )}
-
-      {/* Modal for success/error messages */}
-      {/* {modalVisible && (
-        <div className={styles["modal-overlay"]}>
-          <div className={`${styles["modal-container"]} ${modalType === 'success' ? styles.success : styles.error}`}>
-            <div className={styles["modal-title"]}>{modalMessage}</div>
-            <button
-              className={styles["modal-button"]}
-              onClick={() => setModalVisible(false)} // Close modal
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
