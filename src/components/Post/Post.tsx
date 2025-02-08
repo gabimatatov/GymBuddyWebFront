@@ -15,13 +15,15 @@ interface PostProps {
     content: string;
     image: string;
     createdAt: string;
+    likesCount: number;
   };
   commentsCount: number;
+  likesCount: number;
   onUpdate: (postId: string) => void;
   onDelete: (postId: string) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) => {
+const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, onDelete }) => {
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [postToDelete, setPostToDelete] = useState<string | null>(null);
@@ -131,7 +133,10 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, onUpdate, onDelete }) 
 
       {/* Post Actions */}
       <div className={styles["post-actions"]}>
-        <FaFire className={styles["fire-icon"]} onClick={() => handleLike(post._id)} style={{ color: isLiked ? "#ff4500" : "" }}/>
+        <div className={styles["likes-container"]}>
+          <FaFire className={styles["fire-icon"]} onClick={() => handleLike(post._id)} style={{ color: isLiked ? "#ff4500" : "" }} />
+          <span className={styles["likes-count"]}>{likesCount}</span>
+        </div>
 
         <div className={styles["comment-container"]}>
           <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>

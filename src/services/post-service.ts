@@ -11,6 +11,7 @@ export interface Post {
     username: string;
     image: string;
     date: string;
+    likesCount: number;
 }
 
 // Get all Posts

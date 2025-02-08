@@ -105,6 +105,7 @@ const Posts = ({ id }: PostsProps) => {
                 createdAt: new Date(post.createdAt).toISOString(),
               }}
               commentsCount={commentsCount[post._id] ?? 0}
+              likesCount={post.likesCount}
               onUpdate={() => handleUpdate(post._id)}
               onDelete={() => handleDelete(post._id)}
             />
