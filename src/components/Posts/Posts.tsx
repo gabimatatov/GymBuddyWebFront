@@ -9,7 +9,7 @@ interface PostsProps {
   id?: string;
 }
 
-const SORT_STORAGE_KEY = "posts_sort_order"; // Key for localStorage
+const SORT_STORAGE_KEY = "posts_sort_order";
 
 const Posts = ({ id }: PostsProps) => {
   const navigate = useNavigate();
@@ -114,7 +114,9 @@ const Posts = ({ id }: PostsProps) => {
   return (
     <div className={styles["posts-container"]}>
       {/* Sorting Filter */}
-      <div className={styles["filter-container"]}>
+      <div style={{
+        marginBottom: '1rem'
+      }}>
         <label htmlFor="sortOrder">Sort by:</label>
         <select
           id="sortOrder"
