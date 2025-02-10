@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import postService, { Post as PostType, CanceledError } from "../../services/post-service";
 import commentService from "../../services/comment-service";
 import Post from "../Post/Post";
@@ -14,8 +14,8 @@ const Posts = ({ id }: PostsProps) => {
   const [commentsCount, setCommentsCount] = useState<{ [postId: string]: number }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // Default: newest first
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const { request, abort } = id
@@ -25,8 +25,11 @@ const Posts = ({ id }: PostsProps) => {
     request
       .then((response) => {
         const sortedPosts = response.data.sort((a, b) => {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          return sortOrder === "desc"
+            ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
         });
+
         setPosts(sortedPosts);
 
         const initialCommentCounts = sortedPosts.reduce((acc, post) => {
@@ -67,7 +70,7 @@ const Posts = ({ id }: PostsProps) => {
       });
 
     return abort;
-  }, [id]);
+  }, [id, sortOrder]); // Re-run effect when sortOrder changes
 
   if (isLoading) return <p className={styles["loading-text"]}>Loading posts...</p>;
   if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
@@ -93,6 +96,19 @@ const Posts = ({ id }: PostsProps) => {
 
   return (
     <div className={styles["posts-container"]}>
+      <div className={styles["filter-container"]}>
+        <label htmlFor="sortOrder">Sort by:</label>
+        <select
+          id="sortOrder"
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value as "desc" | "asc")}
+          className={styles["sort-dropdown"]}
+        >
+          <option value="desc">Newest First</option>
+          <option value="asc">Oldest First</option>
+        </select>
+      </div>
+
       {posts.length === 0 ? (
         <p className={styles["no-posts-text"]}>No posts yet</p>
       ) : (

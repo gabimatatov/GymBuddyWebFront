@@ -135,3 +135,17 @@ footer {
 .modal-button:hover {
   background-color: #0056b3;
 }
+
+.filter-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sort-dropdown {
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
