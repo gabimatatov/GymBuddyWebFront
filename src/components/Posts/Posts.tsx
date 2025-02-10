@@ -103,7 +103,6 @@ const Posts = ({ id }: PostsProps) => {
 
   return (
     <div className={styles["posts-container"]}>
-      {/* Sorting Filter */}
       <div className={styles["filter-container"]}>
         <label htmlFor="sortOrder">Sort by:</label>
         <select
