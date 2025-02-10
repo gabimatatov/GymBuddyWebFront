@@ -14,7 +14,7 @@ const Posts = ({ id }: PostsProps) => {
   const [commentsCount, setCommentsCount] = useState<{ [postId: string]: number }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // Default: newest first
+  const [sortOrder, setSortOrder] = useState<"date_desc" | "date_asc" | "likes">("date_desc"); // Default: Newest first
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,10 +24,17 @@ const Posts = ({ id }: PostsProps) => {
 
     request
       .then((response) => {
-        const sortedPosts = response.data.sort((a, b) => {
-          return sortOrder === "desc"
-            ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        const sortedPosts = [...response.data];
+
+        sortedPosts.sort((a, b) => {
+          if (sortOrder === "date_desc") {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          } else if (sortOrder === "date_asc") {
+            return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+          } else if (sortOrder === "likes") {
+            return b.likesCount - a.likesCount; // Sort by most likes
+          }
+          return 0;
         });
 
         setPosts(sortedPosts);
@@ -96,16 +103,18 @@ const Posts = ({ id }: PostsProps) => {
 
   return (
     <div className={styles["posts-container"]}>
+      {/* Sorting Filter */}
       <div className={styles["filter-container"]}>
         <label htmlFor="sortOrder">Sort by:</label>
         <select
           id="sortOrder"
           value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value as "desc" | "asc")}
+          onChange={(e) => setSortOrder(e.target.value as "date_desc" | "date_asc" | "likes")}
           className={styles["sort-dropdown"]}
         >
-          <option value="desc">Newest First</option>
-          <option value="asc">Oldest First</option>
+          <option value="date_desc">Newest First</option>
+          <option value="date_asc">Oldest First</option>
+          <option value="likes">Most Likes</option>
         </select>
       </div>
 
