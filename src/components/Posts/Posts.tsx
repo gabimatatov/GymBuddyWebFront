@@ -9,39 +9,44 @@ interface PostsProps {
   id?: string;
 }
 
+const SORT_STORAGE_KEY = "posts_sort_order"; // Key for localStorage
+
 const Posts = ({ id }: PostsProps) => {
+  const navigate = useNavigate();
+
+  // Load sort order from localStorage, defaulting to "date_desc"
+  const [sortOrder, setSortOrder] = useState<"date_desc" | "date_asc" | "likes" | "comments">(
+    () => (localStorage.getItem(SORT_STORAGE_KEY) as "date_desc" | "date_asc" | "likes" | "comments") || "date_desc"
+  );
+
   const [posts, setPosts] = useState<PostType[]>([]);
   const [commentsCount, setCommentsCount] = useState<{ [postId: string]: number }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<"date_desc" | "date_asc" | "likes" | "comments">("date_desc");
-
-  const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true; // To prevent state updates after unmount
+    let isMounted = true;
     const { request, abort } = id
       ? postService.getAllPostsByOwner(id)
       : postService.getAllPosts();
 
     request
       .then(async (response) => {
-        let sortedPosts = [...response.data];
+        const sortedPosts = [...response.data];
 
+        // Fetch comments count
         const initialCommentCounts: { [postId: string]: number } = {};
-        const commentPromises = sortedPosts.map(async (post) => {
-          try {
-            const { request: commentRequest } = commentService.getCommentsByPostId(post._id);
-            const commentResponse = await commentRequest;
-            const comments = commentResponse.data;
-            initialCommentCounts[post._id] = Array.isArray(comments) ? comments.length : 0;
-          } catch (error) {
-            console.error(`Error fetching comments for post ${post._id}:`, error);
-            initialCommentCounts[post._id] = 0;
-          }
-        });
-
-        await Promise.all(commentPromises);
+        await Promise.all(
+          sortedPosts.map(async (post) => {
+            try {
+              const { request: commentRequest } = commentService.getCommentsByPostId(post._id);
+              const commentResponse = await commentRequest;
+              initialCommentCounts[post._id] = Array.isArray(commentResponse.data) ? commentResponse.data.length : 0;
+            } catch {
+              initialCommentCounts[post._id] = 0;
+            }
+          })
+        );
 
         if (isMounted) {
           setCommentsCount(initialCommentCounts);
@@ -57,11 +62,12 @@ const Posts = ({ id }: PostsProps) => {
       });
 
     return () => {
-      isMounted = false; // Prevents updates if component unmounts
+      isMounted = false;
       abort();
     };
   }, [id]);
 
+  // Sorting function
   const sortedPosts = [...posts].sort((a, b) => {
     if (sortOrder === "date_desc") {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -75,14 +81,19 @@ const Posts = ({ id }: PostsProps) => {
     return 0;
   });
 
-  if (isLoading) return <p className={styles["loading-text"]}>Loading posts...</p>;
-  if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
+  // Save selection to localStorage when user changes sort order
+  const handleSortChange = (newSortOrder: "date_desc" | "date_asc" | "likes" | "comments") => {
+    setSortOrder(newSortOrder);
+    localStorage.setItem(SORT_STORAGE_KEY, newSortOrder);
+  };
 
+  // Function to handle post updates
   const handleUpdate = (postId: string) => {
     console.log(`Update post with ID: ${postId}`);
     navigate(`/update-post/${postId}`);
   };
 
+  // Function to handle post deletion
   const handleDelete = async (postId: string) => {
     try {
       await postService.deletePost(postId);
@@ -97,6 +108,9 @@ const Posts = ({ id }: PostsProps) => {
     }
   };
 
+  if (isLoading) return <p className={styles["loading-text"]}>Loading posts...</p>;
+  if (error) return <p className={styles["error-text"]}>Error: {error}</p>;
+
   return (
     <div className={styles["posts-container"]}>
       {/* Sorting Filter */}
@@ -105,7 +119,7 @@ const Posts = ({ id }: PostsProps) => {
         <select
           id="sortOrder"
           value={sortOrder}
-          onChange={(e) => setSortOrder(e.target.value as "date_desc" | "date_asc" | "likes" | "comments")}
+          onChange={(e) => handleSortChange(e.target.value as "date_desc" | "date_asc" | "likes" | "comments")}
           className={styles["sort-dropdown"]}
         >
           <option value="date_desc">Newest First</option>
