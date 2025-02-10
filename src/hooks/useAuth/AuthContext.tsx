@@ -143,6 +143,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
         Cookies.remove('user');
+
+        // Remove Local Straoge Data
+        localStorage.clear();
     };
 
     return (

@@ -150,7 +150,7 @@ const ProfileForm: FC = () => {
                             <div className={styles["avatar-container"]}>
 
                                 {/* Display the selected image or fallback to the stored avatar */}
-                                <img
+                                <img style={{ borderRadius: '8px' }}
                                     src={previewImage || "/trainerIcon.png"}
                                     alt="User Avatar"
                                     className={styles["avatar-image-profile"]}
