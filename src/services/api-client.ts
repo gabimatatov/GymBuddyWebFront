@@ -3,8 +3,10 @@ import Cookies from "js-cookie";
 
 export { CanceledError };
 
+const backend_url = import.meta.env.VITE_BACKEND_URL
+
 const apiClient = axios.create({
-    baseURL: "http://localhost:3000/",
+    baseURL: backend_url,
     headers: { 'Content-Type': 'application/json' },
 });
 
@@ -36,7 +38,7 @@ apiClient.interceptors.response.use(
 
             try {
                 // Call the refresh token endpoint
-                const refreshResponse = await axios.post('http://localhost:3000/auth/refresh', {
+                const refreshResponse = await axios.post(backend_url + '/auth/refresh', {
                     refreshToken: Cookies.get('refreshToken'),
                 });
                 const newAccessToken = refreshResponse.data.accessToken;
