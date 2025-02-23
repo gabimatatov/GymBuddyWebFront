@@ -16,7 +16,7 @@ const CommentsPage: React.FC = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/ui/login" />;
   }
 
   const handleAddComment = (newComment: { comment: string; postId: string; username: string }) => {

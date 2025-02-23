@@ -6,7 +6,7 @@ export { CanceledError };
 const backend_url = import.meta.env.VITE_BACKEND_URL
 
 const apiClient = axios.create({
-    baseURL: backend_url,
+    baseURL: backend_url || 'http://localhost:3000',
     headers: { 'Content-Type': 'application/json' },
 });
 
