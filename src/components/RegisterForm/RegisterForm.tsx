@@ -107,7 +107,7 @@ const RegisterForm: FC = () => {
       console.log('User registered:', registerResponse.data);
 
       // Redirect to login page with success message
-      navigate('/login', { state: { successMessage: 'Registered Successfully!' } });
+      navigate('/ui/login', { state: { successMessage: 'Registered Successfully!' } });
 
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -125,7 +125,7 @@ const RegisterForm: FC = () => {
   return (
     <div className={styles["form-container-register"]}>
       <div className={styles["logo-container-register"]}>
-        <img src="GymBuddyLogo.png" alt="Logo" className={styles["logo-register"]} />
+        <img src="/GymBuddyLogo.png" alt="Logo" className={styles["logo-register"]} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className={styles["form-register"]}>
 
@@ -241,7 +241,7 @@ const RegisterForm: FC = () => {
       <div className={styles["login-link-register"]}>
         <p>
           Already have an account?{' '}
-          <a href="/login" className={styles["link-register"]}>Login here</a>
+          <a href="/ui/login" className={styles["link-register"]}>Login here</a>
         </p>
       </div>
     </div>

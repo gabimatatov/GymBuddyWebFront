@@ -90,7 +90,7 @@ const Posts = ({ id }: PostsProps) => {
   // Function to handle post updates
   const handleUpdate = (postId: string) => {
     console.log(`Update post with ID: ${postId}`);
-    navigate(`/update-post/${postId}`);
+    navigate(`/ui/update-post/${postId}`);
   };
 
   // Function to handle post deletion

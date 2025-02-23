@@ -116,7 +116,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
 
       {/* Post Image */}
       <img
-        src={post.image && post.image !== 'none' ? `http://localhost:3000${post.image}` : "GymBuddyLogo.png"}
+        src={post.image && post.image !== 'none' ? `http://localhost:3000${post.image}` : "/GymBuddyLogo.png"}
         alt={post.title}
         className={styles["post-image"]}
       />
@@ -139,7 +139,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
         </div>
 
         <div className={styles["comment-container"]}>
-          <Link to={`/post/${post._id}/comments`} className={styles["comment-link"]}>
+          <Link to={`/ui/post/${post._id}/comments`} className={styles["comment-link"]}>
             <FaRegComment className={styles["comment-icon"]} />
           </Link>
           <span className={styles["comment-count"]}>{commentsCount}</span>

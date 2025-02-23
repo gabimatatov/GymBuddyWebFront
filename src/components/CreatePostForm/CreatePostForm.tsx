@@ -90,7 +90,7 @@ const CreatePostForm: FC = () => {
       reset();
   
       setTimeout(() => {
-        navigate('/posts');
+        navigate('/ui/posts');
       }, 1500);
     } catch (error: unknown) {
       if (error instanceof Error) {

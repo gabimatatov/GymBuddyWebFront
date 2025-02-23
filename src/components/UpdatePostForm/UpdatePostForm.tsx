@@ -126,7 +126,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
   
       setSuccessMessage('Post updated successfully!');
       setTimeout(() => {
-        navigate('/posts');
+        navigate('/ui/posts');
       }, 1500);
     } catch (error: unknown) {
       if (error instanceof z.ZodError) {

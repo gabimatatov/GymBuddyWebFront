@@ -13,7 +13,7 @@ const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/profile');
+      navigate('/ui/profile');
     }
   }, [isAuthenticated, navigate]);
 
