@@ -18,8 +18,6 @@ interface UpdatePostFormProps {
   _id?: string;
 }
 
-const backend_url = import.meta.env.VITE_BACKEND_URL
-
 const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
   const { id: paramId } = useParams<{ id: string }>();
   const postId = _id || paramId;
@@ -50,7 +48,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
           return;
         }
 
-        const imageUrl = post.image && post.image !== 'none' ? `${backend_url}${post.image}` : '/public/GymBuddyLogo.png';
+        const imageUrl = post.image && post.image !== 'none' ? `${post.image}` : '/public/GymBuddyLogo.png';
         setPreviewImage(imageUrl);
         setPreviousImage(imageUrl);
         setTitle(post.title || '');
@@ -114,7 +112,7 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
         const { request } = fileService.uploadImage(imageFile);
         const response = await request;
         imageFilename = response.data.url;
-        const relativePath = imageFilename.replace(`${backend_url}`, '');
+        const relativePath = imageFilename.replace('', '');
         formData.append('image', relativePath);
       }
   
