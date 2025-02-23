@@ -18,6 +18,8 @@ interface UpdatePostFormProps {
   _id?: string;
 }
 
+const backend_url = import.meta.env.VITE_BACKEND_URL
+
 const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
   const { id: paramId } = useParams<{ id: string }>();
   const postId = _id || paramId;
@@ -48,9 +50,9 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
           return;
         }
 
-        const imageUrl = post.image && post.image !== 'none' ? `http://localhost:3000${post.image}` : '/public/GymBuddyLogo.png';
+        const imageUrl = post.image && post.image !== 'none' ? `${backend_url}${post.image}` : '/public/GymBuddyLogo.png';
         setPreviewImage(imageUrl);
-        setPreviousImage(imageUrl); // Track the previous image
+        setPreviousImage(imageUrl);
         setTitle(post.title || '');
         setContent(post.content || '');
       } catch (error: unknown) {
@@ -62,11 +64,11 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
   }, [postId]);
 
   const handleRemoveFile = () => {
-    setImageFile(null); // Reset image file
-    setPreviewImage(previousImage); // Revert to the previous image URL
-    setRemoveImage(false); // Do not set the image for removal anymore
+    setImageFile(null);
+    setPreviewImage(previousImage);
+    setRemoveImage(false);
     if (inputFileRef.current) {
-      inputFileRef.current.value = ''; // Clear the file input field
+      inputFileRef.current.value = '';
     }
   };
 
@@ -76,14 +78,14 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
       const imageUrl = URL.createObjectURL(file);
       setPreviewImage(imageUrl);
       setImageFile(file);
-      setRemoveImage(false); // Reset remove image flag when a new image is selected
+      setRemoveImage(false); 
     }
   };
 
   const handleDeleteImage = () => {
-    setImageFile(null); // Reset image file
-    setPreviewImage(null); // Reset image preview
-    setRemoveImage(true); // Set flag to remove image on submit
+    setImageFile(null);
+    setPreviewImage(null);
+    setRemoveImage(true);
   };
 
   const onSubmit = async (event: React.FormEvent) => {
@@ -112,13 +114,13 @@ const UpdatePostForm: FC<UpdatePostFormProps> = ({ _id }) => {
         const { request } = fileService.uploadImage(imageFile);
         const response = await request;
         imageFilename = response.data.url;
-        const relativePath = imageFilename.replace('http://localhost:3000', '');
-        formData.append('image', relativePath); // Append the new image if provided
+        const relativePath = imageFilename.replace(`${backend_url}`, '');
+        formData.append('image', relativePath);
       }
   
       // Only mark image for removal if the imageFile is null and a remove image action was performed
       if (removeImage && !imageFile) {
-        formData.append('image', 'none'); // Only append 'none' if the image is really meant to be removed
+        formData.append('image', 'none');
       }
   
       const { request } = postsService.updatePost(postId, formData);

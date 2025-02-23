@@ -6,7 +6,7 @@ export { CanceledError };
 const backend_url = import.meta.env.VITE_BACKEND_URL
 
 const apiClient = axios.create({
-    baseURL: backend_url || 'http://localhost:3000',
+    baseURL: backend_url,
     headers: { 'Content-Type': 'application/json' },
 });
 
@@ -62,7 +62,7 @@ apiClient.interceptors.response.use(
                 Cookies.remove("user");
 
                 // Redirect to login if refresh fails
-                window.location.href = '/login';
+                window.location.href = '/ui/login';
                 return Promise.reject(refreshError);
             }
         }

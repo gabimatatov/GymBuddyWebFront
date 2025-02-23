@@ -16,6 +16,8 @@ interface FormData {
     avatar?: FileList;
 }
 
+const backend_url = import.meta.env.VITE_BACKEND_URL
+
 const ProfileForm: FC = () => {
     const inputFileRef = useRef<HTMLInputElement | null>(null);
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -42,7 +44,7 @@ const ProfileForm: FC = () => {
             try {
                 if (user?.avatar) {
                     setPreviewImage(user.avatar.startsWith("/storage/")
-                        ? `http://localhost:3000${user.avatar}`
+                        ? `${backend_url}${user.avatar}`
                         : user.avatar);
                 } else {
                     setPreviewImage(null);
@@ -69,7 +71,7 @@ const ProfileForm: FC = () => {
         if (inputFileRef.current) {
             inputFileRef.current.value = "";
         }
-        setPreviewImage(user?.avatar ? `http://localhost:3000${user.avatar}` : null);
+        setPreviewImage(user?.avatar ? `${backend_url}${user.avatar}` : null);
         setValue("avatar", undefined);
     };
 

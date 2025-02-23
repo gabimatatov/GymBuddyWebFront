@@ -23,6 +23,8 @@ interface PostProps {
   onDelete: (postId: string) => void;
 }
 
+const backend_url = import.meta.env.VITE_BACKEND_URL
+
 const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, onDelete }) => {
   const { user } = useAuth();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -116,7 +118,7 @@ const Post: React.FC<PostProps> = ({ post, commentsCount, likesCount, onUpdate, 
 
       {/* Post Image */}
       <img
-        src={post.image && post.image !== 'none' ? `http://localhost:3000${post.image}` : "/GymBuddyLogo.png"}
+        src={post.image && post.image !== 'none' ? `${backend_url}${post.image}` : "/GymBuddyLogo.png"}
         alt={post.title}
         className={styles["post-image"]}
       />
