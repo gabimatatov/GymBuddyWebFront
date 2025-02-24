@@ -58,9 +58,7 @@ const login = (credentials: { email: string; password: string }) => {
 
     request
         .then(response => {
-            console.log('Access Token:', response.data.accessToken);
-            console.log('Refresh Token:', response.data.refreshToken);
-            console.log('User ID:', response.data._id);
+            console.log('Login successful' + response);
         })
         .catch(error => {
             console.log('Error during login:', error.response?.data || error.message);

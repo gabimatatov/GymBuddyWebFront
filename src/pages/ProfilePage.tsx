@@ -11,7 +11,7 @@ const ProtectedPage = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/ui/login" />;
   }
 
   return (

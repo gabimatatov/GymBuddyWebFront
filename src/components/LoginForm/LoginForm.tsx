@@ -51,7 +51,7 @@ const LoginForm: FC = () => {
 
       // Send the login request
       await login(data.email, data.password);
-      navigate('/profile');
+      navigate('/ui/profile');
 
       // Reset the form after successful login
       reset();
@@ -72,7 +72,7 @@ const LoginForm: FC = () => {
 
   const onGoogleLoginSuccess = async (response: CredentialResponse) => {
     await googleSignIn(response);
-    navigate('/profile');
+    navigate('/ui/profile');
   }
 
   const onGoogleLoginFailure = () => {
@@ -82,7 +82,7 @@ const LoginForm: FC = () => {
   return (
     <div className={styles["form-container-login"]}>
       <div className={styles["logo-container-login"]}>
-        <img src="GymBuddyLogo.png" alt="Logo" className={styles["logo-login"]} />
+        <img src="/GymBuddyLogo.png" alt="Logo" className={styles["logo-login"]} />
       </div>
       {successMessage && <div className={`${styles["alert-login"]} ${styles["alert-success-login"]}`}>{successMessage}</div>}
       <form onSubmit={handleSubmit(onSubmit)} className={styles["form-login"]}>
@@ -117,7 +117,7 @@ const LoginForm: FC = () => {
         <div className={styles["register-link-login"]}>
           <p>
             Don't have an account?{' '}
-            <a href="/register" className={styles["link-login"]}>Register here</a>
+            <a href="/ui/register" className={styles["link-login"]}>Register here</a>
           </p>
         </div>
       </form>

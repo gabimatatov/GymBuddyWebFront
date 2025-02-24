@@ -42,7 +42,7 @@ const ProfileForm: FC = () => {
             try {
                 if (user?.avatar) {
                     setPreviewImage(user.avatar.startsWith("/storage/")
-                        ? `http://localhost:3000${user.avatar}`
+                        ? `${user.avatar}`
                         : user.avatar);
                 } else {
                     setPreviewImage(null);
@@ -69,7 +69,7 @@ const ProfileForm: FC = () => {
         if (inputFileRef.current) {
             inputFileRef.current.value = "";
         }
-        setPreviewImage(user?.avatar ? `http://localhost:3000${user.avatar}` : null);
+        setPreviewImage(user?.avatar ? `${user.avatar}` : null);
         setValue("avatar", undefined);
     };
 
@@ -89,7 +89,7 @@ const ProfileForm: FC = () => {
                 console.log('Image uploaded:', uploadResponse.data);
 
                 // Step 2: Extract the relative URL from the server's response
-                updatedAvatar = new URL(uploadResponse.data.url).pathname;
+                updatedAvatar = uploadResponse.data.url;
 
             } catch (error: any) {
                 setServerError(error.response?.data?.message || 'An error occurred while uploading image');

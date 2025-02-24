@@ -76,10 +76,10 @@ const CreatePostForm: FC = () => {
         const { request } = fileService.uploadImage(imageFile);
         const response = await request;
   
-        const imagePath = new URL(response.data.url).pathname; // Extracts "/storage/filename"
+        const imageUrl = response.data.url;
         
-        postData.image = imagePath; // Set the image path as a string URL
-        setPreviewImage(`http://localhost:3000${imagePath}`);
+        postData.image = imageUrl;
+        setPreviewImage(imageUrl);
       }
   
       // Call the createPost function with the correct data
@@ -90,7 +90,7 @@ const CreatePostForm: FC = () => {
       reset();
   
       setTimeout(() => {
-        navigate('/posts');
+        navigate('/ui/posts');
       }, 1500);
     } catch (error: unknown) {
       if (error instanceof Error) {

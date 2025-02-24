@@ -13,7 +13,7 @@ const ChatPage: React.FC = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/ui/login" />;
   }
 
   return (

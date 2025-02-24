@@ -20,14 +20,14 @@ const App: React.FC = () => {
           
           {/* Protected Pages */}
           <Route path="/" element={<PostsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/posts" element={<PostsPage />} />
-          <Route path="/chat" element={<ChatPage />} />
-          <Route path="/share" element={<SharePage />} />
-          <Route path="/post/:postId/comments" element={<CommentsPage />} />
-          <Route path="/update-post/:id" element={<UpdatePostPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/ui/login" element={<LoginPage />} />
+          <Route path="/ui/register" element={<RegisterPage />} />
+          <Route path="/ui/posts" element={<PostsPage />} />
+          <Route path="/ui/chat" element={<ChatPage />} />
+          <Route path="/ui/share" element={<SharePage />} />
+          <Route path="/ui/post/:postId/comments" element={<CommentsPage />} />
+          <Route path="/ui/update-post/:id" element={<UpdatePostPage />} />
+          <Route path="/ui/profile" element={<ProfilePage />} />
 
         </Routes>
       </Router>

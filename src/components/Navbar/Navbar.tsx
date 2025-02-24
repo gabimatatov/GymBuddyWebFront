@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     try {
       logout();
       setModalVisible(false);
-      navigate('/login');
+      navigate('/ui/login');
     } catch (error) {
       console.error('Error logging out', error);
     }
@@ -31,7 +31,7 @@ const Navbar: React.FC = () => {
     <nav className={styles.navbar}>
       {/* Left side: Logo */}
       <div className={styles.logo}>
-        <Link to="/profile">
+        <Link to="/ui/profile">
           <img src="/GymBuddyLogo.png" alt="App Logo" />
         </Link>
       </div>
@@ -39,22 +39,22 @@ const Navbar: React.FC = () => {
       {/* Center links */}
       <ul className={styles.navLinks}>
         <li>
-          <Link to="/profile" className={location.pathname === '/profile' ? styles.active : ''}>
+          <Link to="/ui/profile" className={location.pathname === '/ui/profile' ? styles.active : ''}>
             Profile
           </Link>
         </li>
         <li>
-          <Link to="/posts" className={location.pathname === '/posts' ? styles.active : ''}>
+          <Link to="/ui/posts" className={location.pathname === '/ui/posts' ? styles.active : ''}>
             Explore
           </Link>
         </li>
         <li>
-          <Link to="/share" className={location.pathname === '/share' ? styles.active : ''}>
+          <Link to="/ui/share" className={location.pathname === '/ui/share' ? styles.active : ''}>
             Share
           </Link>
         </li>
         <li>
-          <Link to="/chat" className={location.pathname === '/chat' ? styles.active : ''}>
+          <Link to="/ui/chat" className={location.pathname === '/ui/chat' ? styles.active : ''}>
             Chat
           </Link>
         </li>
