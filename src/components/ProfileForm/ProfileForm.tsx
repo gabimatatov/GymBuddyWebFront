@@ -89,7 +89,7 @@ const ProfileForm: FC = () => {
                 console.log('Image uploaded:', uploadResponse.data);
 
                 // Step 2: Extract the relative URL from the server's response
-                updatedAvatar = new URL(uploadResponse.data.url).pathname;
+                updatedAvatar = uploadResponse.data.url;
 
             } catch (error: any) {
                 setServerError(error.response?.data?.message || 'An error occurred while uploading image');

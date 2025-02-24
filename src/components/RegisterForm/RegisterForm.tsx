@@ -80,7 +80,7 @@ const RegisterForm: FC = () => {
         console.log('Image uploaded:', uploadResponse.data);
 
         // Step 2: Clean the URL to remove the base part
-        relativeUrl = new URL(uploadResponse.data.url).pathname;
+        relativeUrl = uploadResponse.data.url;
         console.log('Relative URL:', relativeUrl);
       } catch (error: unknown) {
         if (error instanceof AxiosError) {
